@@ -29,7 +29,7 @@ public class VpsaApiImpl implements VpsaApi {
 	@Override
 	public Terceiro getTerceiroById(Long id) throws Exception {
 		
-		String JSONTerceiro = callGetApi("terceiros/:" + id.toString());
+		String JSONTerceiro = callGetApi("terceiros/" + id.toString());
 		
 		ObjectMapper mapper = new ObjectMapper();
 		Terceiro terceiro = mapper.readValue(JSONTerceiro, Terceiro.class);
