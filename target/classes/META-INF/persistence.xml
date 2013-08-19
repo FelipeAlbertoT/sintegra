@@ -1,0 +1,31 @@
+<persistence 
+	version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="firstSpringApp" transaction-type="RESOURCE_LOCAL">
+	
+		<!-- provedor do JPA -->
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<!-- entidades mapaeadas -->
+    	<class>br.com.canalvpsasul.sintegra.entities.Role</class>
+    	<class>br.com.canalvpsasul.sintegra.entities.User</class>
+    	
+		<properties>
+			
+			<!-- propriedades do hibernate -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			
+			<!-- atualiza o banco, gera as tableas se for preciso -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			
+		</properties>
+		
+	</persistence-unit>
+	
+</persistence>

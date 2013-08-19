@@ -1,0 +1,103 @@
+.logotipo {
+	background-image: url("../img/logotipo.png");
+ 	background-position: 10px 10px; 	
+  	background-repeat: no-repeat;
+  	height: 100px;
+  	width: 150px;  	
+  	float:left;
+  	padding-bottom: 10px;
+}
+
+.tool-top .hbtns {
+	float: right;
+	margin-top: 10px; 	
+	font-size: inherit !important;
+}
+
+.tool-top .btn-group {
+	float: right !important;
+}
+
+header .navbar-wrapper {
+  	position: absolute;
+  	top: 0;
+  	left: 0;
+  	right: 0;
+  	z-index: 10;
+  	margin-top: 50px;
+}
+
+header .navbar .navbar-inner {
+  	border: 0;
+  	-webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+header .navbar .brand {
+ 	padding: 14px 20px 16px; 
+  	font-size: 16px;
+  	font-weight: bold;
+  	text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+}
+
+header .navbar .nav > li > a {
+  	padding: 15px 20px;
+}
+
+header .navbar .btn-navbar {
+  	margin-top: 10px;
+}
+
+.top-menu .nav-tabs.nav-stacked>li>a {
+	border: none;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.btn-top-menu {
+	color: inherit !important;
+	text-shadow: none !important;
+	margin-right: 0px !important;
+	margin-bottom: 5px !important;
+}
+  
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (max-width: 979px) {
+
+  	header .container.navbar-wrapper {
+    	margin-bottom: 0;
+    	width: auto;
+  	}
+  	
+  	header .navbar-inner {
+    	border-radius: 0;
+    	margin-left: -20px;
+    	margin-right: -20px;
+  	}
+  	
+  	.top-menu .nav-tabs.nav-stacked>li>a {
+		border: 1px solid #ddd;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+  	}
+}
+
+@media (max-width: 767px) {
+	
+  	header .navbar-inner {
+    	margin-left: -20px;
+    	margin-right: -20px;
+  	}
+  
+  	.top-menu .nav-tabs.nav-stacked>li>a {
+		border: 1px solid #ddd;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+  	}
+}

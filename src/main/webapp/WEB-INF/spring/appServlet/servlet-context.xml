@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- **************************************************************** -->
+  	<!--  SPRING ANNOTATION PROCESSING                                    -->
+  	<!-- **************************************************************** -->
+	<annotation-driven conversion-service="conversionService" />
+	<context:component-scan base-package="br.com.canalvpsasul.sintegra.controller" />
+	<context:annotation-config />
+	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<beans:property name="formatters">
+			<beans:set>
+	        	<beans:ref bean="userFormatter"/>
+	    	</beans:set>
+	    </beans:property>
+	</beans:bean> 
+	
+	<!-- **************************************************************** -->
+  	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->
+  	<!--  Dispatcher configuration for serving static resources           -->
+  	<!-- **************************************************************** -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- **************************************************************** -->
+  	<!--  THYMELEAF-SPECIFIC ARTIFACTS                                    -->
+  	<!--  TemplateResolver <- TemplateEngine <- ViewResolver              -->
+  	<!-- **************************************************************** -->	
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>	
+		
+	<!-- **************************************************************** -->
+  	<!--  Register JSON Converter for RESTful Web Service           	  -->
+  	<!-- **************************************************************** -->
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+		<beans:property name="messageConverters">  
+	    	<beans:list>  
+	        	<beans:bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" >
+	        		<beans:property name="supportedMediaTypes" value="application/json"></beans:property>
+	        	</beans:bean>
+	        </beans:list>  
+		</beans:property>  
+	</beans:bean>  
+	  
+	<!-- **************************************************************** -->
+  	<!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    -->
+  	<!--  Standard Spring MessageSource implementation                    -->
+  	<!-- **************************************************************** -->
+	<beans:bean id="messageSource"
+	    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <beans:property name="basename" value="classpath:messages" />
+	    <beans:property name="defaultEncoding" value="ISO-8859-1"/>
+	</beans:bean>
+	<beans:bean id="localeChangeInterceptor"
+	    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	    <beans:property name="paramName" value="lang" />
+	</beans:bean>
+	<beans:bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <beans:property name="interceptors">
+	        <beans:ref bean="localeChangeInterceptor" />
+	    </beans:property>
+	</beans:bean>
+	
+	<!-- **************************************************************** -->
+  	<!--  Transaction Manager						                      -->
+  	<!-- **************************************************************** -->
+	<beans:bean id="transactionManager" 
+	      class="org.springframework.orm.jpa.JpaTransactionManager">
+	  <beans:property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</beans:bean>
+	<tx:annotation-driven/>
+	
+</beans:beans>
