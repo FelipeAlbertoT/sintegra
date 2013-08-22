@@ -11,8 +11,13 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
 		<!-- entidades mapaeadas -->
-    	<class>br.com.canalvpsasul.sintegra.entities.Role</class>
-    	<class>br.com.canalvpsasul.sintegra.entities.User</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Empresa</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Entidade</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Portal</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Produto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Role</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Terceiro</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.User</class>
     	
 		<properties>
 			

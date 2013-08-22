@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import br.com.canalvpsasul.sintegra.business.TerceiroBusiness;
-import br.com.canalvpsasul.sintegra.business.UserBusiness;
-import br.com.canalvpsasul.sintegra.entities.User;
-import br.com.canalvpsasul.sintegra.security.VpsaOAuthService;
-import br.com.canalvpsasul.sintegra.security.VpsaOAuthToken;
+import br.com.canalvpsasul.vpsabusiness.entities.Terceiro;
+import br.com.canalvpsasul.vpsabusiness.business.PortalBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.TerceiroBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.User;
+import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthService;
+import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthToken;
+import br.com.canalvpsasul.vpsapi.factory.VpsaApi;
 
 @Controller
 @RequestMapping("/auth")
@@ -23,6 +26,9 @@ public class LoginController {
 	
 	@Autowired
 	UserBusiness userBusiness;
+	
+	@Autowired
+	PortalBusiness portalBusiness;
 	
 	@Autowired
 	TerceiroBusiness terceiroBusiness;
@@ -44,29 +50,51 @@ public class LoginController {
 		
 		VpsaOAuthToken vpsaOAuthToken = null;
 		
-		try{		
+		try {		
 			vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);
-		}catch(Exception e){
+			
+			if(vpsaOAuthToken == null) {
+				model.addAttribute("message", "Não foi possível obter o token de autenticação da VPSA. Autentique-se na VPSA e acesse o aplicativo novamente.");
+				return "auth/servicefailed";
+			}
+		} catch(Exception e) {
+			model.addAttribute("message", e.getMessage());
 			return "auth/servicefailed";
 		}	
 		
 		User user = userBusiness.getByAuthCode(code);
 		
-		if(user == null)
-		{
-			user = new User();	
-			user.setAuthCode(code);	
+		if(user == null) {
+			
+			VpsaApi api = vpsaOAuthService.getVpsaApi(vpsaOAuthToken.getAccess_token());
+			
+			user = new User();
+			user.setAuthCode(code);
 			
 			try {
-				user.setTerceiro(vpsaOAuthService.getVpsaApi(vpsaOAuthToken.getAccess_token()).getTerceiroById(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
+				br.com.canalvpsasul.vpsapi.entity.DadosLogin dadosLogin = api.getDadosLogin();				
+				user.setVpsaId(dadosLogin.getUsuario().getId());		
+				user.setLogin(dadosLogin.getUsuario().getLogin());		
+				user.setNome(dadosLogin.getUsuario().getNome());
+				user.setPortal(portalBusiness.fromVpsaPortal(dadosLogin.getPortal()));	
 			} catch (Exception e) {
+				
+				model.addAttribute("message", e.getMessage());
+				return "auth/servicefailed";
+			}
+			
+			try {
+				Terceiro terceiro = terceiroBusiness.fromVpsaTerceiro(api.getTerceiro(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
+				user.setTerceiro(terceiro);
+			} catch (Exception e) {
+				
+				model.addAttribute("message", e.getMessage());
 				return "auth/servicefailed";
 			}
 		}
 		
 		user.setToken(vpsaOAuthToken.getAccess_token());
-		
-		userBusiness.saveUser(user);
+		userBusiness.saveUser(user);			
 		
         model.addAttribute("j_username", code);
         model.addAttribute("j_password", vpsaOAuthToken.getAccess_token());

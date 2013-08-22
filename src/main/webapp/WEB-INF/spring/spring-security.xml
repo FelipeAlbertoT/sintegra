@@ -38,7 +38,7 @@
 	</authentication-manager>
 	 
 	<!-- A custom service where Spring will retrieve users and their corresponding access levels  -->
-	<beans:bean id="customUserDetailsService" class="br.com.canalvpsasul.sintegra.security.CustomAuthenticationProvider"/>
+	<beans:bean id="customUserDetailsService" class="br.com.canalvpsasul.vpsabusiness.security.CustomAuthenticationProvider"/>
   
 	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 	  <beans:property name="decisionVoters">

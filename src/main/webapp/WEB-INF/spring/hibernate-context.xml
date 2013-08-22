@@ -35,6 +35,6 @@
 	
 	<tx:annotation-driven/>
 	
-	<jpa:repositories base-package="br.com.canalvpsasul.sintegra.repository" />
+	<jpa:repositories base-package="br.com.canalvpsasul" />
 	
 </beans>

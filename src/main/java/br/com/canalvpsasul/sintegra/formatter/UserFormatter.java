@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
-import br.com.canalvpsasul.sintegra.business.UserBusiness;
-import br.com.canalvpsasul.sintegra.entities.User;
+import br.com.canalvpsasul.vpsabusiness.business.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.User;
+
 
 @Component
 public class UserFormatter implements Formatter<User> {

@@ -13,7 +13,7 @@
   	<!--  SPRING ANNOTATION PROCESSING                                    -->
   	<!-- **************************************************************** -->
 	<annotation-driven conversion-service="conversionService" />
-	<context:component-scan base-package="br.com.canalvpsasul.sintegra.controller" />
+	<context:component-scan base-package="br.com.canalvpsasul" />
 	<context:annotation-config />
 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<beans:property name="formatters">
@@ -22,6 +22,25 @@
 	    	</beans:set>
 	    </beans:property>
 	</beans:bean> 
+	
+	<!-- **************************************************************** -->
+  	<!--  VPSA Business IOC			                                      -->
+  	<!-- **************************************************************** -->
+	<beans:bean id="empresaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.EmpresaBusinessImpl"/>
+	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.EntidadeBusinessImpl"/>
+	<beans:bean id="portalBusiness" class="br.com.canalvpsasul.vpsabusiness.business.PortalBusinessImpl"/>
+	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.ProdutoBusinessImpl"/>
+	<beans:bean id="roleBusiness" class="br.com.canalvpsasul.vpsabusiness.business.RoleBusinessImpl"/>
+	<beans:bean id="terceiroBusiness" class="br.com.canalvpsasul.vpsabusiness.business.TerceiroBusinessImpl"/>
+	<beans:bean id="userBusiness" class="br.com.canalvpsasul.vpsabusiness.business.UserBusinessImpl"/>
+	
+	<beans:bean id="empresa" class="br.com.canalvpsasul.vpsabusiness.entities.Empresa"/>
+	<beans:bean id="entidade" class="br.com.canalvpsasul.vpsabusiness.entities.Entidade"/>
+	<beans:bean id="portal" class="br.com.canalvpsasul.vpsabusiness.entities.Portal"/>
+	<beans:bean id="produto" class="br.com.canalvpsasul.vpsabusiness.entities.Produto"/>
+	<beans:bean id="role" class="br.com.canalvpsasul.vpsabusiness.entities.Role"/>
+	<beans:bean id="terceiro" class="br.com.canalvpsasul.vpsabusiness.entities.Terceiro"/>
+	<beans:bean id="user" class="br.com.canalvpsasul.vpsabusiness.entities.User"/>
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->
