@@ -6,12 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
-import br.com.canalvpsasul.vpsabusiness.entities.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.business.PortalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.entities.User;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthService;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthToken;
@@ -20,10 +19,7 @@ import br.com.canalvpsasul.vpsapi.factory.VpsaApi;
 @Controller
 @RequestMapping("/auth")
 public class LoginController {
-    
-	@Autowired  
-    private RestTemplate restTemplate;
-	
+
 	@Autowired
 	UserBusiness userBusiness;
 	
@@ -48,7 +44,7 @@ public class LoginController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	public String getCallback(@RequestParam(value="code") String code, Model model) {
 		
-VpsaOAuthToken vpsaOAuthToken = null;
+		VpsaOAuthToken vpsaOAuthToken = null;
 		
 		try {		
 			vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);

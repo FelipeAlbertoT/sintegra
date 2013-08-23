@@ -50,11 +50,16 @@
 		          	<div class="nav-collapse collapse">
 		            	
 		            	<ul class="nav nav-top-menu">      
-		            		<%-- <sec:authorize url="/">    --%>	
+		            		<sec:authorize url="/home">    	
 				             	<li class="">
 				                	<a href="<c:url value="/home" />">Home</a>
 				              	</li>
-			              	<%-- </sec:authorize> --%>
+			              	</sec:authorize>      
+		            		<sec:authorize url="/configuracoes">    	
+				             	<li class="">
+				                	<a href="<c:url value="/configuracoes/home" />">Configurações</a>
+				              	</li>
+			              	</sec:authorize>
 		            	</ul>
 		            	
 		            	<ul class="nav nav-top-menu pull-right">

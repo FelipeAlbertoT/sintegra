@@ -137,6 +137,10 @@ header .navbar .nav > li > a {
 	background-image: url("../img/glyphicons_357_suitcase.png");
 }
 
+.cicon-nameplate {
+	background-image: url("../img/glyphicons_352_nameplate.png");
+}
+
 .menu-right>.nav-tabs>li:not(.active) {
   	background-color: #f2f2f2;
 }
