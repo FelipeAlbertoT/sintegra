@@ -26,7 +26,7 @@ import coffeepot.br.sintegra.writer.SintegraWriter;
 @Transactional
 public class SintegraBusinessImpl implements SintegraBusiness {
 
-	@Autowired
+	@Autowired 
 	private EmpresaBusiness empresaBusiness;
 	
 	@Autowired

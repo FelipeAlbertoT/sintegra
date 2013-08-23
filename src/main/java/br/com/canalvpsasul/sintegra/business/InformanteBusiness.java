@@ -7,4 +7,4 @@ public interface InformanteBusiness {
 
 	public Informante getInformantePorEmpresa(Empresa empresa);
 			
-}
+} 

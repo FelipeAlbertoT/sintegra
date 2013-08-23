@@ -12,7 +12,7 @@ import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
 @Transactional
 public class InformanteBusinessImpl implements InformanteBusiness {
 
-	@Autowired
+	@Autowired 
 	private InformanteRepository informanteRepository;
 	
 	@Override

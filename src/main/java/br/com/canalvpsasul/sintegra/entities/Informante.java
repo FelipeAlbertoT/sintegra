@@ -18,7 +18,7 @@ import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
 public class Informante {
 
 	private Long id;
-	
+	 
 	private Empresa empresa;
 	
 	private String logradouro;	
