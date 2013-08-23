@@ -19,6 +19,7 @@
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/project.js"></script>	
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -30,7 +31,7 @@
 </head>
 
 <body>
-
+ 
     <header class="jumbotron subhead" id="overview">
 	 	<div class="container">	 	
 	 		<div class="row-fluid">
@@ -48,14 +49,14 @@
             </div>
 	  	</div>	  	
 	</header>
-	
-	<div class="container">
+ 
+    <div class="container">
 		<div class="row">
 			<div class="span12">
 	 			<decorator:body/>
 	 		</div>
 	 	</div>
 	</div>
-	
+ 
 </body>
 </html>

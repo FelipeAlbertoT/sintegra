@@ -10,20 +10,63 @@
 	<head>
 		<title><spring:message code="appDefaultTitle"/></title>
 	</head>
-	<body>
-		<body>
-			<div class="row-fluid">
-			  	<div class="span4">
-					<p>
-						Donec adipiscing, ligula eu sodales pretium, orci libero porttitor eros, vitae imperdiet eros nibh eu tellus. Duis tristique, nibh vel faucibus viverra, libero nunc placerat massa, ac auctor felis felis vel est. Nam sollicitudin urna eu risus cursus, aliquam convallis nunc rutrum. Fusce varius odio tellus, a consequat metus tempus et.
-					</p> 
+	<body>		
+		<div class="row-fluid">
+		  	<div class="span12">
+				
+			</div>
+		</div>
+		
+		<c:if test="${needSync}">
+		
+			<div id="modalSync" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h3>Atualizando Registros!</h3>
 				</div>
-				<div class="span8">
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. In est felis, convallis ut eleifend vitae, euismod ac libero. Phasellus auctor semper ligula, mattis dictum turpis vehicula eu. Nam commodo libero in elit semper rutrum sed sed lorem. Etiam et sollicitudin mi. Duis scelerisque in lacus id imperdiet. Sed convallis faucibus tortor, sed aliquet urna tristique ut. Sed quis diam eu nulla lobortis venenatis non ut diam. Sed ut ante nec diam suscipit euismod. Ut adipiscing sem at ultricies suscipit. Vestibulum et mauris eu nisl mattis eleifend. Aliquam eleifend, libero vel commodo placerat, nunc diam fermentum arcu, ut convallis lorem metus et nibh.
-					</p> 
+				<div class="modal-body">
+					<p>Os registros da aplicação estão sendo atualizados!</p>
+					<p>Atualizando base de Empresas.</p>
 				</div>
 			</div>
-		</body>
+		
+			<script type="text/javascript">
+			
+				$('#modalSync').modal({
+				  keyboard: false
+				});
+			 
+				$.get('${pageContext.request.contextPath}/api/sync/empresas', function(data) {
+					$('#modalSync > .modal-body p').remove();
+				  	$('#modalSync > .modal-body').html(data + "<p>Atualizando base de Entidades.</p>");		
+				  	
+				  	$.get('${pageContext.request.contextPath}/api/sync/entidades', function(data) {
+						$('#modalSync > .modal-body p').remove();
+					  	$('#modalSync > .modal-body').html(data + "<p>Atualizando base de Produtos.</p>");		
+					  	
+					  	$.get('${pageContext.request.contextPath}/api/sync/produtos', function(data) {
+							$('#modalSync > .modal-body p').remove();
+						  	$('#modalSync > .modal-body').html(data + "<p>Atualizando base de Terceiros.</p>");	
+						  	
+						  	$.get('${pageContext.request.contextPath}/api/sync/terceiros', function(data) {
+								$('#modalSync > .modal-body p').remove();
+								$('#modalSync > .modal-body').html(data + "<p>Finalizando atualização.</p>");
+							  	
+							  	$.get('${pageContext.request.contextPath}/api/sync/updateSyncDate', function(data) {
+									$('#modalSync > .modal-body p').remove();
+								  	$('#modalSync > .modal-body').html(data);
+								  	
+								  	setTimeout("$('#modalSync').modal('hide')", 2000);					  
+								});	
+							});
+						  	
+						});
+					});
+				});
+			
+			</script>
+		
+		</c:if>
 	</body>
 </html>

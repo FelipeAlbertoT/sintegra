@@ -39,7 +39,9 @@
 	<div class="alert alert-info">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<h4>Serviço indisponível!</h4>
-		O mecanismo de autenticação do ERP VPSA está temporariamente indisponível. Tente novamente em alguns instantes!
+		<c:if test="${message != '' and message != null}">
+			${message}
+		</c:if>
 	</div>
 
 </body>

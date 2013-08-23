@@ -19,7 +19,10 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/project.css" />
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/project.js"></script>	
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.maskedinput.min.js"></script>
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -32,106 +35,54 @@
 
 <body>
 
-	<header class="jumbotron subhead" id="overview">
-	 	<div class="container">	 	
-	 		<div class="row-fluid">
-              	<div class="span12" data-original-title="" title="">
-              		<div class="navbar ">
-				         <div class="navbar-inner">   
-					         <ul class="nav">
-							  	<li class="active">
-							    	<div class="logotipo" style="padding-bottom: 10px;"></div>  
-							  	</li>
-							</ul>
-							<div class="tool-top">
-								<div class="hbtns btn-toolbar">								
-								
-					             	<div class="btn-group">
-					             	
-					             		<a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-										    <i class="icon-user icon-white"></i>
-										    <span class="hidden-phone"> <sec:authentication property="principal.username" /> &nbsp;</span>
-										    <span class="caret"></span>
-										</a>
-					
-						                <ul class="dropdown-menu pull-right">
-						                	<sec:authorize access="hasRole('ROLE_ADMIN')">
-									    		<li><a href="<c:url value="#" />"><i class="icon-wrench"></i> &nbsp; <spring:message code="settingsLabel"/></a></li>
-									    		<li class="divider"></li>
-									    	</sec:authorize>						    	
-									   		<li>
-									   			<a href="<c:url value="/j_spring_security_logout" />"><i class="icon-power"></i> &nbsp; <spring:message code="logoutLinkLabel"/></a>
-									   		</li>	
-									  	</ul>
-						             </div>
-						    	 </div>
-					         </div>
-						</div>
-				    </div>
-              	</div>
-            </div>
-	  	</div>	  	
+	<header>
+		<div class="navbar navbar-fixed-top">
+	      	<div class="navbar-inner">
+	        	<div class="container">
+		          	<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		            	<span class="icon-bar"></span>
+		            	<span class="icon-bar"></span>
+		            	<span class="icon-bar"></span>
+		          	</button>
+		          	
+		          	<a href="<c:url value="/home/" />" ><i class="logotipo-mini"></i></a>
+		          	
+		          	<div class="nav-collapse collapse">
+		            	
+		            	<ul class="nav nav-top-menu">      
+		            		<%-- <sec:authorize url="/">    --%>	
+				             	<li class="">
+				                	<a href="<c:url value="/home" />">Home</a>
+				              	</li>
+			              	<%-- </sec:authorize> --%>
+		            	</ul>
+		            	
+		            	<ul class="nav nav-top-menu pull-right">
+		            	
+		            		<sec:authorize access="isAuthenticated()">
+								<li class="visible-desktop">							
+									<a href="/usuario/perfil"><i class="icon-user"></i></a>								
+								</li>	
+								<li class="visible-phone">							
+									<a href="/usuario/perfil">Meu Perfil</a>								
+								</li>		
+			              	</sec:authorize>
+			              	
+					    	<sec:authorize access="isAuthenticated()">				    	
+					   			<li>					   			
+					   				<a href="<c:url value="/j_spring_security_logout" />"><i class="icon-off visible-desktop"></i> <span class="hidden-desktop">Sair do Sistema</span></a>					   			
+					   			</li>
+					   		</sec:authorize>	
+                    	</ul>
+		          	</div>
+		        </div>
+	      	</div>
+	    </div>
 	</header>
 	
-	<div class="container">	
-		<div class="row">
-			<div class="span12">	
-				<div class="navbar top-menu">
-               		<div class="container">
-               		
-                 		<a class="btn btn-navbar btn-top-menu" data-toggle="collapse" data-target=".nav-collapse">
-                   			<spring:message code="navBarTitle"/> <i class="icon icon-chevron-down"></i>
-	                  	</a>
-	                  	
-	                  	<div class="nav-collapse collapse">
-	                  		
-	                    	<ul class="nav nav-tabs nav-stacked">
-	                    	
-	                      		<li class="active">
-	                      			<a href="<c:url value="/" />"><spring:message code="homePageTitle"/></a>
-	                      		</li>
-	                      		
-	                      		<li>
-	                      			<a href="#">Option 1</a>
-	                      		</li>
-	                      		
-	                      		<li class="dropdown">
-	                      		
-								 	<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								    	Option 2
-								    </a>
-								    
-								    <ul class="dropdown-menu">
-								    	<sec:authorize access="hasRole('ROLE_USER')">
-								      		<li><a href="<c:url value="#" />">Opt User</a></li>
-								      	</sec:authorize>
-								      	
-								      	<sec:authorize access="hasRole('ROLE_ADMIN')">
-								      		<li><a href="<c:url value="#" />">Opt Admin</a></li>
-								      	</sec:authorize>
-								    </ul>
-								    
-								</li>
-								
-								<li>
-	                      			<a href="#">Option 3</a>
-	                      		</li>
-	                      		
-	                    	</ul>
-	                    </div>
-	                </div>
-	            </div>
-			</div>
-		</div>
+	<div class="container">
+		<decorator:body/>
 	</div>
 	
-	<div class="container">
-		<div class="row">
-			<div class="span12">
-	 			<decorator:body/>
-	 		</div>
-	 	</div>
-	</div>
-	    
 </body>
 </html>

@@ -48,7 +48,7 @@ public class LoginController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	public String getCallback(@RequestParam(value="code") String code, Model model) {
 		
-		VpsaOAuthToken vpsaOAuthToken = null;
+VpsaOAuthToken vpsaOAuthToken = null;
 		
 		try {		
 			vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);
@@ -85,6 +85,7 @@ public class LoginController {
 			
 			try {
 				Terceiro terceiro = terceiroBusiness.fromVpsaTerceiro(api.getTerceiro(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
+				terceiro.setPortal(user.getPortal());
 				user.setTerceiro(terceiro);
 			} catch (Exception e) {
 				
