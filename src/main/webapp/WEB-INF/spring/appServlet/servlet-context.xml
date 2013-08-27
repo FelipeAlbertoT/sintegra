@@ -28,6 +28,7 @@
   	<!-- **************************************************************** -->
 	<beans:bean id="empresaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.EmpresaBusinessImpl"/>
 	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.EntidadeBusinessImpl"/>
+	<beans:bean id="notaMercadoriaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.NotaMercadoriaBusinessImpl"/>
 	<beans:bean id="portalBusiness" class="br.com.canalvpsasul.vpsabusiness.business.PortalBusinessImpl"/>
 	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.ProdutoBusinessImpl"/>
 	<beans:bean id="roleBusiness" class="br.com.canalvpsasul.vpsabusiness.business.RoleBusinessImpl"/>

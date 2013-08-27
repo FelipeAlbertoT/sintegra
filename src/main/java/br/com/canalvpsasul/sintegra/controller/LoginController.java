@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.canalvpsasul.vpsabusiness.business.PortalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.entities.User;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthService;
@@ -42,9 +43,9 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
-	public String getCallback(@RequestParam(value="code") String code, Model model) {
+	public String getCallback(@RequestParam(value="code") String code, Model model) throws Exception {
 		
-		VpsaOAuthToken vpsaOAuthToken = null;
+VpsaOAuthToken vpsaOAuthToken = null;
 		
 		try {		
 			vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);
@@ -67,12 +68,22 @@ public class LoginController {
 			user = new User();
 			user.setAuthCode(code);
 			
+			Portal portal = null; 
+			
 			try {
 				br.com.canalvpsasul.vpsapi.entity.DadosLogin dadosLogin = api.getDadosLogin();				
 				user.setVpsaId(dadosLogin.getUsuario().getId());		
 				user.setLogin(dadosLogin.getUsuario().getLogin());		
 				user.setNome(dadosLogin.getUsuario().getNome());
-				user.setPortal(portalBusiness.fromVpsaPortal(dadosLogin.getPortal()));	
+				
+				portal = portalBusiness.getByCnpj(dadosLogin.getPortal().getCnpj());
+				
+				if(portal == null) {
+					portal = portalBusiness.fromVpsaEntity(dadosLogin.getPortal());
+					portal = portalBusiness.salvar(portal);
+				}
+				
+				user.setPortal(portal);	
 			} catch (Exception e) {
 				
 				model.addAttribute("message", e.getMessage());
@@ -80,7 +91,7 @@ public class LoginController {
 			}
 			
 			try {
-				Terceiro terceiro = terceiroBusiness.fromVpsaTerceiro(api.getTerceiro(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
+				Terceiro terceiro = terceiroBusiness.fromVpsaEntity(portal, api.getTerceiro(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
 				terceiro.setPortal(user.getPortal());
 				user.setTerceiro(terceiro);
 			} catch (Exception e) {
@@ -91,7 +102,7 @@ public class LoginController {
 		}
 		
 		user.setToken(vpsaOAuthToken.getAccess_token());
-		userBusiness.saveUser(user);			
+		userBusiness.salvar(user);			
 		
         model.addAttribute("j_username", code);
         model.addAttribute("j_password", vpsaOAuthToken.getAccess_token());

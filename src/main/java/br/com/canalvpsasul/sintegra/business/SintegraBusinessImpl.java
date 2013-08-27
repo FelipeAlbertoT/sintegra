@@ -17,6 +17,7 @@ import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
 import coffeepot.br.sintegra.Sintegra;
 import coffeepot.br.sintegra.registros.Registro10;
 import coffeepot.br.sintegra.registros.Registro11;
+import coffeepot.br.sintegra.registros.Registro50;
 import coffeepot.br.sintegra.tipos.Convenio;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 import coffeepot.br.sintegra.tipos.NaturezaOperacao;
@@ -44,6 +45,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		
 		sintegra.setRegistro10(gerarRegistro10(empresa, dataInicial, dataFinal, finalidadeArquivo, naturezaOperacao));
 		sintegra.setRegistro11(gerarRegistro11(empresa));
+				
+		gerarRegistros50(sintegra);
 		
 		sintegra.gerarRegistros90();
 		
@@ -107,5 +110,21 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				
 		return registro11;
 	}
+	
+	private void gerarRegistros50(Sintegra sintegra) {
+		
+		
+		
+	}
+	
+	private Registro50 gerarRegistro50(Empresa empresa) {
+		
+		Registro50 registro50 = new Registro50();
+		
+		// TODO Mapear Campos.		
+				
+		return registro50;
+	}
 
+	
 }

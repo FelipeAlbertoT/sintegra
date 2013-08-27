@@ -13,6 +13,9 @@
 		<!-- entidades mapaeadas -->
     	<class>br.com.canalvpsasul.vpsabusiness.entities.Empresa</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.Entidade</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.Imposto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.ItemNota</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.NotaMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.Portal</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.Produto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.Role</class>
