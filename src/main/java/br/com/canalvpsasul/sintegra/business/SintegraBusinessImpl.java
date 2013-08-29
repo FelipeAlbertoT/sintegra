@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.h2.util.New;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +18,15 @@ import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
+import br.com.canalvpsasul.vpsapi.entity.fiscal.TipoNota;
 import coffeepot.br.sintegra.Sintegra;
 import coffeepot.br.sintegra.registros.Registro10;
 import coffeepot.br.sintegra.registros.Registro11;
@@ -50,6 +58,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private NotaMercadoriaBusiness notasMercadoriaBusiness;
 	
+	@Autowired
+	private NotaConsumoBusiness notasConsumoBusiness;
+	
 	@Override
 	public String gerarSintegra(Empresa empresa, Date dataInicial, Date dataFinal, FinalidadeArquivo finalidadeArquivo, NaturezaOperacao naturezaOperacao) throws Exception {
 		
@@ -65,7 +76,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistro10(gerarRegistro10(empresa, dataInicial, dataFinal, finalidadeArquivo, naturezaOperacao));
 		sintegra.setRegistro11(gerarRegistro11(empresa));
 				
-		gerarRegistros50(sintegra);
+		gerarRegistros50(sintegra, dataInicial, dataFinal);
 		
 		sintegra.gerarRegistros90();
 		
@@ -99,6 +110,13 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de mercadorias da VPSA.", e);
+		}
+		
+		try {
+			notasConsumoBusiness.syncEntitiesFromUser(user);
+		}
+		catch(Exception e) {
+			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de consumo da VPSA.", e);
 		}
 		
 	}
@@ -157,20 +175,40 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		return registro11;
 	}
 	
-	private void gerarRegistros50(Sintegra sintegra) {
+	private void gerarRegistros50(Sintegra sintegra, Date dataInicial, Date dataFinal) {
 		
-		//buscar notas
+		sintegra.setRegistros50(new ArrayList<Registro50>());
 		
+		Portal portal = userBusiness.getCurrent().getPortal();
+				
+		List<NotaConsumo> notasConsumo = notasConsumoBusiness.findByDate(portal, dataInicial, dataFinal);
+		List<NotaMercadoria> notasMercadoria = notasMercadoriaBusiness.findByDate(portal, dataInicial, dataFinal);
+		
+		for(NotaConsumo nota : notasConsumo) {
+			sintegra.getRegistros50().add(gerarRegistro50(nota));
+		}
+		
+		for(NotaMercadoria nota : notasMercadoria) {
+			sintegra.getRegistros50().add(gerarRegistro50(nota));
+		}
 	}
 	
-	private Registro50 gerarRegistro50(Empresa empresa) {
+	private Registro50 gerarRegistro50(NotaConsumo nota) {
 		
 		Registro50 registro50 = new Registro50();
 		
-				
+		// TODO Implementar o mapeamento entre as entidades do framework business com o sintegra;
 				
 		return registro50;
 	}
 
+	private Registro50 gerarRegistro50(NotaMercadoria nota) {
+		
+		Registro50 registro50 = new Registro50();
+		
+		// TODO Implementar o mapeamento entre as entidades do framework business com o sintegra;			
+				
+		return registro50;
+	}
 	
 }
