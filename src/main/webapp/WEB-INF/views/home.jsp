@@ -43,25 +43,14 @@
 				  	
 				  	$.get('${pageContext.request.contextPath}/api/sync/entidades', function(data) {
 						$('#modalSync > .modal-body p').remove();
-					  	$('#modalSync > .modal-body').html(data + "<p>Atualizando base de Produtos.</p>");		
+						$('#modalSync > .modal-body').html(data + "<p>Finalizando Processo de Atualização.</p>");		
 					  	
-					  	$.get('${pageContext.request.contextPath}/api/sync/produtos', function(data) {
+					  	$.get('${pageContext.request.contextPath}/api/sync/register', function(data) {
 							$('#modalSync > .modal-body p').remove();
-						  	$('#modalSync > .modal-body').html(data + "<p>Atualizando base de Terceiros.</p>");	
+						  	$('#modalSync > .modal-body').html(data);	
 						  	
-						  	$.get('${pageContext.request.contextPath}/api/sync/terceiros', function(data) {
-								$('#modalSync > .modal-body p').remove();
-								$('#modalSync > .modal-body').html(data + "<p>Finalizando atualização.</p>");
-							  	
-							  	$.get('${pageContext.request.contextPath}/api/sync/updateSyncDate', function(data) {
-									$('#modalSync > .modal-body p').remove();
-								  	$('#modalSync > .modal-body').html(data);
-								  	
-								  	setTimeout("$('#modalSync').modal('hide')", 2000);					  
-								});	
-							});
-						  	
-						});
+						  	setTimeout("$('#modalSync').modal('hide')", 2000);							  
+						});						  
 					});
 				});
 			

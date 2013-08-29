@@ -12,8 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.canalvpsasul.sintegra.entities.Informante;
-import br.com.canalvpsasul.vpsabusiness.business.EmpresaBusiness;
-import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import coffeepot.br.sintegra.Sintegra;
 import coffeepot.br.sintegra.registros.Registro10;
 import coffeepot.br.sintegra.registros.Registro11;
@@ -33,8 +38,22 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private InformanteBusiness informanteBusiness;
 	
+	@Autowired
+	private UserBusiness userBusiness;
+	
+	@Autowired
+	private ProdutoBusiness produtoBusiness;
+	
+	@Autowired
+	private TerceiroBusiness terceiroBusiness;
+	
+	@Autowired
+	private NotaMercadoriaBusiness notasMercadoriaBusiness;
+	
 	@Override
 	public String gerarSintegra(Empresa empresa, Date dataInicial, Date dataFinal, FinalidadeArquivo finalidadeArquivo, NaturezaOperacao naturezaOperacao) throws Exception {
+		
+		syncRegistros();
 		
 		OutputStream oStream = generateOutputStream();
 	    Writer fw = new BufferedWriter(new OutputStreamWriter(oStream, "ISO-8859-1"));       
@@ -55,6 +74,33 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	    sintegraWriter.writerClose();
 	    
 	    return oStream.toString();
+	}
+	
+	private void syncRegistros() throws Exception {
+		
+		User user = userBusiness.getCurrent();
+		
+		try {
+			terceiroBusiness.syncTerceirosFromUser(user);
+		}
+		catch(Exception e) {
+			throw new Exception("Ocorreu um erro ao sincronizar os dados de Terceiros da VPSA.", e);
+		}
+		
+		try {
+			produtoBusiness.syncProdutosFromUser(user);
+		}
+		catch(Exception e) {
+			throw new Exception("Ocorreu um erro ao sincronizar os dados de Produtos da VPSA.", e);
+		}
+		
+		try {
+			notasMercadoriaBusiness.syncEntitiesFromUser(user);
+		}
+		catch(Exception e) {
+			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de mercadorias da VPSA.", e);
+		}
+		
 	}
 	
 	private OutputStream generateOutputStream() {
@@ -113,7 +159,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	
 	private void gerarRegistros50(Sintegra sintegra) {
 		
-		
+		//buscar notas
 		
 	}
 	
@@ -121,7 +167,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		
 		Registro50 registro50 = new Registro50();
 		
-		// TODO Mapear Campos.		
+				
 				
 		return registro50;
 	}

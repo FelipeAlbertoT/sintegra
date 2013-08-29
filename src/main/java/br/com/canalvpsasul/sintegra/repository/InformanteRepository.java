@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.canalvpsasul.sintegra.entities.Informante;
-import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 
 public interface InformanteRepository  extends JpaRepository<Informante, Long> {
 	 

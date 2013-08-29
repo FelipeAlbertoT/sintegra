@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.canalvpsasul.vpsabusiness.business.EmpresaBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.EntidadeBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.ProdutoBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.TerceiroBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.UserBusiness;
-import br.com.canalvpsasul.vpsabusiness.entities.User;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 
 @Controller
 @RequestMapping("/api/sync")
@@ -31,6 +32,9 @@ public class SyncApiController {
 	
 	@Autowired
 	private TerceiroBusiness terceiroBusiness;
+	
+	@Autowired
+	private NotaMercadoriaBusiness notasMercadoriaBusiness;
 	
 	
 	@ResponseBody
@@ -94,17 +98,17 @@ public class SyncApiController {
 	}
 	
 	@ResponseBody
-    @RequestMapping(value = "updateSyncDate", method = RequestMethod.GET)
-    public String updateSyncDate() {
+    @RequestMapping(value = "notas/mercadorias", method = RequestMethod.GET)
+    public String syncNotasMercadorias() {
 			
 		User user = userBusiness.getCurrent();
 		 
 		try {
-			userBusiness.updateSyncDate(user);
+			notasMercadoriaBusiness.syncEntitiesFromUser(user);
 		} catch (Exception e) {
-			return "<p class='text-error'>Erro ao realizar a atualização dos registros de terceiros.</p><p>Detalhes: " + e.getMessage() + "</p>";
+			return "<p class='text-error'>Erro ao realizar a atualização dos registros de notas de mercadorias.</p><p>Detalhes: " + e.getMessage() + "</p>";
 		}
 		
-        return "<p class='text-success'>Atualização de terceiros realizada com Sucesso!</p>";
+        return "<p class='text-success'>Atualização de notas de mercadorias realizada com Sucesso!</p>";
 	}
 }

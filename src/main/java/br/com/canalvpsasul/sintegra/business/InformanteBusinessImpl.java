@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.sintegra.repository.InformanteRepository;
-import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 
 @Service  
 @Transactional

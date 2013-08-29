@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.canalvpsasul.vpsabusiness.entities.Terceiro;
-import br.com.canalvpsasul.vpsabusiness.entities.User;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 
 @Controller
 @RequestMapping("/api/user")

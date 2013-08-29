@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import br.com.canalvpsasul.vpsabusiness.business.PortalBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.TerceiroBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.UserBusiness;
-import br.com.canalvpsasul.vpsabusiness.entities.Portal;
-import br.com.canalvpsasul.vpsabusiness.entities.Terceiro;
-import br.com.canalvpsasul.vpsabusiness.entities.User;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthService;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthToken;
 import br.com.canalvpsasul.vpsapi.factory.VpsaApi;
@@ -45,7 +45,7 @@ public class LoginController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	public String getCallback(@RequestParam(value="code") String code, Model model) throws Exception {
 		
-VpsaOAuthToken vpsaOAuthToken = null;
+		VpsaOAuthToken vpsaOAuthToken = null;
 		
 		try {		
 			vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);
@@ -71,7 +71,7 @@ VpsaOAuthToken vpsaOAuthToken = null;
 			Portal portal = null; 
 			
 			try {
-				br.com.canalvpsasul.vpsapi.entity.DadosLogin dadosLogin = api.getDadosLogin();				
+				br.com.canalvpsasul.vpsapi.entity.administrativo.DadosLogin dadosLogin = api.getDadosLogin();				
 				user.setVpsaId(dadosLogin.getUsuario().getId());		
 				user.setLogin(dadosLogin.getUsuario().getLogin());		
 				user.setNome(dadosLogin.getUsuario().getNome());

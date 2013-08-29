@@ -26,22 +26,37 @@
 	<!-- **************************************************************** -->
   	<!--  VPSA Business IOC			                                      -->
   	<!-- **************************************************************** -->
-	<beans:bean id="empresaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.EmpresaBusinessImpl"/>
-	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.EntidadeBusinessImpl"/>
-	<beans:bean id="notaMercadoriaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.NotaMercadoriaBusinessImpl"/>
-	<beans:bean id="portalBusiness" class="br.com.canalvpsasul.vpsabusiness.business.PortalBusinessImpl"/>
-	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.ProdutoBusinessImpl"/>
-	<beans:bean id="roleBusiness" class="br.com.canalvpsasul.vpsabusiness.business.RoleBusinessImpl"/>
-	<beans:bean id="terceiroBusiness" class="br.com.canalvpsasul.vpsabusiness.business.TerceiroBusinessImpl"/>
-	<beans:bean id="userBusiness" class="br.com.canalvpsasul.vpsabusiness.business.UserBusinessImpl"/>
+	<beans:bean id="empresaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusinessImpl"/>
+	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl"/>
+	<beans:bean id="portalBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusinessImpl"/>
+	<beans:bean id="roleBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.RoleBusinessImpl"/>
+	<beans:bean id="terceiroBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusinessImpl"/>
+	<beans:bean id="userBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl"/>
 	
-	<beans:bean id="empresa" class="br.com.canalvpsasul.vpsabusiness.entities.Empresa"/>
-	<beans:bean id="entidade" class="br.com.canalvpsasul.vpsabusiness.entities.Entidade"/>
-	<beans:bean id="portal" class="br.com.canalvpsasul.vpsabusiness.entities.Portal"/>
-	<beans:bean id="produto" class="br.com.canalvpsasul.vpsabusiness.entities.Produto"/>
-	<beans:bean id="role" class="br.com.canalvpsasul.vpsabusiness.entities.Role"/>
-	<beans:bean id="terceiro" class="br.com.canalvpsasul.vpsabusiness.entities.Terceiro"/>
-	<beans:bean id="user" class="br.com.canalvpsasul.vpsabusiness.entities.User"/>
+	<beans:bean id="notaMercadoriaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl"/>
+	
+	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl"/>
+	
+	<beans:bean id="empresa" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa"/>
+	<beans:bean id="entidade" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade"/>
+	<beans:bean id="portal" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal"/>
+	<beans:bean id="role" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Role"/>
+	<beans:bean id="terceiro" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro"/>
+	<beans:bean id="user" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.User"/>
+	
+	<beans:bean id="cupomFiscal" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal"/>
+	<beans:bean id="imposto" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto"/>
+	<beans:bean id="itemNota" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota"/>
+	<beans:bean id="itemNotaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNotaServico"/>
+	<beans:bean id="notaConsumo" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo"/>
+	<beans:bean id="notaMercadoria" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria"/>
+	<beans:bean id="notaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico"/>
+	<beans:bean id="retencaoNotaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.RetencaoNotaServico"/>
+	
+	<beans:bean id="produto" class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto"/>
+	<beans:bean id="servico" class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico"/>
+	
+	<beans:bean id="syncControl" class="br.com.canalvpsasul.vpsabusiness.entities.SyncControl"/>
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->

@@ -5,7 +5,7 @@ import java.util.Date;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 import coffeepot.br.sintegra.tipos.NaturezaOperacao;
 
-import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 
 public interface SintegraBusiness {
 

@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.com.canalvpsasul.vpsabusiness.entities.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 
 @Entity
 @Table(name="app_informante")
