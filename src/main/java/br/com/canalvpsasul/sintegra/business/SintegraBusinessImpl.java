@@ -63,10 +63,10 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private TerceiroBusiness terceiroBusiness;
 	
 	@Autowired
-	private NotaMercadoriaBusiness notasMercadoriaBusiness;
+	private NotaMercadoriaBusiness notaMercadoriaBusiness;
 	
 	@Autowired
-	private NotaConsumoBusiness notasConsumoBusiness;
+	private NotaConsumoBusiness notaConsumoBusiness;
 	
 	@Override
 	public String gerarSintegra(Empresa empresa, Date dataInicial, Date dataFinal, FinalidadeArquivo finalidadeArquivo, NaturezaOperacao naturezaOperacao) throws Exception {
@@ -113,14 +113,14 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 		
 		try {
-			notasMercadoriaBusiness.syncEntities(portal);
+			notaMercadoriaBusiness.syncEntities(portal);
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de mercadorias da VPSA.", e);
 		}
 		
 		try {
-			notasConsumoBusiness.syncEntities(portal);
+			notaConsumoBusiness.syncEntities(portal);
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de consumo da VPSA.", e);
@@ -198,8 +198,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		
 		Portal portal = userBusiness.getCurrent().getPortal();
 				
-		List<NotaConsumo> notasConsumo = notasConsumoBusiness.findByDate(portal, dataInicial, dataFinal);
-		List<NotaMercadoria> notasMercadoria = notasMercadoriaBusiness.findByDate(portal, dataInicial, dataFinal);
+		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(portal, dataInicial, dataFinal);
+		List<NotaMercadoria> notasMercadoria = notaMercadoriaBusiness.findByDate(portal, dataInicial, dataFinal);
 		
 		for(NotaConsumo nota : notasConsumo) {
 			gerarRegistro50(sintegra, nota);

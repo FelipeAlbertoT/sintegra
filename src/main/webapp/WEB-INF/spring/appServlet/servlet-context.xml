@@ -30,17 +30,21 @@
 	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl"/>
 	<beans:bean id="portalBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusinessImpl"/>
 	<beans:bean id="roleBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.RoleBusinessImpl"/>
+	<beans:bean id="syncControlBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlBusinessImpl"/>
 	<beans:bean id="terceiroBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusinessImpl"/>
 	<beans:bean id="userBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl"/>
 	
 	<beans:bean id="notaMercadoriaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl"/>
+	<beans:bean id="notaConsumoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusinessImpl"/>
 	
 	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl"/>
 	
 	<beans:bean id="empresa" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa"/>
+	<beans:bean id="endereco" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Endereco"/>
 	<beans:bean id="entidade" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade"/>
 	<beans:bean id="portal" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal"/>
 	<beans:bean id="role" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Role"/>
+	<beans:bean id="telefone" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Telefone"/>
 	<beans:bean id="terceiro" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro"/>
 	<beans:bean id="user" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.User"/>
 	

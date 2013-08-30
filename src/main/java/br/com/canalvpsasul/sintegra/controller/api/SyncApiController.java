@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControl;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 
 @Controller
@@ -21,14 +21,14 @@ public class SyncApiController {
 	private PortalBusiness portalBusiness;
 
 	@Autowired
-	private SyncControl syncControl;
+	private SyncControlBusiness syncControlBusiness;
 	
 	@ResponseBody
     @RequestMapping(value = "empresas", method = RequestMethod.GET)
     public String syncEmpresas() {
 			
 		try {
-			syncControl.syncEmpresas(userBusiness.getCurrent().getPortal());
+			syncControlBusiness.syncEmpresas(userBusiness.getCurrent().getPortal());
 		} catch (Exception e) {
 			return "<p class='text-error'>Erro ao realizar a atualização dos registros de empresas.</p><p>Detalhes: " + e.getMessage() + "</p>";
 		}
@@ -41,7 +41,7 @@ public class SyncApiController {
     public String syncEntidades() {
 			
 		try {
-			syncControl.syncEntidades(userBusiness.getCurrent().getPortal());
+			syncControlBusiness.syncEntidades(userBusiness.getCurrent().getPortal());
 		} catch (Exception e) {
 			return "<p class='text-error'>Erro ao realizar a atualização dos registros de entidades.</p><p>Detalhes: " + e.getMessage() + "</p>";
 		}
@@ -54,7 +54,7 @@ public class SyncApiController {
     public String syncProdutos() {
 		
 		try {
-			syncControl.syncProdutos(userBusiness.getCurrent().getPortal());
+			syncControlBusiness.syncProdutos(userBusiness.getCurrent().getPortal());
 		} catch (Exception e) {
 			return "<p class='text-error'>Erro ao realizar a atualização dos registros de produtos.</p><p>Detalhes: " + e.getMessage() + "</p>";
 		}
@@ -67,7 +67,7 @@ public class SyncApiController {
     public String syncTerceiros() {
 			
 		try {
-			syncControl.syncTerceiros(userBusiness.getCurrent().getPortal());
+			syncControlBusiness.syncTerceiros(userBusiness.getCurrent().getPortal());
 		} catch (Exception e) {
 			return "<p class='text-error'>Erro ao realizar a atualização dos registros de terceiros.</p><p>Detalhes: " + e.getMessage() + "</p>";
 		}
