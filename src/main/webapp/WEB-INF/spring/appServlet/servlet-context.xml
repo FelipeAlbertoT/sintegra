@@ -19,6 +19,8 @@
 		<beans:property name="formatters">
 			<beans:set>
 	        	<beans:ref bean="userFormatter"/>
+	        	<beans:ref bean="empresaFormatter"/>
+	        	<beans:ref bean="finalidadeArquivoFormatter"/>
 	    	</beans:set>
 	    </beans:property>
 	</beans:bean> 

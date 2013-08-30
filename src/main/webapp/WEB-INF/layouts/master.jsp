@@ -66,11 +66,8 @@
 		            	
 		            		<sec:authorize access="isAuthenticated()">
 								<li class="visible-desktop">							
-									<a href="/usuario/perfil"><i class="icon-user"></i></a>								
+									<a href="#"><i class="icon-user"></i></a>								
 								</li>	
-								<li class="visible-phone">							
-									<a href="/usuario/perfil">Meu Perfil</a>								
-								</li>		
 			              	</sec:authorize>
 			              	
 					    	<sec:authorize access="isAuthenticated()">				    	

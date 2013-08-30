@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIcms;
 import br.com.canalvpsasul.sintegra.entities.HeaderRegistro50;
 import br.com.canalvpsasul.sintegra.entities.Informante;
+import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
 import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
-import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
@@ -44,9 +44,6 @@ import coffeepot.br.sintegra.writer.SintegraWriter;
 @Transactional
 public class SintegraBusinessImpl implements SintegraBusiness {
 
-	@Autowired 
-	private EmpresaBusiness empresaBusiness;
-	
 	@Autowired
 	private InformanteBusiness informanteBusiness;
 	
@@ -57,9 +54,6 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private IcmsBusiness icmsBusiness;
 	
 	@Autowired
-	private ProdutoBusiness produtoBusiness;
-	
-	@Autowired
 	private TerceiroBusiness terceiroBusiness;
 	
 	@Autowired
@@ -68,8 +62,11 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private NotaConsumoBusiness notaConsumoBusiness;
 	
+	@Autowired
+	private SyncControlBusiness syncControlBusiness;
+	
 	@Override
-	public String gerarSintegra(Empresa empresa, Date dataInicial, Date dataFinal, FinalidadeArquivo finalidadeArquivo, NaturezaOperacao naturezaOperacao) throws Exception {
+	public String gerarSintegra(SintegraParametros parametros) throws Exception {
 		
 		syncRegistros();
 		
@@ -80,10 +77,10 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 		Sintegra sintegra = new Sintegra();
 		
-		sintegra.setRegistro10(gerarRegistro10(empresa, dataInicial, dataFinal, finalidadeArquivo, naturezaOperacao));
-		sintegra.setRegistro11(gerarRegistro11(empresa));
+		sintegra.setRegistro10(gerarRegistro10(parametros.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal(), parametros.getFinalidadeArquivo(), parametros.getNaturezaOperacao()));
+		sintegra.setRegistro11(gerarRegistro11(parametros.getEmpresa()));
 				
-		gerarRegistros50(sintegra, dataInicial, dataFinal);
+		gerarRegistros50(sintegra, parametros.getDataInicial(), parametros.getDataFinal());
 		
 		sintegra.gerarRegistros90();
 		
@@ -99,28 +96,35 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		Portal portal = userBusiness.getCurrent().getPortal();
 		
 		try {
-			terceiroBusiness.syncTerceiros(portal);
+			syncControlBusiness.syncTerceiros(portal);
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Terceiros da VPSA.", e);
 		}
 		
 		try {
-			produtoBusiness.syncProdutos(portal);
+			syncControlBusiness.syncEmpresas(portal);
+		}
+		catch(Exception e) {
+			throw new Exception("Ocorreu um erro ao sincronizar os dados de Terceiros da VPSA.", e);
+		}
+		
+		try {
+			syncControlBusiness.syncProdutos(portal);
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Produtos da VPSA.", e);
 		}
 		
 		try {
-			notaMercadoriaBusiness.syncEntities(portal);
+			syncControlBusiness.syncNotasMercadorias(portal);
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de mercadorias da VPSA.", e);
 		}
 		
 		try {
-			notaConsumoBusiness.syncEntities(portal);
+			syncControlBusiness.syncNotasConsumo(portal);
 		}
 		catch(Exception e) {
 			throw new Exception("Ocorreu um erro ao sincronizar os dados de Notas de consumo da VPSA.", e);
@@ -180,6 +184,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		Informante informante = informanteBusiness.getInformantePorEmpresa(empresa);
 		
 		Registro11 registro11 = new Registro11();
+		
+		if(informante == null)
+			return registro11;
 		
 		registro11.setBairro(informante.getBairro());
 		registro11.setCep(informante.getCep());
