@@ -45,6 +45,7 @@ project = {
 		$(".logicoredecard, .logicobanrisul, .logicogetnet").mask("999999999999999");
 		$(".terminalgetnet").mask("T9999999");
 		$(".empresasitef").mask("99999999");	
+		$(".informantephone").mask("99999999999?9");
 	}
 };
 

@@ -6,19 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import br.com.canalvpsasul.vpsabusiness.entities.EntityBaseRoot;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 
 @Entity
 @Table(name="app_informante")
-public class Informante {
+public class Informante extends EntityBaseRoot  {
 
-	private Long id;
-	 
 	private Empresa empresa;
 	
 	private String logradouro;	
@@ -38,17 +36,13 @@ public class Informante {
 	@Id
 	@GeneratedValue
 	@Column(name = "id_informante")	
+	@Override
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	@NotNull
-	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch=FetchType.EAGER)
-	@JoinColumn(name="id_empresa", referencedColumnName="id_empresa")
+	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, fetch=FetchType.LAZY)
 	public Empresa getEmpresa() {
 		return empresa;
 	}
@@ -117,5 +111,29 @@ public class Informante {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	
+	@Override
+	public boolean equals(final Object anObject) {
+	    if (anObject == null) 
+	        return false;
+	    else if (this == anObject)
+	        return true;
+	    else if (anObject instanceof Informante) {
+	        final Informante aObj = (Informante) anObject;
+	        if (aObj.getId() != null) {
+	            return aObj.getId().equals(id);
+	        }
+	    }
+	    return false;
+	}
+
+	@Override
+	public int hashCode() {		
+		
+		if (id == null)
+			return 0;
+		
+		return Long.valueOf(id).hashCode();
 	}
 }
