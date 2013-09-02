@@ -42,7 +42,7 @@
 			<property name="hibernate.format_sql" value="true" />
 			
 			<!-- atualiza o banco, gera as tableas se for preciso -->
-			<property name="hibernate.hbm2ddl.auto" value="create" /> <!-- Alterar para create sempre que precisar alterar o schema -->
+			<property name="hibernate.hbm2ddl.auto" value="update" /> <!-- Alterar para create sempre que precisar alterar o schema -->
 			<property name="hibernate.hbm2ddl.import_files" value="initial_data.sql" /> 
 			
 		</properties>

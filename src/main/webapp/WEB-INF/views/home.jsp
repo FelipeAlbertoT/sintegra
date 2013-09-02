@@ -23,7 +23,7 @@
 		<div class="span12">
 
 			<form:form cssClass="form-horizontal"
-				action="${pageContext.request.contextPath}/gerar"
+				action="${pageContext.request.contextPath}/home/gerar"
 				commandName="parametros" method="post">
 
 				<fieldset>

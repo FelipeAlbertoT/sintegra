@@ -55,9 +55,9 @@
 				                	<a href="<c:url value="/home" />">Home</a>
 				              	</li>
 			              	</sec:authorize>      
-		            		<sec:authorize url="/configuracoes">    	
+		            		<sec:authorize url="/configuracoes/">    	
 				             	<li class="">
-				                	<a href="<c:url value="/configuracoes/home" />">Configurações</a>
+				                	<a href="<c:url value="/configuracoes/" />">Configurações</a>
 				              	</li>
 			              	</sec:authorize>
 		            	</ul>

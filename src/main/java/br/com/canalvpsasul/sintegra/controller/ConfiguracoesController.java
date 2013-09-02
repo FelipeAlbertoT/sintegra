@@ -32,7 +32,7 @@ public class ConfiguracoesController {
 	@Autowired
 	private UserBusiness userBusiness;
 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String configHome() {
 		
 		return "redirect:/configuracoes/informantes";

@@ -74,7 +74,7 @@
 								<div class="control-group">
 									<label class="control-label" for="cep">Cep</label>
 									<div class="controls">
-										<form:input path="cep" cssClass="span3"
+										<form:input path="cep" cssClass="span3 cep"
 											placeholder="Preencha o CEP" />
 										<form:errors cssClass="native-error" path="cep" />
 									</div>

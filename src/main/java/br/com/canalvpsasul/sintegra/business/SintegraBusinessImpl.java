@@ -1,10 +1,6 @@
 package br.com.canalvpsasul.sintegra.business;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +14,7 @@ import br.com.canalvpsasul.sintegra.entities.HeaderRegistro50;
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
 import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
+import br.com.canalvpsasul.sintegra.repository.SintegraRepository;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
@@ -26,6 +23,7 @@ import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
@@ -65,15 +63,23 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private SyncControlBusiness syncControlBusiness;
 	
+	@Autowired
+	private SintegraRepository sintegraRepository;
+	
 	@Override
-	public String gerarSintegra(SintegraParametros parametros) throws Exception {
+	public br.com.canalvpsasul.sintegra.entities.Sintegra gerarSintegra(SintegraParametros parametros) throws Exception {
+		
+		User user = userBusiness.getCurrent();
+		
+		/* Nessa primeira versão mantemos apenas o último arquivo gerado na base. */
+		br.com.canalvpsasul.sintegra.entities.Sintegra sintegraOld = sintegraRepository.findByTerceiro(user.getTerceiro());
+		if(sintegraOld != null) 
+			sintegraRepository.delete(sintegraOld);
 		
 		syncRegistros();
 		
-		OutputStream oStream = generateOutputStream();
-	    Writer fw = new BufferedWriter(new OutputStreamWriter(oStream, "ISO-8859-1"));       
-	    
-	    SintegraWriter sintegraWriter = new SintegraWriter(fw);
+		StringWriter sw = new StringWriter();		
+	    SintegraWriter sintegraWriter = new SintegraWriter(sw);
 
 		Sintegra sintegra = new Sintegra();
 		
@@ -88,7 +94,19 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	    sintegraWriter.writerFlush();
 	    sintegraWriter.writerClose();
 	    
-	    return oStream.toString();
+	    br.com.canalvpsasul.sintegra.entities.Sintegra sintegraNew = new br.com.canalvpsasul.sintegra.entities.Sintegra();
+	    sintegraNew.setTerceiro(user.getTerceiro());
+	    sintegraNew.setSintegra(sw.toString());
+	    
+	    sintegraRepository.save(sintegraNew);
+	    
+	    return sintegraNew;
+	}
+	
+	@Override
+	public br.com.canalvpsasul.sintegra.entities.Sintegra getSintegra(Long id)
+			throws Exception {
+		return sintegraRepository.findOne(id);
 	}
 	
 	private void syncRegistros() throws Exception {
@@ -131,23 +149,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 		
 	}
-	
-	private OutputStream generateOutputStream() {
-		return new OutputStream()
-	    {
-	        private StringBuilder string = new StringBuilder();
-	        @Override
-	        public void write(int b) throws IOException {
-	            this.string.append((char) b );
-	        }
 
-	        @Override
-	        public String toString(){
-	            return this.string.toString();
-	        }
-	    };
-	} 
-	
 	private Registro10 gerarRegistro10(Empresa empresa, Date dataInicial, Date dataFinal, FinalidadeArquivo finalidadeArquivo, NaturezaOperacao naturezaOperacao) throws Exception {
 		
 		Portal portal = userBusiness.getCurrent().getPortal();
@@ -156,7 +158,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		
 		registro10.setCnpj(empresa.getDocumento());
 		registro10.setRazaoSocial(empresa.getNome());
-		registro10.setCodigoConvenio(Convenio.CONV_1_5795_3002);
+		registro10.setCodigoConvenio(Convenio.CONV_3_5795_7603);
 		registro10.setDataInicial(dataInicial);
 		registro10.setDataFinal(dataFinal);
 		registro10.setFinalidadeArquivo(finalidadeArquivo);
@@ -202,6 +204,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private void gerarRegistros50(Sintegra sintegra, Date dataInicial, Date dataFinal) {
 		
 		sintegra.setRegistros50(new ArrayList<Registro50>());
+		sintegra.setRegistros54(new ArrayList<Registro54>());
 		
 		Portal portal = userBusiness.getCurrent().getPortal();
 				
@@ -252,7 +255,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			
 			// TODO SINTEGRA REGISTRO 50 Aguardar a melhoria na API VPSA para obter o desconto.
 			Double descontoItemDouble = getDescontoItem(((float) 0), nota.getValorTotal(), item.getValorTotal());
-			registros54.add(gerarRegistro54(item, header.getCnpj(), count++, header.getModeloDocumentoFiscal(), nota.getNumero(), header.getSerie(), descontoItemDouble));
+			Registro54 registro54 = gerarRegistro54(item, header.getCnpj(), count++, header.getModeloDocumentoFiscal(), nota.getNumero(), header.getSerie(), descontoItemDouble);
+			registros54.add(registro54);
+			sintegra.getRegistros54().add(registro54);
 		}
 		
 		for(CombinacaoCfopIcms comb : combinacoes) {

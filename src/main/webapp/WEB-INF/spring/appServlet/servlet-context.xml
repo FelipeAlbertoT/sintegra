@@ -12,7 +12,11 @@
 	<!-- **************************************************************** -->
   	<!--  SPRING ANNOTATION PROCESSING                                    -->
   	<!-- **************************************************************** -->
-	<annotation-driven conversion-service="conversionService" />
+	<annotation-driven conversion-service="conversionService" >
+		<message-converters>
+			<beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+		</message-converters>
+	</annotation-driven>
 	<context:component-scan base-package="br.com.canalvpsasul" />
 	<context:annotation-config />
 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">

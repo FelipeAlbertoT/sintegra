@@ -19,11 +19,15 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.canalvpsasul.sintegra.business.SintegraBusiness;
+import br.com.canalvpsasul.sintegra.entities.Sintegra;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 
@@ -38,6 +42,9 @@ public class HomeController {
 	
 	@Autowired
 	private PortalBusiness portalBusiness;
+	
+	@Autowired
+	private EmpresaBusiness empresaBusiness;
 	
 	@Autowired
 	private SintegraBusiness sintegraBusiness;
@@ -73,7 +80,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/gerar", method = RequestMethod.POST)
+	@RequestMapping(value = "/home/gerar", method = RequestMethod.POST)
 	public String gerarSintegra(@Valid SintegraParametros parametros,
 			BindingResult result, Model model) {
 
@@ -87,8 +94,10 @@ public class HomeController {
 			return "home";
 		}
 
+		Sintegra sintegra;
 		try {
-			sintegraBusiness.gerarSintegra(parametros);
+			parametros.setEmpresa(empresaBusiness.get(parametros.getEmpresa().getId()));
+			sintegra = sintegraBusiness.gerarSintegra(parametros);
 		} catch (Exception e) {
 
 			model.addAttribute("parametros", parametros);
@@ -97,7 +106,24 @@ public class HomeController {
 			return "home";
 		}
 		
-		// TODO Fazer o redirect para a view correta
-		return "home";
+		model.addAttribute("sintegra", sintegra);
+		return "sintegra";
 	}
+	
+	@RequestMapping(value = "/home/download/{id}", produces = "text/plain")
+	@ResponseBody
+	public byte[] downloadSintegra(@PathVariable Long id, Model model) throws Exception {
+		
+		/*
+		 * Para que o retorno como byte[] funcione, deve ser configurado o
+		 * message-converter:
+		 * org.springframework.http.converter.ByteArrayHttpMessageConverter no
+		 * arquivo servlet-context.
+		 */
+		
+		Sintegra sintegra = sintegraBusiness.getSintegra(id);
+		
+		return sintegra.getSintegra().getBytes();
+	}
+	
 }

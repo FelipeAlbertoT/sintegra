@@ -39,13 +39,8 @@ project = {
 	applyMasks : function () {
 		$(".date").mask("99/99/9999");
 		$(".areaphone").mask("999");
-		$(".ecf").mask("999");
-		$(".cnpj").mask("99.999.999/9999-99");
-		$(".logicocielo").mask("99999999-9");
-		$(".logicoredecard, .logicobanrisul, .logicogetnet").mask("999999999999999");
-		$(".terminalgetnet").mask("T9999999");
-		$(".empresasitef").mask("99999999");	
 		$(".informantephone").mask("99999999999?9");
+		$(".cep").mask("99999999");
 	}
 };
 
