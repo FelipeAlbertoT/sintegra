@@ -7,7 +7,7 @@ import coffeepot.br.sintegra.tipos.DocumentoFiscal;
 import coffeepot.br.sintegra.tipos.Emitente;
 import coffeepot.br.sintegra.tipos.SituacaoDocumentoFiscal;
 
-public class HeaderRegistro50 {
+public class HeaderRegistroNota {
 
 	private DocumentoFiscal modeloDocumentoFiscal;
 	
@@ -23,7 +23,7 @@ public class HeaderRegistro50 {
 	
 	private String uf;
 	
-	public HeaderRegistro50(StatusNota status, Terceiro remetende, Terceiro destinatario, TipoNota tipo) {
+	public HeaderRegistroNota(StatusNota status, Terceiro remetende, Terceiro destinatario, TipoNota tipo) {
 		
 		this.modeloDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_ELETRONICA;
 		this.situacao = SituacaoDocumentoFiscal.NORMAL;

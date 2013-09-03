@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIcms;
-import br.com.canalvpsasul.sintegra.entities.HeaderRegistro50;
+import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIpi;
+import br.com.canalvpsasul.sintegra.entities.HeaderRegistroNota;
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
 import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
@@ -31,6 +32,7 @@ import coffeepot.br.sintegra.Sintegra;
 import coffeepot.br.sintegra.registros.Registro10;
 import coffeepot.br.sintegra.registros.Registro11;
 import coffeepot.br.sintegra.registros.Registro50;
+import coffeepot.br.sintegra.registros.Registro51;
 import coffeepot.br.sintegra.registros.Registro54;
 import coffeepot.br.sintegra.tipos.Convenio;
 import coffeepot.br.sintegra.tipos.DocumentoFiscal;
@@ -52,12 +54,15 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private IcmsBusiness icmsBusiness;
 	
 	@Autowired
+	private IpiBusiness ipiBusiness;
+	
+	@Autowired
 	private TerceiroBusiness terceiroBusiness;
 	
 	@Autowired
 	private NotaMercadoriaBusiness notaMercadoriaBusiness;
 	
-	@Autowired
+	@Autowired 
 	private NotaConsumoBusiness notaConsumoBusiness;
 	
 	@Autowired
@@ -86,7 +91,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistro10(gerarRegistro10(parametros.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal(), parametros.getFinalidadeArquivo(), parametros.getNaturezaOperacao()));
 		sintegra.setRegistro11(gerarRegistro11(parametros.getEmpresa()));
 				
-		gerarRegistros50(sintegra, parametros.getDataInicial(), parametros.getDataFinal());
+		gerarRegistrosNotas(sintegra, parametros.getDataInicial(), parametros.getDataFinal());		
 		
 		sintegra.gerarRegistros90();
 		
@@ -201,7 +206,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		return registro11;
 	}
 	
-	private void gerarRegistros50(Sintegra sintegra, Date dataInicial, Date dataFinal) {
+	private void gerarRegistrosNotas(Sintegra sintegra, Date dataInicial, Date dataFinal) {
 		
 		sintegra.setRegistros50(new ArrayList<Registro50>());
 		sintegra.setRegistros54(new ArrayList<Registro54>());
@@ -217,12 +222,13 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		
 		for(NotaMercadoria nota : notasMercadoria) {
 			gerarRegistro50(sintegra, nota);
+			gerarRegistro51(sintegra, nota);
 		}
 	}	
 	
 	private void gerarRegistro50(Sintegra sintegra, NotaMercadoria nota) {
 		
-		HeaderRegistro50 header = new HeaderRegistro50(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
+		HeaderRegistroNota header = new HeaderRegistroNota(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
 		
 		ArrayList<CombinacaoCfopIcms> combinacoes = new ArrayList<CombinacaoCfopIcms>();
 		ArrayList<Registro54> registros54 = new ArrayList<Registro54>();
@@ -287,34 +293,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 	}	
 	
-	private Registro54 gerarRegistro54(ItemNota item, String cpfCnpj, int nrItem, DocumentoFiscal modeloDocumentoFiscal, long numeroNota, String serie, Double descontoItem) {
-		
-		Registro54 registro54 = new Registro54();
-		
-		registro54.setAliquotaIcms(ConversionUtils.fromFloat(item.getIcms().getAliquota()));
-		registro54.setBasedeCalculoIcms(ConversionUtils.fromFloat(item.getIcms().getBase()));
-		
-		registro54.setBaseDeCalculoIcmsST(ConversionUtils.fromFloat(item.getIcmsst().getBase()));
-		registro54.setCfop(Integer.parseInt(String.valueOf(item.getCfop())));
-		registro54.setCodigoProduto(item.getProduto().getVpsaId().toString());
-		registro54.setCpfCnpj(cpfCnpj);
-		registro54.setCst(item.getIcms().getCst());
-		registro54.setModeloDocumento(modeloDocumentoFiscal);
-		registro54.setNumeroDocumento(Integer.parseInt(String.valueOf(numeroNota)));
-		registro54.setNumeroItem(nrItem);
-		registro54.setQuantidade(ConversionUtils.fromFloat(item.getQuantidade()));
-		registro54.setSerieDocumento(serie);
-		registro54.setValorBrutoItem(ConversionUtils.fromFloat(item.getQuantidade() * item.getValorUnitario()));
-		registro54.setValorDesconto(descontoItem);
-		if(item.getIpi() != null)
-			registro54.setValorIpi(ConversionUtils.fromFloat(item.getIpi().getValor()));
-		
-		return registro54;
-	}
-	
 	private void gerarRegistro50(Sintegra sintegra, NotaConsumo nota) {
 		
-		HeaderRegistro50 header = new HeaderRegistro50(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
+		HeaderRegistroNota header = new HeaderRegistroNota(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
 		
 		Registro50 registro50 = new Registro50();
 		
@@ -339,6 +320,83 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		
 		sintegra.getRegistros50().add(registro50);
 		
+	}
+	
+	private void gerarRegistro51(Sintegra sintegra, NotaMercadoria nota) {
+				
+		HeaderRegistroNota header = new HeaderRegistroNota(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
+		
+		ArrayList<CombinacaoCfopIpi> combinacoes = new ArrayList<CombinacaoCfopIpi>();
+		
+		for (ItemNota item: nota.getItens()) {
+			
+			if(item.getIpi() == null || item.getIpi().getAliquota() == 0)
+				continue;
+			
+			CombinacaoCfopIpi combinacao = null;
+			for(CombinacaoCfopIpi comb : combinacoes) {
+				if(item.getCfop().equals(comb.getCfop())) {
+					combinacao = comb;
+					break;
+				}				
+			}
+			
+			if(combinacao == null) {
+				combinacao = new CombinacaoCfopIpi();
+				combinacao.setCfop(item.getCfop());
+				combinacoes.add(combinacao);
+			}			
+			
+			//TODO Verificar se as alterações aqui estão alterando os valores do item na coleção.
+			combinacao.setValorIpi(combinacao.getValorIpi() + item.getIpi().getValor());
+			combinacao.setOutras(combinacao.getOutras() + ipiBusiness.getValorOutros(item.getIcms(), item.getValorTotal()));
+			combinacao.setIsentaNaoTribut(combinacao.getIsentaNaoTribut() + ipiBusiness.getValorIsentoNaoTributado(item.getIcms(), item.getValorTotal()));
+		}
+		
+		for(CombinacaoCfopIpi comb : combinacoes) {
+		
+			Registro51 registro51 = new Registro51();
+			
+			registro51.setCfop(Integer.parseInt(comb.getCfop().toString()));
+			registro51.setCpfCnpj(header.getCnpj());
+			registro51.setUf(header.getUf());	
+			registro51.setIe(header.getIe()); 
+			registro51.setDataDocumento(nota.getData());
+			registro51.setNumeroDocumento(nota.getNumero());
+			registro51.setSerieDocumento(header.getSerie());
+			registro51.setSituacaoDocumento(header.getSituacao());
+			registro51.setValorIpi(ConversionUtils.fromFloat(comb.getValorIpi()));
+			registro51.setValorIsentas(ConversionUtils.fromFloat(comb.getIsentaNaoTribut()));
+			registro51.setValorOutras(ConversionUtils.fromFloat(comb.getOutras()));
+			registro51.setValorTotal(ConversionUtils.fromFloat(comb.getValorTotal()));
+			
+			sintegra.getRegistros51().add(registro51);
+		}
+	}
+	
+	private Registro54 gerarRegistro54(ItemNota item, String cpfCnpj, int nrItem, DocumentoFiscal modeloDocumentoFiscal, long numeroNota, String serie, Double descontoItem) {
+		
+		Registro54 registro54 = new Registro54();
+		
+		registro54.setAliquotaIcms(ConversionUtils.fromFloat(item.getIcms().getAliquota()));
+		registro54.setBasedeCalculoIcms(ConversionUtils.fromFloat(item.getIcms().getBase()));
+		
+		registro54.setBaseDeCalculoIcmsST(ConversionUtils.fromFloat(item.getIcmsst().getBase()));
+		registro54.setCfop(Integer.parseInt(String.valueOf(item.getCfop())));
+		registro54.setCodigoProduto(item.getProduto().getVpsaId().toString());
+		registro54.setCpfCnpj(cpfCnpj);
+		registro54.setCst(item.getIcms().getCst());
+		registro54.setModeloDocumento(modeloDocumentoFiscal);
+		registro54.setNumeroDocumento(Integer.parseInt(String.valueOf(numeroNota)));
+		registro54.setNumeroItem(nrItem);
+		registro54.setQuantidade(ConversionUtils.fromFloat(item.getQuantidade()));
+		registro54.setSerieDocumento(serie);
+		registro54.setValorBrutoItem(ConversionUtils.fromFloat(item.getQuantidade() * item.getValorUnitario()));
+		registro54.setValorDesconto(descontoItem);
+		if(item.getIpi() != null)
+			registro54.setValorIpi(ConversionUtils.fromFloat(item.getIpi().getValor()));
+		
+		return registro54;
 	}
 	
 	private Double getDescontoItem(Float descontoNota, Float valorNota, Float valorItem) {
