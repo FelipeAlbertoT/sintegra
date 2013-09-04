@@ -28,7 +28,6 @@ public class EmpresaFormatter implements Formatter<Empresa> {
     	try {
 			return empresaBusiness.get(Long.parseLong(id));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	

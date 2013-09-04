@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.canalvpsasul.vpsabusiness.business.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 
 @Controller

@@ -1,7 +1,10 @@
 package br.com.canalvpsasul.sintegra.business;
 
+import org.springframework.stereotype.Service;
+
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto;
 
+@Service
 public class IpiBusinessImpl implements IpiBusiness {
 
 	@Override

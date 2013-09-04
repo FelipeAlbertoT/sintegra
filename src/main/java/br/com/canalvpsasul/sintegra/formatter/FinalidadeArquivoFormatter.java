@@ -27,7 +27,6 @@ public class FinalidadeArquivoFormatter  implements Formatter<FinalidadeArquivo>
 			return null;
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	

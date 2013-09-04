@@ -44,7 +44,7 @@
 										<form:hidden path="empresa.id" />
 
 										<form:input path="empresa.nome"
-											readonly="${empresa.id != null}" autofocus="autofocus"
+											readonly="${empresa.id != null}"
 											autocomplete="off" cssClass="span3" 
 											placeholder="Preencha a Empresa associada." />
 											
@@ -214,7 +214,7 @@
 										$('#empresa\\.id').val(item.id);
 										return item.nome;
 									}
-								});
+								}).focus();
 			});
 		</script>
 				

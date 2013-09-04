@@ -43,7 +43,7 @@
 							<form:hidden path="empresa.id" />
 
 							<form:input path="empresa.nome" readonly="${empresa.id != null}"
-								autofocus="autofocus" autocomplete="off" cssClass="span3"
+								autocomplete="off" cssClass="span3"
 								placeholder="Preencha a Loja associada." />
 
 							<form:errors cssClass="native-error" path="empresa.nome" />
@@ -238,7 +238,7 @@
 									$('#empresa\\.id').val(item.id);
 									return item.nome;
 								}
-							});
+							}).focus();
 		});
 		
 		$(document).ready(

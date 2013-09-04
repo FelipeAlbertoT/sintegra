@@ -10,10 +10,16 @@ public class CombinacaoCfop {
 	
 	protected Float outras;
 	
+	protected Float frete;
+	
+	protected Float seguro;
+	
 	public CombinacaoCfop() {
 		this.valorTotal = (float)0;
 		this.isentaNaoTribut = (float)0;
 		this.outras = (float)0;
+		this.frete = (float)0;
+		this.seguro = (float)0;
 	}
 
 	public Long getCfop() {
@@ -46,5 +52,21 @@ public class CombinacaoCfop {
 
 	public void setOutras(Float outras) {
 		this.outras = outras;
+	}
+
+	public Float getFrete() {
+		return frete;
+	}
+
+	public void setFrete(Float frete) {
+		this.frete = frete;
+	}
+
+	public Float getSeguro() {
+		return seguro;
+	}
+
+	public void setSeguro(Float seguro) {
+		this.seguro = seguro;
 	}
 }

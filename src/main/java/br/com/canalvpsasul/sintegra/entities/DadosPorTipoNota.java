@@ -1,15 +1,12 @@
 package br.com.canalvpsasul.sintegra.entities;
 
-import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
-import br.com.canalvpsasul.vpsapi.entity.fiscal.StatusNota;
-import br.com.canalvpsasul.vpsapi.entity.fiscal.TipoNota;
 import coffeepot.br.sintegra.tipos.DocumentoFiscal;
 import coffeepot.br.sintegra.tipos.Emitente;
 import coffeepot.br.sintegra.tipos.SituacaoDocumentoFiscal;
 
-public class HeaderRegistroNota {
+public class DadosPorTipoNota {
 
-	private DocumentoFiscal modeloDocumentoFiscal;
+private DocumentoFiscal modeloDocumentoFiscal;
 	
 	private SituacaoDocumentoFiscal situacao;
 	
@@ -22,36 +19,6 @@ public class HeaderRegistroNota {
 	private String cnpj;
 	
 	private String uf;
-	
-	public HeaderRegistroNota(StatusNota status, Terceiro remetende, Terceiro destinatario, TipoNota tipo) {
-		
-		this.modeloDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_ELETRONICA;
-		this.situacao = SituacaoDocumentoFiscal.NORMAL;
-		this.emitente = Emitente.PROPRIO;
-		
-		this.ie = ""; // TODO SINTEGRA Solicitado na API VPSA de terceiros.
-		this.serie = ""; // TODO SINTEGRA Solicitado na API VPSA de Nota de Mercadoria.
-		
-		this.cnpj = destinatario.getDocumento();			
-		
-		if(destinatario.getEnderecos().size() > 0) 
-			this.uf = destinatario.getEnderecos().get(0).getSiglaEstado();
-		
-		if(status == StatusNota.CANCELADO)
-			this.situacao = SituacaoDocumentoFiscal.CANCELADO;
-		
-		if(tipo == TipoNota.ENTRADA) {
-			
-			this.modeloDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_ENTRADA;
-			this.emitente = Emitente.TERCEIROS;
-			this.cnpj = remetende.getDocumento();
-			
-			if(remetende.getEnderecos().size() > 0)
-				this.uf = remetende.getEnderecos().get(0).getSiglaEstado();
-			
-			this.ie = ""; // TODO SINTEGRA Solicitado na API VPSA de terceiros.			
-		}
-	}
 	
 	public DocumentoFiscal getModeloDocumentoFiscal() {
 		return modeloDocumentoFiscal;
