@@ -24,6 +24,23 @@ public class TerceiroFactory {
 		return terceiro;		
 	}
 	
+	public static Terceiro gerarTerceiro() {
+		
+		Terceiro terceiro = new Terceiro();
+		
+		terceiro.setIe("22222222222222");
+		terceiro.setDocumento("22222222222222");
+		
+		ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
+		Endereco endereco = new Endereco();
+		endereco.setSiglaEstado("RJ");		
+		enderecos.add(endereco);
+		
+		terceiro.setEnderecos(enderecos);
+		
+		return terceiro;		
+	}
+	
 	public static Terceiro gerarTerceiroDestinatario() {
 		
 		Terceiro terceiro = new Terceiro();

@@ -74,17 +74,4 @@ public class SyncApiController {
 		
         return "<p class='text-success'>Atualização de terceiros realizada com Sucesso!</p>";
 	}
-	
-	@ResponseBody
-    @RequestMapping(value = "register", method = RequestMethod.GET)
-    public String updateBaseSyncPortalDate() {
-			
-		try {
-			portalBusiness.updateBaseSync(userBusiness.getCurrent().getPortal());
-		} catch (Exception e) {
-			return "<p class='text-error'>Erro ao finalizar o processo de integração.</p><p>Detalhes: " + e.getMessage() + "</p>";
-		}
-		
-        return "<p class='text-success'>Processo de atualização efetuado com sucesso!</p>";
-	}
 }

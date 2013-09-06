@@ -89,72 +89,87 @@
 		</div>
 	</div>
 
-	<c:if test="${needSync}">
-
-		<div id="modalSync" class="modal hide fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<h3>Atualizando Registros!</h3>
-			</div>
-			<div class="modal-body">
-				<p>Os registros da aplicação estão sendo atualizados!</p>
-				<p>Atualizando base de Empresas.</p>
-			</div>
+	<div id="modalSync" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>Atualizando Registros!</h3>
 		</div>
-
-		<script type="text/javascript">
-			$('#modalSync').modal({
-				keyboard : false
-			});
-
-			$
-					.get(
-							'${pageContext.request.contextPath}/api/sync/empresas',
-							function(data) {
-								$('#modalSync > .modal-body p').remove();
-								$('#modalSync > .modal-body')
-										.html(
-												data
-														+ "<p>Atualizando base de Entidades.</p>");
-
-								$
-										.get(
-												'${pageContext.request.contextPath}/api/sync/entidades',
-												function(data) {
-													$(
-															'#modalSync > .modal-body p')
-															.remove();
-													$(
-															'#modalSync > .modal-body')
-															.html(
-																	data
-																			+ "<p>Finalizando Processo de Atualização.</p>");
-
-													$
-															.get(
-																	'${pageContext.request.contextPath}/api/sync/register',
-																	function(
-																			data) {
-																		$(
-																				'#modalSync > .modal-body p')
-																				.remove();
-																		$(
-																				'#modalSync > .modal-body')
-																				.html(
-																						data);
-
-																		setTimeout(
-																				"$('#modalSync').modal('hide')",
-																				2000);
-																	});
-												});
-							});
-		</script>
-
-	</c:if>
+		<div class="modal-body">
+			
+		</div>
+	</div>
 
 	<script type="text/javascript">
+	
+		var needSyncEmpresa = ${needSyncEmpresa};
+		var needSyncEntidade = ${needSyncEntidade};
+		
+		var isModalOpened = false;
+		
+		function needSync() {
+			
+			if(needSyncEmpresa){	
+				openModal();
+			  	syncEmpresa(function(){
+			  		needSync();
+			  	});
+			}
+			else if(needSyncEntidade){
+				openModal();
+				syncEntidade(function(){
+			  		needSync();
+			  	});
+			}
+			else {
+				setTimeout("$('#modalSync').modal('hide')", 2000);		
+			}				
+		}
+		
+		function openModal(){
+			
+			if(isModalOpened)
+				return;
+			
+			$('#modalSync').modal({
+			  keyboard: false
+			});				
+		}
+		
+		function syncEmpresa(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Empresas.</p>");
+			
+			$.get('${pageContext.request.contextPath}/api/sync/empresas', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncEmpresa = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
+		
+		function syncEntidade(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Entidades.</p>");
+			
+			$.get('${pageContext.request.contextPath}/api/sync/entidades', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncEntidade = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
+	
+		needSync();
+		
 		$(function() {
 
 			$('#empresa\\.nome').blur(function() {
@@ -167,112 +182,112 @@
 			});
 
 			$('#empresa\\.nome')
-					.typeahead(
-							{
+				.typeahead(
+					{
 
-								source : function(query, process) {
+						source : function(query, process) {
 
-									return $
-											.get(
-													'${pageContext.request.contextPath}/api/empresa/get',
-													{
-														query : query
-													},
-													function(data) {
-														$('#empresa\\.id').val(
-																"");
-														var resultList = data
-																.map(function(
-																		item) {
-																	var aItem = {
-																		id : item.id,
-																		nome : item.nome
-																	};
-																	return JSON
-																			.stringify(aItem);
-																});
-														return process(resultList);
-													});
-								},
-
-								matcher : function(obj) {
-									var item = JSON.parse(obj);
-									return ~item.nome.toLowerCase().indexOf(
-											this.query.toLowerCase());
-								},
-
-								sorter : function(items) {
-									var beginswith = [], caseSensitive = [], caseInsensitive = [];
-									while (aItem = items.shift()) {
-										var item = JSON.parse(aItem);
-										if (!item.nome.toLowerCase().indexOf(
-												this.query.toLowerCase()))
-											beginswith.push(JSON
-													.stringify(item));
-										else if (~item.nome.indexOf(this.query))
-											caseSensitive.push(JSON
-													.stringify(item));
-										else
-											caseInsensitive.push(JSON
-													.stringify(item));
-									}
-									return beginswith.concat(caseSensitive,
-											caseInsensitive);
-								},
-
-								highlighter : function(obj) {
-									var item = JSON.parse(obj);
-									var query = this.query.replace(
-											/[\-\[\]{}()*+?.,\\\^$|#\s]/g,
-											'\\$&');
-									return item.nome.replace(new RegExp('('
-											+ query + ')', 'ig'),
-											function($1, match) {
-												return '<strong>' + match
-														+ '</strong>';
+							return $
+									.get(
+											'${pageContext.request.contextPath}/api/empresa/get',
+											{
+												query : query
+											},
+											function(data) {
+												$('#empresa\\.id').val(
+														"");
+												var resultList = data
+														.map(function(
+																item) {
+															var aItem = {
+																id : item.id,
+																nome : item.nome
+															};
+															return JSON
+																	.stringify(aItem);
+														});
+												return process(resultList);
 											});
-								},
+						},
 
-								updater : function(obj) {
-									var item = JSON.parse(obj);
-									$('#empresa\\.id').val(item.id);
-									return item.nome;
-								}
-							}).focus();
+						matcher : function(obj) {
+							var item = JSON.parse(obj);
+							return ~item.nome.toLowerCase().indexOf(
+									this.query.toLowerCase());
+						},
+
+						sorter : function(items) {
+							var beginswith = [], caseSensitive = [], caseInsensitive = [];
+							while (aItem = items.shift()) {
+								var item = JSON.parse(aItem);
+								if (!item.nome.toLowerCase().indexOf(
+										this.query.toLowerCase()))
+									beginswith.push(JSON
+											.stringify(item));
+								else if (~item.nome.indexOf(this.query))
+									caseSensitive.push(JSON
+											.stringify(item));
+								else
+									caseInsensitive.push(JSON
+											.stringify(item));
+							}
+							return beginswith.concat(caseSensitive,
+									caseInsensitive);
+						},
+
+						highlighter : function(obj) {
+							var item = JSON.parse(obj);
+							var query = this.query.replace(
+									/[\-\[\]{}()*+?.,\\\^$|#\s]/g,
+									'\\$&');
+							return item.nome.replace(new RegExp('('
+									+ query + ')', 'ig'),
+									function($1, match) {
+										return '<strong>' + match
+												+ '</strong>';
+									});
+						},
+
+						updater : function(obj) {
+							var item = JSON.parse(obj);
+							$('#empresa\\.id').val(item.id);
+							return item.nome;
+						}
+					}).focus();
 		});
 		
 		$(document).ready(
-				function() {
+			function() {
 
-					var nowTemp = new Date();
-					var now = new Date(nowTemp.getFullYear(), nowTemp
-							.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+				var nowTemp = new Date();
+				var now = new Date(nowTemp.getFullYear(), nowTemp
+						.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
-					var checkin = $('#dataInicial').datepicker({
-						format : 'dd/mm/yyyy',
-						todayBtn : 'linked'
-					}).on('changeDate', function(ev) {
+				var checkin = $('#dataInicial').datepicker({
+					format : 'dd/mm/yyyy',
+					todayBtn : 'linked'
+				}).on('changeDate', function(ev) {
 
-						var newDate = new Date(ev.date);
-						newDate.setDate(newDate.getDate() + 1);
-						checkout.setStartDate(newDate);
+					var newDate = new Date(ev.date);
+					newDate.setDate(newDate.getDate() + 1);
+					checkout.setStartDate(newDate);
 
-						if (ev.date.valueOf() > checkout.date.valueOf())
-							checkout.update(newDate);
+					if (ev.date.valueOf() > checkout.date.valueOf())
+						checkout.update(newDate);
 
-						checkin.hide();
-						$('#dataFinal')[0].focus();
+					checkin.hide();
+					$('#dataFinal')[0].focus();
 
-					}).data('datepicker');
+				}).data('datepicker');
 
-					var checkout = $('#dataFinal').datepicker({
-						format : 'dd/mm/yyyy',
-						todayBtn : 'linked'
-					}).on('changeDate', function(ev) {
-						checkout.hide();
-					}).data('datepicker');
+				var checkout = $('#dataFinal').datepicker({
+					format : 'dd/mm/yyyy',
+					todayBtn : 'linked'
+				}).on('changeDate', function(ev) {
+					checkout.hide();
+				}).data('datepicker');
 
-				});
+			});
 		
 	</script>
 

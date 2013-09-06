@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.canalvpsasul.sintegra.business.SintegraBusiness;
 import br.com.canalvpsasul.sintegra.entities.Sintegra;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
+import br.com.canalvpsasul.vpsabusiness.business.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
-import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 
 /**
@@ -41,13 +43,16 @@ public class HomeController {
 			.getLogger(ConfiguracoesController.class);
 	
 	@Autowired
-	private PortalBusiness portalBusiness;
+	private UserBusiness userBusiness;
 	
 	@Autowired
 	private EmpresaBusiness empresaBusiness;
 	
 	@Autowired
 	private SintegraBusiness sintegraBusiness;
+
+	@Autowired
+	private SyncControlBusiness syncControlBusiness;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -68,13 +73,20 @@ public class HomeController {
 		return finalidades;
 	}
 	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String root() {		
+		return "redirect:/home";
+	}
+	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 				
-		model.addAttribute("needSync", portalBusiness.needMakeBaseSync());
+		Portal portal = userBusiness.getCurrent().getPortal();
 		
-		SintegraParametros parametros = new SintegraParametros();
-		
+		model.addAttribute("needSyncEmpresa", syncControlBusiness.needSyncEmpresas(portal));
+		model.addAttribute("needSyncEntidade", syncControlBusiness.needSyncEntidades(portal));
+				
+		SintegraParametros parametros = new SintegraParametros();		
 		model.addAttribute("parametros", parametros);
 		
 		return "home";
