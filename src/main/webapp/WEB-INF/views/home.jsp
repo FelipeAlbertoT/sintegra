@@ -77,6 +77,17 @@
 							<form:errors cssClass="native-error" path="dataFinal" />
 						</div>
 					</div>
+					
+
+					<div class="control-group">
+						<form:label path="gerarRegistro74" for="registro74" cssClass="control-label">Gerar Registro 74:</form:label>
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro74" id="registro74" />
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro74" />
+						</div>
+					</div>
 
 					<div class="form-actions">
 						<button type="submit" class="btn btn-primary">Prosseguir</button>

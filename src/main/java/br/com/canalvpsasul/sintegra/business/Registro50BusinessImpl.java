@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIcms;
 import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
 import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
-import br.com.canalvpsasul.sintegra.helper.RateioNotaUtils;
-import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsapi.entity.fiscal.StatusNota;
@@ -21,61 +19,12 @@ public class Registro50BusinessImpl implements Registro50Business {
 
 	@Autowired
 	private IcmsBusiness icmsBusiness;
+	
+	@Autowired
+	private CombinacaoCfopBusiness combinacaoCfopBusiness;
 
 	@Autowired
 	private DadosPorTipoNotaBusiness dadosPorTipoNotaBusiness;
-
-	@Override
-	public List<CombinacaoCfopIcms> obterCombinacoesDocumento(
-			NotaMercadoria nota) {
-
-		ArrayList<CombinacaoCfopIcms> combinacoes = new ArrayList<CombinacaoCfopIcms>();
-
-		for (ItemNota item : nota.getItens()) {
-
-			CombinacaoCfopIcms combinacao = null;
-			for (CombinacaoCfopIcms comb : combinacoes) {
-				if (item.getCfop().equals(comb.getCfop())
-						&& item.getIcms().getAliquota()
-								.equals(comb.getAliquota())) {
-					combinacao = comb;
-					break;
-				}
-			}
-
-			if (combinacao == null) {
-				combinacao = new CombinacaoCfopIcms();
-				combinacao.setAliquota(item.getIcms().getAliquota());
-				combinacao.setCfop(item.getCfop());
-				combinacoes.add(combinacao);
-			}
-
-			combinacao.setBaseIcms(combinacao.getBaseIcms()
-					+ item.getIcms().getBase());
-			combinacao.setValorIcms(combinacao.getValorIcms()
-					+ item.getIcms().getValor());
-
-			combinacao.setValorIcmsSt(combinacao.getValorIcmsSt()
-					+ item.getIcmsst().getValor());
-			combinacao.setValorIcmsSt(combinacao.getValorIcmsSt()
-					+ item.getIcmsst().getValor());
-
-			combinacao.setValorTotal(combinacao.getValorTotal() + RateioNotaUtils.obterValorItemNota(item));
-			
-			combinacao.setOutras(combinacao.getOutras()
-					+ icmsBusiness.getValorOutros(item.getIcms(),
-							item.getValorTotal()));
-			combinacao.setIsentaNaoTribut(combinacao.getIsentaNaoTribut()
-					+ icmsBusiness.getValorIsentoNaoTributado(item.getIcms(),
-							item.getValorTotal()));
-		}
-		
-		if(combinacoes.size() == 1)
-			combinacoes.get(0).setValorIcms(nota.getValorTotal());		
-
-		return combinacoes;
-
-	}	
 
 	@Override
 	public List<Registro50> obterRegistro50(NotaMercadoria nota) {
@@ -84,7 +33,7 @@ public class Registro50BusinessImpl implements Registro50Business {
 
 		ArrayList<Registro50> registros = new ArrayList<Registro50>();
 
-		List<CombinacaoCfopIcms> combinacoes = obterCombinacoesDocumento(nota);
+		List<CombinacaoCfopIcms> combinacoes = combinacaoCfopBusiness.obterCombinacoesCfopIcmsDocumento(nota);
 
 		for (CombinacaoCfopIcms comb : combinacoes) {
 

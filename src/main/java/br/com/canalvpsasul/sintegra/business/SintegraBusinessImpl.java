@@ -23,6 +23,7 @@ import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
@@ -34,6 +35,7 @@ import coffeepot.br.sintegra.registros.Registro51;
 import coffeepot.br.sintegra.registros.Registro53;
 import coffeepot.br.sintegra.registros.Registro54;
 import coffeepot.br.sintegra.registros.Registro74;
+import coffeepot.br.sintegra.registros.Registro75;
 import coffeepot.br.sintegra.tipos.Convenio;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 import coffeepot.br.sintegra.tipos.NaturezaOperacao;
@@ -75,12 +77,18 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	
 	@Autowired
 	private Registro51Business registro51Business;
+	
+	@Autowired
+	private Registro53Business registro53Business;
 
 	@Autowired
 	private Registro54Business registro54Business;
 	
 	@Autowired
 	private Registro74Business registro74Business;
+	
+	@Autowired
+	private Registro75Business registro75Business;
 	
 	@Override
 	public br.com.canalvpsasul.sintegra.entities.Sintegra gerarSintegra(
@@ -103,6 +111,12 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		SintegraWriter sintegraWriter = new SintegraWriter(sw);
 
 		Sintegra sintegra = new Sintegra();
+		
+		sintegra.setRegistros50(new ArrayList<Registro50>());
+		sintegra.setRegistros51(new ArrayList<Registro51>());
+		sintegra.setRegistros53(new ArrayList<Registro53>());
+		sintegra.setRegistros54(new ArrayList<Registro54>());
+		sintegra.setRegistros75(new ArrayList<Registro75>());
 
 		sintegra.setRegistro10(gerarRegistro10(parametros.getEmpresa(),
 				parametros.getDataInicial(), parametros.getDataFinal(),
@@ -113,7 +127,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		gerarRegistrosNotas(sintegra, parametros.getDataInicial(),
 				parametros.getDataFinal());
 
-		gerarRegistrosInventario(sintegra, parametros.getEmpresa());
+		if(parametros.getGerarRegistro74())
+			gerarRegistrosInventario(sintegra, parametros.getEmpresa());
 		
 		sintegra.gerarRegistros90();
 
@@ -209,11 +224,6 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private void gerarRegistrosNotas(Sintegra sintegra, Date dataInicial,
 			Date dataFinal) {
 
-		sintegra.setRegistros50(new ArrayList<Registro50>());
-		sintegra.setRegistros51(new ArrayList<Registro51>());
-		sintegra.setRegistros53(new ArrayList<Registro53>());
-		sintegra.setRegistros54(new ArrayList<Registro54>());
-
 		Portal portal = userBusiness.getCurrent().getPortal();
 
 		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(portal,
@@ -228,7 +238,11 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		for (NotaMercadoria nota : notasMercadoria) {
 			sintegra.getRegistros50().addAll(registro50Business.obterRegistro50(nota));
 			sintegra.getRegistros51().addAll(registro51Business.obterRegistro51(nota));
+			sintegra.getRegistros53().addAll(registro53Business.obterRegistro53(nota));
 			sintegra.getRegistros54().addAll(registro54Business.obterRegistro54(nota));
+			
+			for (ItemNota item : nota.getItens())
+				registro75Business.addRegistro75(item.getProduto(), sintegra);
 		}
 	}
 
@@ -244,8 +258,10 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			pageRequest = new PageRequest(pageNumber++, returnCount);			
 			produtos = produtoBusiness.getAll(userBusiness.getCurrent().getPortal(), pageRequest);
 			
-			for(Produto produto : produtos)
+			for(Produto produto : produtos) {
 				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa));
+				registro75Business.addRegistro75(produto, sintegra);
+			}
 			
 		}while(produtos.size() == returnCount);
 	}

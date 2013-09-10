@@ -14,12 +14,18 @@ public class CombinacaoCfop {
 	
 	protected Float seguro;
 	
+	private Float baseIcmsSt;
+	
+	private Float valorIcmsSt;
+	
 	public CombinacaoCfop() {
 		this.valorTotal = (float)0;
 		this.isentaNaoTribut = (float)0;
 		this.outras = (float)0;
 		this.frete = (float)0;
 		this.seguro = (float)0;
+		this.baseIcmsSt = (float)0;
+		this.valorIcmsSt = (float)0;
 	}
 
 	public Long getCfop() {
@@ -68,5 +74,21 @@ public class CombinacaoCfop {
 
 	public void setSeguro(Float seguro) {
 		this.seguro = seguro;
+	}
+
+	public Float getBaseIcmsSt() {
+		return baseIcmsSt;
+	}
+
+	public void setBaseIcmsSt(Float baseIcmsSt) {
+		this.baseIcmsSt = baseIcmsSt;
+	}
+
+	public Float getValorIcmsSt() {
+		return valorIcmsSt;
+	}
+
+	public void setValorIcmsSt(Float valorIcmsSt) {
+		this.valorIcmsSt = valorIcmsSt;
 	}
 }

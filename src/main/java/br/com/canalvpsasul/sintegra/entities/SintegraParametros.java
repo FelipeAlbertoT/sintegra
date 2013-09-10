@@ -24,6 +24,8 @@ public class SintegraParametros {
 	
 	private NaturezaOperacao naturezaOperacao = NaturezaOperacao.TOTALIDADE_DAS_OPERACOES;
 
+	private Boolean gerarRegistro74;
+	
 	public Empresa getEmpresa() {
 		return empresa;
 	}
@@ -62,6 +64,14 @@ public class SintegraParametros {
 
 	public void setNaturezaOperacao(NaturezaOperacao naturezaOperacao) {
 		this.naturezaOperacao = naturezaOperacao;
+	}
+
+	public Boolean getGerarRegistro74() {
+		return gerarRegistro74;
+	}
+
+	public void setGerarRegistro74(Boolean gerarRegistro74) {
+		this.gerarRegistro74 = gerarRegistro74;
 	}
 	
 }
