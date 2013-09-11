@@ -160,10 +160,10 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		syncControlBusiness.syncEmpresas(portal);
 
 		syncControlBusiness.syncProdutos(portal);
-		
-		syncControlBusiness.syncNotasMercadorias(portal);
 
 		syncControlBusiness.syncNotasConsumo(portal);
+		
+		syncControlBusiness.syncNotasMercadorias(portal);
 	}
 
 	private Registro10 gerarRegistro10(Empresa empresa, Date dataInicial,
