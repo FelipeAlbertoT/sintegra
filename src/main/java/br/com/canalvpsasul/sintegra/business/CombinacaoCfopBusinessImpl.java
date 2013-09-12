@@ -44,10 +44,8 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 				combinacao = new CombinacaoCfopIcms();
 				combinacao.setAliquota(item.getIcms().getAliquota());
 				combinacao.setCfop(item.getCfop());
-				combinacoes.add(combinacao);
 			}
 
-			//TODO testar se os valores estão entrando do item do array
 			combinacao.setBaseIcms(combinacao.getBaseIcms()
 					+ item.getIcms().getBase());
 			combinacao.setValorIcms(combinacao.getValorIcms()
@@ -66,6 +64,9 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 			combinacao.setIsentaNaoTribut(combinacao.getIsentaNaoTribut()
 					+ icmsBusiness.getValorIsentoNaoTributado(item.getIcms(),
 							item.getValorTotal()));
+			
+			combinacoes.remove(combinacao);
+			combinacoes.add(combinacao);
 		}
 		
 		if(combinacoes.size() == 1)
@@ -96,10 +97,8 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 			if (combinacao == null) {
 				combinacao = new CombinacaoCfopIpi();
 				combinacao.setCfop(item.getCfop());
-				combinacoes.add(combinacao);
 			}
 			
-			//TODO testar se os valores estão entrando do item do array
 			combinacao.setValorIpi(combinacao.getValorIpi()
 					+ item.getIpi().getValor());
 			combinacao.setOutras(combinacao.getOutras()
@@ -108,6 +107,9 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 			combinacao.setIsentaNaoTribut(combinacao.getIsentaNaoTribut()
 					+ ipiBusiness.getValorIsentoNaoTributado(item.getIcms(),
 							item.getValorTotal()));
+			
+			combinacoes.remove(combinacao);
+			combinacoes.add(combinacao);
 		}
 
 		return combinacoes;
@@ -132,15 +134,12 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 			if (combinacao == null) {
 				combinacao = new CombinacaoCfop();
 				combinacao.setCfop(item.getCfop());
-				combinacoes.add(combinacao);
 			}
 			
-			//TODO testar se os valores estão entrando do item do array
-
 			combinacao.setValorIcmsSt(combinacao.getValorIcmsSt()
 					+ item.getIcmsst().getValor());
-			combinacao.setValorIcmsSt(combinacao.getValorIcmsSt()
-					+ item.getIcmsst().getValor());
+			combinacao.setBaseIcmsSt(combinacao.getBaseIcmsSt()
+					+ item.getIcmsst().getBase());
 			
 			combinacao.setOutras(combinacao.getOutras()
 					+ ipiBusiness.getValorOutros(item.getIcms(),
@@ -148,6 +147,9 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 			combinacao.setIsentaNaoTribut(combinacao.getIsentaNaoTribut()
 					+ ipiBusiness.getValorIsentoNaoTributado(item.getIcms(),
 							item.getValorTotal()));
+			
+			combinacoes.remove(combinacao);
+			combinacoes.add(combinacao);
 		}
 
 		return combinacoes;

@@ -226,8 +226,11 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 		Portal portal = userBusiness.getCurrent().getPortal();
 
+		// TODO SINTEGRA - Filtrar apenas a empresa informada nos parâmetros do sintegra.
 		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(portal,
 				dataInicial, dataFinal);
+		
+		// TODO SINTEGRA - Filtrar apenas a empresa informada nos parâmetros do sintegra.
 		List<NotaMercadoria> notasMercadoria = notaMercadoriaBusiness
 				.findByDate(portal, dataInicial, dataFinal);
 

@@ -34,6 +34,16 @@
 						<c:if test="${message != '' and message != null}">
 							<div class="alert alert-error">${message}</div>
 						</c:if>
+						
+						<div class="alert alert-info">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Informação:</strong> Serão gerados os registros 10, 11, 50, 51, 53, 54, 75 e 90.
+						</div>
+						<div class="alert">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Sincronização:</strong> A geração do arquivo pode levar vários minutos. A sincronização de registros com a retaguarda pode ser necessária.
+						</div>
+						
 					</div>
 
 					<div class="control-group">
