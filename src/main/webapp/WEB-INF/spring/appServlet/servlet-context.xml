@@ -29,6 +29,10 @@
 	    </beans:property>
 	</beans:bean> 
 	
+	<interceptors>
+      <beans:bean class="br.com.canalvpsasul.vpsabusiness.security.mvc.SecurityInfoInterceptor" />
+    </interceptors> 
+	
 	<!-- **************************************************************** -->
   	<!--  VPSA Business IOC			                                      -->
   	<!-- **************************************************************** -->

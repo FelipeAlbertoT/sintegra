@@ -66,9 +66,14 @@
 		            	
 		            		<sec:authorize access="isAuthenticated()">
 								<li class="visible-desktop">							
-									<a href="#"><i class="icon-user"></i></a>								
-								</li>	
+									<a href="#"><i class="icon-user"></i>  &nbsp; <span class="text-success">${currentLoggedUser.nome}</span></a>								
+								</li>
+								<li class="visible-phone">							
+									<a href="#"><span class="text-success">${currentLoggedUser.nome}</span></a>								
+								</li>		
 			              	</sec:authorize>
+			              	
+			              	<li class="divider-vertical"></li>
 			              	
 					    	<sec:authorize access="isAuthenticated()">				    	
 					   			<li>					   			

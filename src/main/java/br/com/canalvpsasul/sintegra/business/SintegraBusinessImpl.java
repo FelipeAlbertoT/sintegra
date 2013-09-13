@@ -124,7 +124,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				parametros.getNaturezaOperacao()));
 		sintegra.setRegistro11(gerarRegistro11(parametros.getEmpresa()));
 
-		gerarRegistrosNotas(sintegra, parametros.getDataInicial(),
+		gerarRegistrosNotas(parametros.getEmpresa(), sintegra, parametros.getDataInicial(),
 				parametros.getDataFinal());
 
 		if(parametros.getGerarRegistro74())
@@ -221,18 +221,16 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		return registro11;
 	}
 
-	private void gerarRegistrosNotas(Sintegra sintegra, Date dataInicial,
+	private void gerarRegistrosNotas(Empresa empresa, Sintegra sintegra, Date dataInicial,
 			Date dataFinal) {
 
-		Portal portal = userBusiness.getCurrent().getPortal();
-
 		// TODO SINTEGRA - Filtrar apenas a empresa informada nos parâmetros do sintegra.
-		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(portal,
+		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(empresa,
 				dataInicial, dataFinal);
 		
 		// TODO SINTEGRA - Filtrar apenas a empresa informada nos parâmetros do sintegra.
 		List<NotaMercadoria> notasMercadoria = notaMercadoriaBusiness
-				.findByDate(portal, dataInicial, dataFinal);
+				.findByDate(empresa, dataInicial, dataFinal);
 
 		for (NotaConsumo nota : notasConsumo) {			
 			sintegra.getRegistros50().add(registro50Business.obterRegistro50(nota));
