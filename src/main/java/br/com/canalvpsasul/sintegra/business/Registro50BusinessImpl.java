@@ -12,6 +12,7 @@ import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsapi.entity.fiscal.StatusNota;
+import br.com.canalvpsasul.vpsapi.entity.fiscal.TipoNota;
 import coffeepot.br.sintegra.registros.Registro50;
 
 @Service
@@ -53,19 +54,39 @@ public class Registro50BusinessImpl implements Registro50Business {
 			registro50.setCfop(Integer.parseInt(comb.getCfop().toString()));
 			
 			if(nota.getStatus() == StatusNota.CANCELADO) {
+				
 				registro50.setAliquotaIcms(Double.valueOf(0));
 				registro50.setBaseDeCalculoIcms(Double.valueOf(0));
 				registro50.setValorIcms(Double.valueOf(0));
 				registro50.setValorIsentas(Double.valueOf(0));
 				registro50.setValorOutras(Double.valueOf(0));
 				registro50.setValorTotal(Double.valueOf(0));
+				
 			}
 			else {
-				registro50.setAliquotaIcms(ConversionUtils.fromFloat(comb.getAliquota()));
-				registro50.setBaseDeCalculoIcms(ConversionUtils.fromFloat(comb.getBaseIcms()));
-				registro50.setValorIcms(ConversionUtils.fromFloat(comb.getValorIcms()));
-				registro50.setValorIsentas(ConversionUtils.fromFloat(comb.getIsentaNaoTribut()));
-				registro50.setValorOutras(ConversionUtils.fromFloat(comb.getOutras()));
+				registro50.setAliquotaIcms(new Double(comb.getAliquota()));
+				
+				/*
+				 * Notas de entrada com ST (REGRA para a maior parte dos casos 99%)
+				 * Se a nota for de entrada e possuir ICMS ST, devemos zerar o ICMS próprio (base e valor).
+				 * Nesse caso, devemos colocar o total da nota no campo outras.
+				 * */
+				if(nota.getTipo() == TipoNota.ENTRADA && comb.getBaseIcmsSt() > 0) {
+					
+					registro50.setBaseDeCalculoIcms(new Double(0));
+					registro50.setValorIcms(new Double(0));
+					
+					registro50.setValorOutras(new Double(comb.getValorTotal()));
+				}
+				else {
+					
+					registro50.setBaseDeCalculoIcms(new Double(comb.getBaseIcms()));
+					registro50.setValorIcms(new Double(comb.getValorIcms()));
+					
+					registro50.setValorOutras(new Double(comb.getOutras()));
+				}
+				
+				registro50.setValorIsentas(new Double(comb.getIsentaNaoTribut()));				
 				registro50.setValorTotal(new Double(comb.getValorTotal()));
 			}
 			

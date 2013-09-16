@@ -29,6 +29,8 @@ public class Registro54BusinessImpl implements Registro54Business {
 		Float freteTotal = Float.valueOf(0);
 		Float seguroTotal = Float.valueOf(0);
 		Float outrasTotal = Float.valueOf(0);
+		Float pisTotal = Float.valueOf(0);
+		Float cofinsTotal = Float.valueOf(0);
 		Long cfop = Long.valueOf(0);
 		String cst = "";
 		
@@ -45,27 +47,31 @@ public class Registro54BusinessImpl implements Registro54Business {
 			registro54.setBasedeCalculoIcms(ConversionUtils.fromFloat(item.getIcms().getBase()));
 			registro54.setBaseDeCalculoIcmsST(ConversionUtils.fromFloat(item.getIcmsst().getBase()));
 			registro54.setCfop(Integer.parseInt(String.valueOf(item.getCfop())));
-			registro54.setCodigoProduto(item.getProduto().getVpsaId().toString());
-			registro54.setCst(item.getIcms().getCst());
+			registro54.setCodigoProduto(item.getProduto().getVpsaId().toString());			 
+			registro54.setCst(item.getProduto().getOrigem() + item.getIcms().getCst());			
 			registro54.setQuantidade(ConversionUtils.fromFloat(item.getQuantidade()));
-			registro54.setValorBrutoItem(ConversionUtils.fromFloat(item.getQuantidade() * item.getValorUnitario()));
-			
+			registro54.setValorBrutoItem(ConversionUtils.fromFloat(item.getQuantidade() * item.getValorUnitario()));			
 			registro54.setNumeroDocumento(Integer.parseInt(String.valueOf(nota.getNumero())));
-			
 			registro54.setNumeroItem(count++);
-
-			registro54.setValorDesconto((double) 0); // TODO SINTEGRA REGISTRO 54 - Após criação da API, alterar o desconto por item.
+			registro54.setValorDesconto(new Double(item.getValorDesconto()));
 			if (item.getIpi() != null)
 				registro54.setValorIpi(ConversionUtils.fromFloat(item.getIpi()
 						.getValor()));
 
 			registros.add(registro54);
 			
-			
 			freteTotal += item.getValorFrete();
 			seguroTotal += item.getValorSeguro();
 			outrasTotal += item.getValorOutros();
-			cfop = item.getCfop(); // TODO SINTEGRA Vpsa não retorna CFOP principal da nota, por momento pegamos qualquer um (Validar com consultor).
+			
+			if(item.getPis().getValor() > 0)
+				pisTotal += item.getPis().getValor();
+
+			if(item.getCofins().getValor() > 0)
+				cofinsTotal += item.getCofins().getValor();
+			
+			//TODO SINTEGRA Registro 54 - Considerar a CFOP e a CST do item com maior valor.			
+			cfop = item.getCfop();
 			cst = item.getIcms().getCst();
 		}
 		
@@ -75,8 +81,8 @@ public class Registro54BusinessImpl implements Registro54Business {
 			registros.add(obterRegistro54(TipoItemRegistro54.SEGURO, dadosPorTipoNota, nota, cfop, cst, seguroTotal));
 		if(outrasTotal > 0)
 			registros.add(obterRegistro54(TipoItemRegistro54.OUTRASDESPESAS, dadosPorTipoNota, nota, cfop, cst, outrasTotal));
-		
-		// TODO SINTEGRA Registro 54 Gerar registo referente ao PIS/COFINS e Serviços não tributados.
+		if(pisTotal > 0)
+			registros.add(obterRegistro54(TipoItemRegistro54.PISCOFINS, dadosPorTipoNota, nota, cfop, cst, pisTotal + cofinsTotal));
 		
 		return registros;
 	}

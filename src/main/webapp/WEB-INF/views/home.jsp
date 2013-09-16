@@ -22,7 +22,7 @@
 	<div class="row-fluid">
 		<div class="span12">
 
-			<form:form cssClass="form-horizontal"
+			<form:form cssClass="form-horizontal" id="form"
 				action="${pageContext.request.contextPath}/home/gerar"
 				commandName="parametros" method="post">
 
@@ -34,7 +34,6 @@
 						<c:if test="${message != '' and message != null}">
 							<div class="alert alert-error">${message}</div>
 						</c:if>
-						
 						<div class="alert alert-info">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
 							<strong>Informação:</strong> Serão gerados os registros 10, 11, 50, 51, 53, 54, 75 e 90.
@@ -43,21 +42,16 @@
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
 							<strong>Sincronização:</strong> A geração do arquivo pode levar vários minutos. A sincronização de registros com a retaguarda pode ser necessária.
 						</div>
-						
 					</div>
 
 					<div class="control-group">
 						<label class="control-label" for="empresa.nome">Empresa</label>
 						<div class="controls">
-
 							<form:hidden path="empresa.id" />
-
 							<form:input path="empresa.nome" readonly="${empresa.id != null}"
 								autocomplete="off" cssClass="span3"
 								placeholder="Preencha a Loja associada." />
-
 							<form:errors cssClass="native-error" path="empresa.nome" />
-
 						</div>
 					</div>
 
@@ -77,13 +71,11 @@
 						<div class="controls">
 							<form:input cssClass="span3 date" path="dataInicial"
 								data-date-format="dd/mm/yyyy" placeholder="Data Inicial" />
-								
 							<form:errors cssClass="native-error" path="dataInicial" />
 						</div>
 						<div class="controls">
 							<form:input cssClass="span3 date" path="dataFinal"
 								data-date-format="dd/mm/yyyy" placeholder="Data Final" />
-								
 							<form:errors cssClass="native-error" path="dataFinal" />
 						</div>
 					</div>
@@ -98,9 +90,19 @@
 							<form:errors cssClass="native-error" path="gerarRegistro74" />
 						</div>
 					</div>
+					
+					
+					<div class="control-group">
+						<label class="control-label" for="dataInventario">Data Inventário</label>
+						<div class="controls">
+							<form:input cssClass="span3 date" path="dataInventario"
+								data-date-format="dd/mm/yyyy" placeholder="Data Inventário" />
+							<form:errors cssClass="native-error" path="dataInventario" />
+						</div>
+					</div>
 
 					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">Prosseguir</button>
+						<button type="button" onclick="javascript: needSync();" class="btn btn-primary">Prosseguir</button>
 					</div>
 
 				</fieldset>
@@ -120,30 +122,76 @@
 			
 		</div>
 	</div>
-
+	
+	<div id="modalSubmit" class="modal hide fade">
+		<div class="modal-header">
+			<h3>Gerando Sintegra</h3>
+		</div>
+		<div class="modal-body">
+			Seu sintegra está sendo gerado. Aguarde redirecionamento!
+		</div>
+	</div>
+	
 	<script type="text/javascript">
 	
 		var needSyncEmpresa = ${needSyncEmpresa};
 		var needSyncEntidade = ${needSyncEntidade};
+		var needSyncProduto = ${needSyncProduto};
+		var needSyncNotasMercadorias = ${needSyncNotasMercadorias};
+		var needSyncNotasConsumo = ${needSyncNotasConsumo};
+		var needSyncTerceiros = ${needSyncTerceiros};
 		
 		var isModalOpened = false;
 		
-		function needSync() {
+		function bootstrapSync(){
 			
 			if(needSyncEmpresa){	
 				openModal();
 			  	syncEmpresa(function(){
-			  		needSync();
+			  		bootstrapSync();
 			  	});
 			}
 			else if(needSyncEntidade){
 				openModal();
 				syncEntidade(function(){
+					bootstrapSync();
+			  	});
+			}
+			else {
+				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);		
+			}	
+		}
+		
+		function needSync() {
+			
+			if(needSyncTerceiros){
+				openModal();
+				syncTerceiro(function(){
+			  		needSync();
+			  	});
+			}
+			else if(needSyncProduto){
+				openModal();
+				syncProduto(function(){
+			  		needSync();
+			  	});
+			}
+			else if(needSyncNotasMercadorias){
+				openModal();
+				syncNotasMercadoria(function(){
+			  		needSync();
+			  	});
+			}
+			else if(needSyncNotasConsumo){
+				openModal();
+				syncNotasConsumo(function(){
 			  		needSync();
 			  	});
 			}
 			else {
-				setTimeout("$('#modalSync').modal('hide')", 2000);		
+				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);
+				$("#modalSubmit").modal();
+				$("#form").submit();
 			}				
 		}
 		
@@ -188,8 +236,72 @@
 			  		callback();				  	
 			});
 		}
+		
+		function syncTerceiro(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Terceiros.</p>");
+			
+			$.get('${pageContext.request.contextPath}/api/sync/terceiros', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncTerceiros = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
+		
+		function syncProduto(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Produtos.</p>");
+			
+			$.get('${pageContext.request.contextPath}/api/sync/produtos', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncProduto = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
+		
+		function syncNotasMercadoria(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Notas de Mercadoria.</p>");
+			
+			$.get('${pageContext.request.contextPath}/api/sync/notas/mercadoria', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncNotasMercadorias = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
+		
+		function syncNotasConsumo(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Notas de Consumo.</p>");
+			
+			$.get('${pageContext.request.contextPath}/api/sync/notas/consumo', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncNotasConsumo = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
 	
-		needSync();
+		bootstrapSync();
 		
 		$(function() {
 
@@ -308,6 +420,13 @@
 					checkout.hide();
 				}).data('datepicker');
 
+				$('#dataInventario').datepicker({
+					format : 'dd/mm/yyyy',
+					todayBtn : 'linked'
+				}).on('changeDate', function(ev) {
+					checkout.hide();
+				}).data('datepicker');
+				
 			});
 		
 	</script>

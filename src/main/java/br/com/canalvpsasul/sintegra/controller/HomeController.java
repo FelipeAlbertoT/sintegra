@@ -85,6 +85,10 @@ public class HomeController {
 		
 		model.addAttribute("needSyncEmpresa", syncControlBusiness.needSyncEmpresas(portal));
 		model.addAttribute("needSyncEntidade", syncControlBusiness.needSyncEntidades(portal));
+		model.addAttribute("needSyncProduto", syncControlBusiness.needSyncProdutos(portal));
+		model.addAttribute("needSyncNotasMercadorias", syncControlBusiness.needSyncNotasMercadorias(portal));
+		model.addAttribute("needSyncNotasConsumo", syncControlBusiness.needSyncNotasConsumo(portal));
+		model.addAttribute("needSyncTerceiros", syncControlBusiness.needSyncTerceiros(portal));
 				
 		SintegraParametros parametros = new SintegraParametros();		
 		model.addAttribute("parametros", parametros);

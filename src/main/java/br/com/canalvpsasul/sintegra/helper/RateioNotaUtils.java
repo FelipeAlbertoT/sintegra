@@ -14,10 +14,11 @@ public class RateioNotaUtils {
 	 */
 	public static Float obterValorItemNota(ItemNota item) {
 
-		Float valorTotal = item.getValorTotal() + item.getValorFrete() + item.getValorOutros() - item.getValorDesconto();
+		Float valorTotal = item.getValorTotal() + item.getValorFrete() + item.getValorOutros() +item.getValorSeguro() - item.getValorDesconto();
 		
 		if(item.getIpi() != null)
-			valorTotal += item.getIpi().getValor();			
+			valorTotal += item.getIpi().getValor();
+		
 		if(item.getIcmsst() != null)
 			valorTotal += item.getIcmsst().getValor();
 		

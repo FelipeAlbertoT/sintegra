@@ -74,4 +74,30 @@ public class SyncApiController {
 		
         return "<p class='text-success'>Atualização de terceiros realizada com Sucesso!</p>";
 	}
+
+	@ResponseBody
+    @RequestMapping(value = "notas/mercadoria", method = RequestMethod.GET)
+    public String syncNotasMercadoria() {
+			
+		try {
+			syncControlBusiness.syncNotasMercadorias(userBusiness.getCurrent().getPortal());
+		} catch (Exception e) {
+			return "<p class='text-error'>Erro ao realizar a atualização dos registros de Notas de Mercadorias.</p><p>Detalhes: " + e.getMessage() + "</p>";
+		}
+		
+        return "<p class='text-success'>Atualização de Notas de Mercadorias realizada com Sucesso!</p>";
+	}
+
+	@ResponseBody
+    @RequestMapping(value = "notas/consumo", method = RequestMethod.GET)
+    public String syncNotasConsumo() {
+			
+		try {
+			syncControlBusiness.syncNotasConsumo(userBusiness.getCurrent().getPortal());
+		} catch (Exception e) {
+			return "<p class='text-error'>Erro ao realizar a atualização dos registros de Notas de Consumo.</p><p>Detalhes: " + e.getMessage() + "</p>";
+		}
+		
+        return "<p class='text-success'>Atualização de Notas de Consumo realizada com Sucesso!</p>";
+	}
 }

@@ -105,8 +105,6 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		if (sintegraOld != null)
 			sintegraRepository.delete(sintegraOld);
 
-		syncRegistros();
-
 		StringWriter sw = new StringWriter();
 		SintegraWriter sintegraWriter = new SintegraWriter(sw);
 
@@ -149,21 +147,6 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	public br.com.canalvpsasul.sintegra.entities.Sintegra getSintegra(Long id)
 			throws Exception {
 		return sintegraRepository.findOne(id);
-	}
-
-	private void syncRegistros() throws Exception {
-
-		Portal portal = userBusiness.getCurrent().getPortal();
-
-		syncControlBusiness.syncTerceiros(portal);
-
-		syncControlBusiness.syncEmpresas(portal);
-
-		syncControlBusiness.syncProdutos(portal);
-
-		syncControlBusiness.syncNotasConsumo(portal);
-		
-		syncControlBusiness.syncNotasMercadorias(portal);
 	}
 
 	private Registro10 gerarRegistro10(Empresa empresa, Date dataInicial,
@@ -224,11 +207,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private void gerarRegistrosNotas(Empresa empresa, Sintegra sintegra, Date dataInicial,
 			Date dataFinal) {
 
-		// TODO SINTEGRA - Filtrar apenas a empresa informada nos parâmetros do sintegra.
 		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(empresa,
 				dataInicial, dataFinal);
 		
-		// TODO SINTEGRA - Filtrar apenas a empresa informada nos parâmetros do sintegra.
 		List<NotaMercadoria> notasMercadoria = notaMercadoriaBusiness
 				.findByDate(empresa, dataInicial, dataFinal);
 

@@ -101,6 +101,9 @@ public class CombinacaoCfopBusinessImpl implements CombinacaoCfopBusiness {
 			
 			combinacao.setValorIpi(combinacao.getValorIpi()
 					+ item.getIpi().getValor());
+			
+			combinacao.setValorTotal(combinacao.getValorTotal() + RateioNotaUtils.obterValorItemNota(item));
+			
 			combinacao.setOutras(combinacao.getOutras()
 					+ ipiBusiness.getValorOutros(item.getIcms(),
 							item.getValorTotal()));

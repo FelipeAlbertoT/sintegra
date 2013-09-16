@@ -22,6 +22,8 @@ public class SintegraParametros {
 	@NotNull
 	private FinalidadeArquivo finalidadeArquivo;
 	
+	private Date dataInventario;
+	
 	private NaturezaOperacao naturezaOperacao = NaturezaOperacao.TOTALIDADE_DAS_OPERACOES;
 
 	private Boolean gerarRegistro74;
@@ -56,6 +58,14 @@ public class SintegraParametros {
 
 	public void setFinalidadeArquivo(FinalidadeArquivo finalidadeArquivo) {
 		this.finalidadeArquivo = finalidadeArquivo;
+	}
+
+	public Date getDataInventario() {
+		return dataInventario;
+	}
+
+	public void setDataInventario(Date dataInventario) {
+		this.dataInventario = dataInventario;
 	}
 
 	public NaturezaOperacao getNaturezaOperacao() {
