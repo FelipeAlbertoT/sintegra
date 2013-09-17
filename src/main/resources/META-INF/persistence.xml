@@ -25,6 +25,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.Ncm</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNotaServico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria</class>

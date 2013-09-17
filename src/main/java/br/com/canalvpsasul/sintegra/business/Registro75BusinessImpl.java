@@ -77,7 +77,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 		registro75.setDataInicial(sintegra.getRegistro10().getDataInicial());
 		registro75.setDataFinal(sintegra.getRegistro10().getDataFinal());
 		registro75.setDescricaoProduto(produto.getDescricao());
-		registro75.setNcm(produto.getCodigoNcm());
+		registro75.setNcm(produto.getNcm().getDenominacao());
 		registro75.setUnidade(produto.getUnidade());
 		
 		sintegra.getRegistros75().add(registro75);

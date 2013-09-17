@@ -22,7 +22,7 @@ public class ProdutoFactory {
 		produto.setCodigoInterno("1");
 		produto.setCodigoSistema("1");
 		produto.setUnidade("UN");
-		produto.setCodigoNcm("61012000");
+		//produto.setCodigoNcm("61012000");
 		produto.setMetodoControle(MetodoControle.ESTOCAVEL);
 		produto.setPermiteVenda(true);
 		produto.setCustoReferencial(new Float(0.68));
