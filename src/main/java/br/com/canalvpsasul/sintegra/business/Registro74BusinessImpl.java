@@ -13,7 +13,7 @@ import coffeepot.br.sintegra.tipos.CodigoDePosse;
 public class Registro74BusinessImpl implements Registro74Business {
 	
 	@Override			
-	public Registro74 obterRegistro74(Produto produto, Empresa empresa) {
+	public Registro74 obterRegistro74(Produto produto, Empresa empresa, Date dataInventario) {
 		
 		String uf = "";
 		if(empresa.getTerceiro().getEnderecos().size() > 0) 
@@ -25,8 +25,7 @@ public class Registro74BusinessImpl implements Registro74Business {
 		registro74.setCodigoPosse(CodigoDePosse.PROPRIEDADE_INFORMANTE_POSSE_INFORMATANTE);
 		registro74.setCodigoProduto(produto.getVpsaId().toString());
 		
-		// TODO SINTEGRA - Registro 74 - Solicitar a data do inventário na tela de filtros do sintegra.
-		registro74.setDataInventario(new Date()); 
+		registro74.setDataInventario(dataInventario); 
 		registro74.setIePossuidor("");
 		
 		if(produto.getQuantidadeEmEstoque() < 0)

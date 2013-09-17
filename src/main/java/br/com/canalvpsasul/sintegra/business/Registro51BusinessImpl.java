@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIpi;
 import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
-import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import coffeepot.br.sintegra.registros.Registro51;
 
@@ -42,10 +41,10 @@ public class Registro51BusinessImpl implements Registro51Business {
 			registro51.setNumeroDocumento(nota.getNumero());
 
 			registro51.setCfop(Integer.parseInt(comb.getCfop().toString()));
-			registro51.setValorIpi(ConversionUtils.fromFloat(comb.getValorIpi()));
-			registro51.setValorIsentas(ConversionUtils.fromFloat(comb.getIsentaNaoTribut()));
-			registro51.setValorOutras(ConversionUtils.fromFloat(comb.getOutras()));
-			registro51.setValorTotal(ConversionUtils.fromFloat(comb.getValorTotal()));
+			registro51.setValorIpi(new Double(comb.getValorIpi()));
+			registro51.setValorIsentas(new Double(comb.getIsentaNaoTribut()));
+			registro51.setValorOutras(new Double(comb.getOutras()));
+			registro51.setValorTotal(new Double(comb.getValorTotal()));
 
 			registro51.setCpfCnpj(dadosPorTipoNota.getCnpj());
 			registro51.setUf(dadosPorTipoNota.getUf());

@@ -93,7 +93,7 @@
 					
 					
 					<div class="control-group">
-						<label class="control-label" for="dataInventario">Data Inventário</label>
+						<label class="control-label" for="dataInventario">Último Inventário</label>
 						<div class="controls">
 							<form:input cssClass="span3 date" path="dataInventario"
 								data-date-format="dd/mm/yyyy" placeholder="Data Inventário" />

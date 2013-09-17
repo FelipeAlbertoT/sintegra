@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIcms;
 import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
-import br.com.canalvpsasul.sintegra.helper.ConversionUtils;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsapi.entity.fiscal.StatusNota;
@@ -122,12 +121,12 @@ public class Registro50BusinessImpl implements Registro50Business {
 			registro50.setValorTotal(Double.valueOf(0));
 		}
 		else {
-			registro50.setAliquotaIcms(ConversionUtils.fromFloat(nota.getIcms().getAliquota()));
-			registro50.setBaseDeCalculoIcms(ConversionUtils.fromFloat(nota.getIcms().getBase()));
-			registro50.setValorIcms(ConversionUtils.fromFloat(nota.getIcms().getValor()));			
-			registro50.setValorIsentas(ConversionUtils.fromFloat(icmsBusiness.getValorIsentoNaoTributado(nota.getIcms(),nota.getValorTotal())));
-			registro50.setValorOutras(ConversionUtils.fromFloat(icmsBusiness.getValorOutros(nota.getIcms(), nota.getValorTotal())));
-			registro50.setValorTotal(ConversionUtils.fromFloat(nota.getValorTotal()));
+			registro50.setAliquotaIcms(new Double(nota.getIcms().getAliquota()));
+			registro50.setBaseDeCalculoIcms(new Double(nota.getIcms().getBase()));
+			registro50.setValorIcms(new Double(nota.getIcms().getValor()));			
+			registro50.setValorIsentas(new Double(icmsBusiness.getValorIsentoNaoTributado(nota.getIcms(),nota.getValorTotal())));
+			registro50.setValorOutras(new Double(icmsBusiness.getValorOutros(nota.getIcms(), nota.getValorTotal())));
+			registro50.setValorTotal(new Double(nota.getValorTotal()));
 		}
 		
 		registro50.setDataDocumento(nota.getData());

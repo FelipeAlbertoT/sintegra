@@ -126,7 +126,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				parametros.getDataFinal());
 
 		if(parametros.getGerarRegistro74())
-			gerarRegistrosInventario(sintegra, parametros.getEmpresa());
+			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario());
 		
 		sintegra.gerarRegistros90();
 
@@ -224,11 +224,11 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			sintegra.getRegistros54().addAll(registro54Business.obterRegistro54(nota));
 			
 			for (ItemNota item : nota.getItens())
-				registro75Business.addRegistro75(item.getProduto(), sintegra);
+				registro75Business.addRegistro75(item.getProduto(), sintegra, empresa);
 		}
 	}
 
-	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa) { 
+	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario) { 
 
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
@@ -241,8 +241,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			produtos = produtoBusiness.getAll(userBusiness.getCurrent().getPortal(), pageRequest);
 			
 			for(Produto produto : produtos) {
-				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa));
-				registro75Business.addRegistro75(produto, sintegra);
+				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario));
+				registro75Business.addRegistro75(produto, sintegra, empresa);
 			}
 			
 		}while(produtos.size() == returnCount);
