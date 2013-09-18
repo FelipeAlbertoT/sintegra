@@ -141,6 +141,10 @@ header .navbar .nav > li > a {
 	background-image: url("../img/glyphicons_352_nameplate.png");
 }
 
+.cicon-cogwheel {
+	background-image: url("../img/glyphicons_136_cogwheel.png");
+}
+
 .menu-right>.nav-tabs>li:not(.active) {
   	background-color: #f2f2f2;
 }

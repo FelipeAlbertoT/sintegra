@@ -6,4 +6,9 @@
 			<a href="<c:url value="/configuracoes/informantes" />"><i class="cicon-nameplate"></i> <span class="label-menu hidden-phone">Informantes</span></a>
 		</li>
 	</sec:authorize>
+	<sec:authorize url="/configuracoes/configuracao"> 
+		<li class="active">
+			<a href="<c:url value="/configuracoes/configuracao" />"><i class="cicon-cogwheel"></i> <span class="label-menu hidden-phone">Configurações</span></a>
+		</li>
+	</sec:authorize>
 </ul>
