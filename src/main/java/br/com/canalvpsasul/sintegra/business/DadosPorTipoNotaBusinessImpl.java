@@ -6,6 +6,7 @@ import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
+import br.com.canalvpsasul.vpsapi.entity.fiscal.ModeloGerencial;
 import br.com.canalvpsasul.vpsapi.entity.fiscal.StatusNota;
 import br.com.canalvpsasul.vpsapi.entity.fiscal.TipoNota;
 import coffeepot.br.sintegra.tipos.DocumentoFiscal;
@@ -17,19 +18,58 @@ public class DadosPorTipoNotaBusinessImpl implements DadosPorTipoNotaBusiness {
 
 	@Override
 	public DadosPorTipoNota obterRemetenteDestinatario(NotaMercadoria nota) {
-		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
+		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo(), nota.getModeloGerencial());
 	}
 
 	@Override
 	public DadosPorTipoNota obterRemetenteDestinatario(NotaConsumo nota) {
-		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo());
+		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo(), nota.getModeloGerencial());
 	}
 	
-	private DadosPorTipoNota getRemetenteDestinatario(StatusNota status, Terceiro remetente, Terceiro destinatario, TipoNota tipo) {
+	@SuppressWarnings("incomplete-switch")
+	private DadosPorTipoNota getRemetenteDestinatario(StatusNota status, Terceiro remetente, Terceiro destinatario, TipoNota tipo, ModeloGerencial modelo) {
+		
+		DocumentoFiscal tipoDocumentoFiscal = null;
+		
+		switch(modelo) {
+			
+			case COMUNICACAO:
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_SERVICO_COMUNICACAO;
+				break;
+			case ENERGIA_ELETRICA:
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_ENERGIA_ELETRICA;
+				break;
+			case MERCADORIA:
+				
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_ELETRONICA;
+				if(tipo == TipoNota.ENTRADA)				
+					tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL;
+				
+				break;
+			case TELECOMUNICACAO:
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_SERVICO_TELECOMUNICACAO;
+				break;
+			case CTE:
+				tipoDocumentoFiscal = DocumentoFiscal.CONHECIMENTO_TRANSPORTE_ELETRONICO;
+				break;
+			case IMPRESSO:
+				tipoDocumentoFiscal = DocumentoFiscal.CONHECIMENTO_TRANSPORTE_RODOVIARIO_CARGAS;
+				break;
+			case DOISD:
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_VENDA_CONSUMIDOR;
+				break;
+			case DOISC:
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_VENDA_CONSUMIDOR;
+				break;
+			case DOISB:
+				tipoDocumentoFiscal = DocumentoFiscal.NOTA_FISCAL_VENDA_CONSUMIDOR;
+				break;			
+		}
+		
 		
 		DadosPorTipoNota remetenteDestinatario = new DadosPorTipoNota();
 		
-		remetenteDestinatario.setModeloDocumentoFiscal(DocumentoFiscal.NOTA_FISCAL_ELETRONICA);
+		remetenteDestinatario.setModeloDocumentoFiscal(tipoDocumentoFiscal);
 		remetenteDestinatario.setEmitente(Emitente.PROPRIO);
 		remetenteDestinatario.setSerie(""); // TODO SINTEGRA Solicitado na API VPSA de Nota de Mercadoria.	
 		remetenteDestinatario.setCnpj(destinatario.getDocumento());		
@@ -44,7 +84,6 @@ public class DadosPorTipoNotaBusinessImpl implements DadosPorTipoNotaBusiness {
 		
 		if(tipo == TipoNota.ENTRADA) {
 			
-			remetenteDestinatario.setModeloDocumentoFiscal(DocumentoFiscal.NOTA_FISCAL_ENTRADA);
 			remetenteDestinatario.setEmitente(Emitente.TERCEIROS);
 			remetenteDestinatario.setCnpj(remetente.getDocumento());
 			

@@ -28,7 +28,7 @@ public class Registro50BusinessImpl implements Registro50Business {
 
 	@Override
 	public List<Registro50> obterRegistro50(NotaMercadoria nota) {
-
+		
 		DadosPorTipoNota dadosPorTipoNota = dadosPorTipoNotaBusiness.obterRemetenteDestinatario(nota);
 
 		ArrayList<Registro50> registros = new ArrayList<Registro50>();

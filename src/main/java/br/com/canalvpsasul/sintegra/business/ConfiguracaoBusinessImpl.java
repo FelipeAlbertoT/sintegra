@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.repository.ConfiguracaoRepository;
 import br.com.canalvpsasul.vpsabusiness.business.BusinessBaseRootImpl;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 
 @Service  
@@ -37,6 +38,11 @@ public class ConfiguracaoBusinessImpl extends BusinessBaseRootImpl<Configuracao,
 		if(configuracao != null && configuracao.getId() != entity.getId()) {
 			throw new Exception("Já existe uma configuração cadastrada para a empresa informada. Selecione outra empresa ou verifique a lista de configurações.");
 		}
+	}
+
+	@Override
+	public Configuracao getConfiguracaoPorEmpresa(Empresa empresa) {
+		return ((ConfiguracaoRepository) repository).findByEmpresa(empresa);
 	}
 
 }

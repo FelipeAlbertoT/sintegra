@@ -31,9 +31,11 @@
 					<legend> Geração do Sintegra </legend>
 
 					<div class="control-group">
+					
 						<c:if test="${message != '' and message != null}">
 							<div class="alert alert-error">${message}</div>
 						</c:if>
+						
 						<div class="alert alert-info">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
 							<strong>Informação:</strong> Serão gerados os registros 10, 11, 50, 51, 53, 54, 75 e 90.

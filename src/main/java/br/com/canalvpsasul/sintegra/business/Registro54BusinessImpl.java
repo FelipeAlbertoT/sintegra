@@ -76,7 +76,7 @@ public class Registro54BusinessImpl implements Registro54Business {
 			if(maiorValorItem < item.getValorTotal()) {
 				
 				cfop = item.getCfop();
-				cst = item.getIcms().getCst();
+				cst = item.getProduto().getOrigem() + item.getIcms().getCst();
 				
 				maiorValorItem = item.getValorTotal();
 			}

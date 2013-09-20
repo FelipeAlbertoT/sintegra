@@ -3,6 +3,7 @@ package br.com.canalvpsasul.sintegra.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
@@ -18,7 +19,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 	private NotaMercadoriaBusiness notaMercadoriaBusiness;
 	
 	@Override
-	public void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa) {
+	public void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa) {
 
 		if(checkExists(sintegra, produto))
 			return;
@@ -32,7 +33,10 @@ public class Registro75BusinessImpl implements Registro75Business {
 		 * Caso contrário, informar alíquota 0
 		 *  
 		 * */
-		registro75.setAliquotaIpi(new Double(0)); 	
+		if(configuracaoEmpresa.getContribuinteIpi() && produto.getNcm() != null && produto.getNcm().getAliquota() != null)
+			registro75.setAliquotaIpi(new Double(produto.getNcm().getAliquota())); 	
+		else
+			registro75.setAliquotaIpi(new Double(0));
 
 		/*
 		 * Gerar conforme estado (No momento não temos como obter essa informação do sistema)
@@ -77,7 +81,10 @@ public class Registro75BusinessImpl implements Registro75Business {
 		registro75.setDataInicial(sintegra.getRegistro10().getDataInicial());
 		registro75.setDataFinal(sintegra.getRegistro10().getDataFinal());
 		registro75.setDescricaoProduto(produto.getDescricao());
-		registro75.setNcm(produto.getNcm().getDenominacao());
+		
+		if(produto.getNcm() != null)		
+			registro75.setNcm(produto.getNcm().getDenominacao());
+		
 		registro75.setUnidade(produto.getUnidade());
 		
 		sintegra.getRegistros75().add(registro75);

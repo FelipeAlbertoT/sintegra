@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
 import br.com.canalvpsasul.sintegra.repository.SintegraRepository;
@@ -47,6 +48,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	@Autowired
 	private InformanteBusiness informanteBusiness;
+
+	@Autowired
+	private ConfiguracaoBusiness configuracaoBusiness;
 
 	@Autowired
 	private UserBusiness userBusiness;
@@ -96,6 +100,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 		User user = userBusiness.getCurrent();
 
+		Configuracao configuracaoEmpresa = configuracaoBusiness.getConfiguracaoPorEmpresa(parametros.getEmpresa());
+		
 		/*
 		 * Nessa primeira versão mantemos apenas o último arquivo gerado na
 		 * base.
@@ -123,10 +129,10 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistro11(gerarRegistro11(parametros.getEmpresa()));
 
 		gerarRegistrosNotas(parametros.getEmpresa(), sintegra, parametros.getDataInicial(),
-				parametros.getDataFinal());
+				parametros.getDataFinal(), configuracaoEmpresa);
 
 		if(parametros.getGerarRegistro74())
-			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario());
+			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario(), configuracaoEmpresa);
 		
 		sintegra.gerarRegistros90();
 
@@ -205,7 +211,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	}
 
 	private void gerarRegistrosNotas(Empresa empresa, Sintegra sintegra, Date dataInicial,
-			Date dataFinal) {
+			Date dataFinal, Configuracao configuracaoEmpresa) {
 
 		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(empresa,
 				dataInicial, dataFinal);
@@ -224,11 +230,11 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			sintegra.getRegistros54().addAll(registro54Business.obterRegistro54(nota));
 			
 			for (ItemNota item : nota.getItens())
-				registro75Business.addRegistro75(item.getProduto(), sintegra, empresa);
+				registro75Business.addRegistro75(item.getProduto(), sintegra, empresa, configuracaoEmpresa);
 		}
 	}
 
-	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario) { 
+	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa) { 
 
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
@@ -242,7 +248,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			
 			for(Produto produto : produtos) {
 				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario));
-				registro75Business.addRegistro75(produto, sintegra, empresa);
+				registro75Business.addRegistro75(produto, sintegra, empresa, configuracaoEmpresa);
 			}
 			
 		}while(produtos.size() == returnCount);

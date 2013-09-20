@@ -6,12 +6,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -126,9 +128,9 @@ public class HomeController {
 		return "sintegra";
 	}
 	
-	@RequestMapping(value = "/home/download/{id}", produces = "text/plain")
+	@RequestMapping(value = "/home/download/{id}", produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
-	public byte[] downloadSintegra(@PathVariable Long id, Model model) throws Exception {
+	public byte[] downloadSintegra(@PathVariable Long id, Model model, HttpServletResponse response) throws Exception {
 		
 		/*
 		 * Para que o retorno como byte[] funcione, deve ser configurado o
@@ -138,6 +140,9 @@ public class HomeController {
 		 */
 		
 		Sintegra sintegra = sintegraBusiness.getSintegra(id);
+		
+		SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");	
+		response.setHeader("Content-Disposition", "attachment; filename=sintegra_"+dt.format(new Date())+".txt"); 
 		
 		return sintegra.getSintegra().getBytes();
 	}
