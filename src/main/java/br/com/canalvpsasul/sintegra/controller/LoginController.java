@@ -11,6 +11,7 @@ import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.StatusPortal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthService;
@@ -80,6 +81,7 @@ public class LoginController {
 				
 				if(portal == null) {
 					portal = portalBusiness.fromVpsaEntity(dadosLogin.getPortal());
+					portal.setStatusPortal(StatusPortal.LIBERADO);
 					portal = portalBusiness.salvar(portal);
 				}
 				
