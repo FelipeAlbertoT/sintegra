@@ -29,7 +29,7 @@ public class EmpresaApiController {
 		if(StringUtils.isEmpty(query))
 			return null;
 
-		List<Empresa> empresas = empresaBusiness.GetEmpresaFromCurrentUser();
+		List<Empresa> empresas = empresaBusiness.getEmpresaFromCurrentUser();
 		
 		if(empresas == null)
 			return null;

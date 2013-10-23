@@ -46,6 +46,7 @@
 	<beans:bean id="notaMercadoriaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl"/>
 	<beans:bean id="notaConsumoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusinessImpl"/>
 	<beans:bean id="ncmBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NcmBusinessImpl"/>
+	<beans:bean id="reducaoZBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl"/>
 	
 	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl"/>
 	
@@ -69,6 +70,8 @@
 	<beans:bean id="notaMercadoria" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria"/>
 	<beans:bean id="notaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico"/>
 	<beans:bean id="retencaoNotaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.RetencaoNotaServico"/>
+	<beans:bean id="reducaoZ" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ"/>
+	<beans:bean id="totalizadorReducao" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao"/>
 	
 	<beans:bean id="produto" class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto"/>
 	<beans:bean id="servico" class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico"/>

@@ -31,6 +31,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.RetencaoNotaServico</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>

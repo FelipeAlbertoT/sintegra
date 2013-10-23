@@ -30,8 +30,6 @@ public class ProdutoFactory {
 		produto.setDescontoMaximo(new Float(0));
 		produto.setComissao(new Float(0));
 		produto.setMargemLucro(new Float(140));
-		produto.setEstoqueMaximo(new Float(1000));
-		produto.setEstoqueMinimo(new Float(1000));
 		produto.setQuantidadeEmEstoque(new Long(100));
 		produto.setValorTotalEmEstoque(new Float(68));
 		
