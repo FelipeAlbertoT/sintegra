@@ -118,8 +118,16 @@ public class HomeController {
 			sintegra = sintegraBusiness.gerarSintegra(parametros);
 		} catch (Exception e) {
 
+			Portal portal = userBusiness.getCurrent().getPortal();
+			
 			model.addAttribute("parametros", parametros);
 			model.addAttribute("message", e.getMessage());
+			model.addAttribute("needSyncEmpresa", syncControlBusiness.needSyncEmpresas(portal));
+			model.addAttribute("needSyncEntidade", syncControlBusiness.needSyncEntidades(portal));
+			model.addAttribute("needSyncProduto", syncControlBusiness.needSyncProdutos(portal));
+			model.addAttribute("needSyncNotasMercadorias", syncControlBusiness.needSyncNotasMercadorias(portal));
+			model.addAttribute("needSyncNotasConsumo", syncControlBusiness.needSyncNotasConsumo(portal));
+			model.addAttribute("needSyncTerceiros", syncControlBusiness.needSyncTerceiros(portal));
 			
 			return "home";
 		}

@@ -102,6 +102,10 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 		Configuracao configuracaoEmpresa = configuracaoBusiness.getConfiguracaoPorEmpresa(parametros.getEmpresa());
 		
+		if(configuracaoEmpresa == null){
+			throw new Exception("É necessario configurar a empresa "+parametros.getEmpresa().getNome());
+		}
+		
 		/*
 		 * Nessa primeira versão mantemos apenas o último arquivo gerado na
 		 * base.

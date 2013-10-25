@@ -316,14 +316,22 @@
 		<dependency>
 			<groupId>br.com.canalvpsasul</groupId>
 			<artifactId>vpsapi</artifactId>
-			<version>1.1.0.0</version>
+			<version>1.1.1.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>br.com.canalvpsasul</groupId>
 			<artifactId>vpsabusiness</artifactId>
-			<version>1.1.0.0</version>
+			<version>1.2.0.0</version>
 		</dependency>
+		
+		<!-- Jackson/Hibernate -->
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+			<version>2.2.3</version>
+		</dependency>    
 		
 	</dependencies>
     <build>
