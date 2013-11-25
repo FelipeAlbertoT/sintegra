@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import java.util.List;
 

@@ -16,9 +16,13 @@
 	
 		<intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
 		
-		<!-- As roles cadastradas no banco devem ser as mesmas utilizadas nessa configuração -->
-		<!-- <intercept-url pattern="/controller/action" access="hasRole('ROLE_USER')"/> -->
-		<!-- <intercept-url pattern="/controller/action" access="hasRole('ROLE_ADMIN')"/> -->
+		<intercept-url pattern="/configuracoes/" access="hasRole('ROLE_USER')"/>		
+		<intercept-url pattern="/configuracoes/bases" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/configuracoes/bases/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/configuracoes/informantes" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/configuracoes/informantes/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/configuracoes/configuracao/" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/configuracoes/configuracao/**" access="hasRole('ROLE_USER')"/>
 
 		<form-login
 	    	login-page="/auth/login"

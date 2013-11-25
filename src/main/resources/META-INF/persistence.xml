@@ -18,7 +18,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Role</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Telefone</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Telefone</class> 
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.User</class>
     	
@@ -26,16 +26,23 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.Ncm</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNotaServico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.RetencaoNotaServico</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoRetencao</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPreco</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PlanoPagamento</class>
+    	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraItem</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraParcela</class>
     	
 		<properties>
 			

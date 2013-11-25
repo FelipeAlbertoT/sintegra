@@ -10,10 +10,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.canalvpsasul.sintegra.business.Imposto.IpiBusiness;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro10Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro11Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro50Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro51Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro53Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro54Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro74Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro75Business;
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
-import br.com.canalvpsasul.sintegra.repository.SintegraRepository;
 import br.com.canalvpsasul.vpsabusiness.business.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
@@ -22,24 +30,18 @@ import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
-import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
 import coffeepot.br.sintegra.Sintegra;
-import coffeepot.br.sintegra.registros.Registro10;
-import coffeepot.br.sintegra.registros.Registro11;
 import coffeepot.br.sintegra.registros.Registro50;
 import coffeepot.br.sintegra.registros.Registro51;
 import coffeepot.br.sintegra.registros.Registro53;
 import coffeepot.br.sintegra.registros.Registro54;
 import coffeepot.br.sintegra.registros.Registro74;
 import coffeepot.br.sintegra.registros.Registro75;
-import coffeepot.br.sintegra.tipos.Convenio;
-import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
-import coffeepot.br.sintegra.tipos.NaturezaOperacao;
 import coffeepot.br.sintegra.writer.SintegraWriter;
 
 @Service
@@ -52,6 +54,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private ConfiguracaoBusiness configuracaoBusiness;
 
+	@Autowired
+	private ArmazenamentoSintegra armazenamentoSintegra;
+	
 	@Autowired
 	private UserBusiness userBusiness;
 
@@ -72,9 +77,12 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	@Autowired
 	private SyncControlBusiness syncControlBusiness;
-
+	
 	@Autowired
-	private SintegraRepository sintegraRepository;
+	private Registro10Business registro10Business;
+	
+	@Autowired
+	private Registro11Business registro11Business;
 
 	@Autowired
 	private Registro50Business registro50Business;
@@ -101,15 +109,6 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		User user = userBusiness.getCurrent();
 
 		Configuracao configuracaoEmpresa = configuracaoBusiness.getConfiguracaoPorEmpresa(parametros.getEmpresa());
-		
-		/*
-		 * Nessa primeira versão mantemos apenas o último arquivo gerado na
-		 * base.
-		 */
-		br.com.canalvpsasul.sintegra.entities.Sintegra sintegraOld = sintegraRepository
-				.findByTerceiro(user.getTerceiro());
-		if (sintegraOld != null)
-			sintegraRepository.delete(sintegraOld);
 
 		StringWriter sw = new StringWriter();
 		SintegraWriter sintegraWriter = new SintegraWriter(sw);
@@ -122,17 +121,19 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistros54(new ArrayList<Registro54>());
 		sintegra.setRegistros75(new ArrayList<Registro75>());
 
-		sintegra.setRegistro10(gerarRegistro10(parametros.getEmpresa(),
+		sintegra.setRegistro10(registro10Business.obterRegistro10(parametros.getEmpresa(),
 				parametros.getDataInicial(), parametros.getDataFinal(),
 				parametros.getFinalidadeArquivo(),
 				parametros.getNaturezaOperacao()));
-		sintegra.setRegistro11(gerarRegistro11(parametros.getEmpresa()));
+		
+		Informante informante = informanteBusiness.getInformantePorEmpresa(parametros.getEmpresa());
+		sintegra.setRegistro11(registro11Business.obterRegistro11(parametros.getEmpresa(), informante));
 
 		gerarRegistrosNotas(parametros.getEmpresa(), sintegra, parametros.getDataInicial(),
 				parametros.getDataFinal(), configuracaoEmpresa);
 
 		if(parametros.getGerarRegistro74())
-			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario(), configuracaoEmpresa);
+			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario(), configuracaoEmpresa, user.getPortal());
 		
 		sintegra.gerarRegistros90();
 
@@ -140,74 +141,15 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegraWriter.writerFlush();
 		sintegraWriter.writerClose();
 
-		br.com.canalvpsasul.sintegra.entities.Sintegra sintegraNew = new br.com.canalvpsasul.sintegra.entities.Sintegra();
-		sintegraNew.setTerceiro(user.getTerceiro());
-		sintegraNew.setSintegra(sw.toString());
-
-		sintegraRepository.save(sintegraNew);
-
+		br.com.canalvpsasul.sintegra.entities.Sintegra sintegraNew = armazenamentoSintegra.armazenarSintegra(new br.com.canalvpsasul.sintegra.entities.Sintegra(user.getPortal(), parametros.getEmpresa(), sw.toString()));
+		
 		return sintegraNew;
 	}
-
+	
 	@Override
 	public br.com.canalvpsasul.sintegra.entities.Sintegra getSintegra(Long id)
 			throws Exception {
-		return sintegraRepository.findOne(id);
-	}
-
-	private Registro10 gerarRegistro10(Empresa empresa, Date dataInicial,
-			Date dataFinal, FinalidadeArquivo finalidadeArquivo,
-			NaturezaOperacao naturezaOperacao) throws Exception {
-
-		Portal portal = userBusiness.getCurrent().getPortal();
-
-		Registro10 registro10 = new Registro10();
-
-		registro10.setCnpj(empresa.getDocumento());
-		registro10.setRazaoSocial(empresa.getNome());
-		registro10.setCodigoConvenio(Convenio.CONV_3_5795_7603);
-		registro10.setDataInicial(dataInicial);
-		registro10.setDataFinal(dataFinal);
-		registro10.setFinalidadeArquivo(finalidadeArquivo);
-		registro10.setNaturezaOperacao(naturezaOperacao);
-
-		Terceiro empresaTerceiro = terceiroBusiness.findByDocumento(portal,
-				empresa.getDocumento());
-		if (empresaTerceiro == null)
-			throw new Exception(
-					"O usuário logado não tem privilégios suficientes para obter todas as informações necessárias na VPSA.");
-
-		if (empresaTerceiro.getEnderecos().size() == 0)
-			throw new Exception(
-					"Não existe endereço configurado no VPSA para a empresa informada. Verifique o cadastro de terceiros da VPSA e atualize o registro.");
-
-		registro10.setCidade(empresaTerceiro.getEnderecos().get(0).getCidade());
-		registro10.setUf(empresaTerceiro.getEnderecos().get(0).getSiglaEstado());
-		registro10.setIe(empresaTerceiro.getIe());
-		registro10.setFax("");
-
-		return registro10;
-	}
-
-	private Registro11 gerarRegistro11(Empresa empresa) {
-
-		Informante informante = informanteBusiness
-				.getInformantePorEmpresa(empresa);
-
-		Registro11 registro11 = new Registro11();
-
-		if (informante == null)
-			return registro11;
-
-		registro11.setBairro(informante.getBairro());
-		registro11.setCep(informante.getCep());
-		registro11.setComplemento(informante.getComplemento());
-		registro11.setLogradouro(informante.getLogradouro());
-		registro11.setNumero(informante.getNumero());
-		registro11.setResponsavel(informante.getNome());
-		registro11.setTelefone(informante.getTelefone());
-
-		return registro11;
+		return armazenamentoSintegra.get(id);
 	}
 
 	private void gerarRegistrosNotas(Empresa empresa, Sintegra sintegra, Date dataInicial,
@@ -234,7 +176,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 	}
 
-	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa) { 
+	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa, Portal portal) { 
 
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
@@ -244,7 +186,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		int pageNumber = 0, returnCount = 50;
 		do {			
 			pageRequest = new PageRequest(pageNumber++, returnCount);			
-			produtos = produtoBusiness.getAll(userBusiness.getCurrent().getPortal(), pageRequest);
+			produtos = produtoBusiness.getAll(portal, pageRequest);
 			
 			for(Produto produto : produtos) {
 				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario));

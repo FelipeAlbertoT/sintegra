@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;

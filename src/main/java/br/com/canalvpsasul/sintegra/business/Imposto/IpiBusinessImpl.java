@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Imposto;
 
 import org.springframework.stereotype.Service;
 

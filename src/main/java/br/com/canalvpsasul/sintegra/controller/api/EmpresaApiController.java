@@ -38,7 +38,7 @@ public class EmpresaApiController {
         query = query.toLowerCase();
         List<Empresa> matched = new ArrayList<Empresa>();
         for(int i=0; i < empresas.size(); i++) {
-        	grupo = empresas.get(i).getNome().toLowerCase();
+        	grupo = empresas.get(i).getTerceiro().getNomeFantasia().toLowerCase();
             if(grupo.contains(query)) {
                 matched.add(empresas.get(i));
             }

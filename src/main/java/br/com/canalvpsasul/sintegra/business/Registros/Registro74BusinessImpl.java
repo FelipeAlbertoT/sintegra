@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import java.util.Date;
 
@@ -21,19 +21,17 @@ public class Registro74BusinessImpl implements Registro74Business {
 		
 		Registro74 registro74 = new Registro74();
 		
+		/*
+		 * TODO SINTEGRA (LIMITAÇÃO) - Colocar como risco (limitação) do mecanismo. Seguindo limitações do ERP, consideramos como possuidor da mercadoria sempre o PROPRIEDADE_INFORMANTE_POSSE_INFORMATANTE.
+		 * */
 		registro74.setCnpjPossuidor("0"); 
-		registro74.setCodigoPosse(CodigoDePosse.PROPRIEDADE_INFORMANTE_POSSE_INFORMATANTE);
-		registro74.setCodigoProduto(produto.getVpsaId().toString());
-		
-		registro74.setDataInventario(dataInventario); 
 		registro74.setIePossuidor("");
-		
-		if(produto.getQuantidadeEmEstoque() < 0)
-			registro74.setQuantidade(new Double(0));
-		else
-			registro74.setQuantidade(new Double(produto.getQuantidadeEmEstoque()));
-		
+		registro74.setCodigoPosse(CodigoDePosse.PROPRIEDADE_INFORMANTE_POSSE_INFORMATANTE);
 		registro74.setUfPossuidor(uf);
+		
+		registro74.setCodigoProduto(produto.getVpsaId().toString());
+		registro74.setDataInventario(dataInventario); 
+		registro74.setQuantidade(new Double(produto.getQuantidadeEmEstoque()));
 		registro74.setValorTotalProduto(new Double(produto.getValorTotalEmEstoque()));		
 		
 		return registro74;

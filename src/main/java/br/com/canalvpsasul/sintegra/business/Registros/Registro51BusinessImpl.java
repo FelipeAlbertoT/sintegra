@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.canalvpsasul.sintegra.business.CombinacaoCfopBusiness;
+import br.com.canalvpsasul.sintegra.business.DadosPorTipoNotaBusiness;
+import br.com.canalvpsasul.sintegra.business.Imposto.IpiBusiness;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIpi;
 import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;

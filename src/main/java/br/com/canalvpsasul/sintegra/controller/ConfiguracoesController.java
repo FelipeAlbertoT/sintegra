@@ -1,5 +1,8 @@
 package br.com.canalvpsasul.sintegra.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -19,7 +22,10 @@ import br.com.canalvpsasul.sintegra.business.ConfiguracaoBusiness;
 import br.com.canalvpsasul.sintegra.business.InformanteBusiness;
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.entities.Informante;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.StatusPortal;
 
 @Controller
 @RequestMapping("/configuracoes")
@@ -37,6 +43,20 @@ public class ConfiguracoesController {
 	@Autowired
 	private UserBusiness userBusiness;
 
+	@Autowired
+	private PortalBusiness portalBusiness;
+
+	@ModelAttribute("statusPortais")
+	public List<StatusPortal> populateStatusPortais() {
+		
+		ArrayList<StatusPortal> statusPortals = new ArrayList<StatusPortal>();
+		
+		statusPortals.add(StatusPortal.BLOQUEADO);
+		statusPortals.add(StatusPortal.LIBERADO);
+		
+		return statusPortals;
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String configHome() {
 		
@@ -57,6 +77,56 @@ public class ConfiguracoesController {
 		model.addAttribute("configuracoes", configuracaoBusiness.getConfiguracaoPorPortal(userBusiness.getCurrent().getPortal()));
 		
 		return "config/configuracao";
+	}
+	
+	@RequestMapping(value = "/bases", method = RequestMethod.GET)
+	public String configBases(Model model) {
+
+		model.addAttribute("portais", portalBusiness.getAll());
+
+		return "config/bases";
+	}
+	
+	@RequestMapping(value = "/bases/cadastro/{id}", method = RequestMethod.GET)
+	@Transactional(readOnly = true)
+	public String cadastroBase(@PathVariable Long id, Model model)
+			throws Exception {
+
+		model.addAttribute("portal", portalBusiness.get(id));
+		
+		return "config/formulario_portal";
+	}
+	
+	@RequestMapping(value = "/bases/cadastro/salvar", method = RequestMethod.POST)
+	public String salvarBase(@Valid @ModelAttribute("portal") Portal portal,
+			BindingResult result, Model model) {
+
+		if (result.hasErrors()) {
+
+			for (ObjectError error : result.getAllErrors())
+				logger.info("Erro: " + error.toString());
+
+			model.addAttribute("portal", portal);
+
+			return "config/formulario_portal";
+		}
+
+		try {
+			
+			if(portal.getStatusPortal() == StatusPortal.LIBERADO)			
+				portalBusiness.liberarPortal(portal);
+			else
+				portalBusiness.bloquearPortal(portal);
+			
+		} catch (Exception e) {
+
+			model.addAttribute("portal", portal);
+			model.addAttribute("message", e.getMessage());
+
+			return "config/formulario_portal";
+		}
+
+		return "redirect:/configuracoes/bases";
 	}
 	
 	@RequestMapping(value = "/informantes/cadastro", method = RequestMethod.GET)

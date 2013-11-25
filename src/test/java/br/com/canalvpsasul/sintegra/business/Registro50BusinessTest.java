@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import br.com.canalvpsasul.sintegra.business.Registros.Registro50Business;
 import br.com.canalvpsasul.sintegra.factory.NotaMercadoriaFactory;
 import br.com.canalvpsasul.sintegra.utils.SintegraUtils;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;

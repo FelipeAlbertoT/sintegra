@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,6 @@ public class Registro75BusinessImpl implements Registro75Business {
 		Registro75 registro75 = new Registro75();
 		
 		/*
-		 * TODO SINTEGRA Registro 75  - Configuração da empresa (Contribuinte do IPI?)
-		 * 
 		 * Caso seja contribuinte do IPI, então devemos buscar na tabela TIPI o valor da alíquota do IPI com base no NCM do produto.
 		 * Caso contrário, informar alíquota 0
 		 *  

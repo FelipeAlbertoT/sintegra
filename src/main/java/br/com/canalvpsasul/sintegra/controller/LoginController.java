@@ -46,70 +46,104 @@ public class LoginController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	public String getCallback(@RequestParam(value="code") String code, Model model) throws Exception {
 		
-		VpsaOAuthToken vpsaOAuthToken = null;
-		
-		try {		
-			vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);
-			
-			if(vpsaOAuthToken == null) {
-				model.addAttribute("message", "Não foi possível obter o token de autenticação da VPSA. Autentique-se na VPSA e acesse o aplicativo novamente.");
-				return "auth/servicefailed";
-			}
-		} catch(Exception e) {
-			model.addAttribute("message", e.getMessage());
-			return "auth/servicefailed";
-		}	
-		
 		User user = userBusiness.getByAuthCode(code);
 		
-		if(user == null) {
+		VpsaApi api = null;
+		if (user != null) {
+			api = vpsaOAuthService.getVpsaApi(user.getToken());
 			
-			VpsaApi api = vpsaOAuthService.getVpsaApi(vpsaOAuthToken.getAccess_token());
+			br.com.canalvpsasul.vpsapi.entity.administrativo.DadosLogin dadosLogin = api
+					.getDadosLogin();
 			
-			user = new User();
-			user.setAuthCode(code);
+			if(dadosLogin == null || dadosLogin.getUsuario() == null)
+				user = null;
+		}
+		
+		if (user == null) {
 			
-			Portal portal = null; 
-			
+			VpsaOAuthToken vpsaOAuthToken = null;
+
 			try {
-				br.com.canalvpsasul.vpsapi.entity.administrativo.DadosLogin dadosLogin = api.getDadosLogin();				
-				user.setVpsaId(dadosLogin.getUsuario().getId());		
-				user.setLogin(dadosLogin.getUsuario().getLogin());		
-				user.setNome(dadosLogin.getUsuario().getNome());
-				
-				portal = portalBusiness.getByCnpj(dadosLogin.getPortal().getCnpj());
-				
-				if(portal == null) {
-					portal = portalBusiness.fromVpsaEntity(dadosLogin.getPortal());
-					portal.setStatusPortal(StatusPortal.LIBERADO);
-					portal = portalBusiness.salvar(portal);
+				vpsaOAuthToken = vpsaOAuthService.getAccessToken(code);
+
+				if (vpsaOAuthToken == null) {
+					model.addAttribute(
+							"message",
+							"Não foi possível obter o token de autenticação da VPSA. Autentique-se na VPSA e acesse o aplicativo novamente.");
+					return "auth/servicefailed";
 				}
-				
-				user.setPortal(portal);	
 			} catch (Exception e) {
-				
 				model.addAttribute("message", e.getMessage());
 				return "auth/servicefailed";
 			}
-			
+
+			api = vpsaOAuthService.getVpsaApi(vpsaOAuthToken
+					.getAccess_token());
+
+			user = new User();
+			user.setAuthCode(code);
+
+			Portal portal = null;
+
 			try {
-				Terceiro terceiro = terceiroBusiness.fromVpsaEntity(portal, api.getTerceiro(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
+				br.com.canalvpsasul.vpsapi.entity.administrativo.DadosLogin dadosLogin = api
+						.getDadosLogin();
+				
+				user.setVpsaId(dadosLogin.getUsuario().getId());
+				user.setLogin(dadosLogin.getUsuario().getLogin());
+				user.setNome(dadosLogin.getUsuario().getNome());
+				user.setAdmin(dadosLogin.getUsuario().getAdmin());
+
+				portal = portalBusiness.getByCnpj(dadosLogin.getPortal()
+						.getCnpj());
+
+				if (portal == null) {
+					portal = portalBusiness.fromVpsaEntity(dadosLogin
+							.getPortal());
+					portal.setStatusPortal(StatusPortal.LIBERACAOPENDENTE);
+					portal = portalBusiness.salvar(portal);
+				}
+
+				user.setPortal(portal);
+			} catch (Exception e) {
+
+				model.addAttribute("message", e.getMessage());
+				return "auth/servicefailed";
+			}
+
+			try {
+				Terceiro terceiro = terceiroBusiness.fromVpsaEntity(portal, api
+						.getTerceiro(Long.parseLong(vpsaOAuthToken
+								.getId_terceiro())));
 				terceiro.setPortal(user.getPortal());
 				user.setTerceiro(terceiro);
 			} catch (Exception e) {
-				
+
 				model.addAttribute("message", e.getMessage());
 				return "auth/servicefailed";
 			}
-		}
+			
+			user.setToken(vpsaOAuthToken.getAccess_token());
+			userBusiness.salvar(user);
+		}		
 		
-		user.setToken(vpsaOAuthToken.getAccess_token());
-		userBusiness.salvar(user);			
-		
-        model.addAttribute("j_username", code);
-        model.addAttribute("j_password", vpsaOAuthToken.getAccess_token());
+		switch (user.getPortal().getStatusPortal()) {
 
-        return "auth/callback";
+			case BLOQUEADO:
+				model.addAttribute("message", "Sua base VPSA não está liberada para o uso desta aplicação. Entre em contato com seu distribuidor VPSA.");
+				break;
+			case LIBERADO:
+				
+				model.addAttribute("j_username", code);
+				model.addAttribute("j_password", user.getToken());
+				return "auth/callback";
+				
+			case LIBERACAOPENDENTE:
+				model.addAttribute("message", "Para utilizar esta aplicação, entre em contato com seu distribuidor VPSA.");
+				break;
+		}
+
+		return "auth/portal";
 	}
 		
 	@RequestMapping(value = "/denied")

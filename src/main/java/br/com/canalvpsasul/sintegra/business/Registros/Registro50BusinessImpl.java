@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.canalvpsasul.sintegra.business.CombinacaoCfopBusiness;
+import br.com.canalvpsasul.sintegra.business.DadosPorTipoNotaBusiness;
+import br.com.canalvpsasul.sintegra.business.Imposto.IcmsBusiness;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIcms;
 import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
@@ -42,7 +45,7 @@ public class Registro50BusinessImpl implements Registro50Business {
 			registro50.setDataDocumento(nota.getData());
 			registro50.setNumeroDocumento(nota.getNumero());
 
-			registro50.setEmitente(dadosPorTipoNota.getEmitente());
+			registro50.setEmitente(dadosPorTipoNota.getEmitente());			
 			registro50.setCpfCnpj(dadosPorTipoNota.getCnpj());
 			registro50.setUf(dadosPorTipoNota.getUf());
 			registro50.setIe(dadosPorTipoNota.getIe());

@@ -18,16 +18,16 @@ public class DadosPorTipoNotaBusinessImpl implements DadosPorTipoNotaBusiness {
 
 	@Override
 	public DadosPorTipoNota obterRemetenteDestinatario(NotaMercadoria nota) {
-		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo(), nota.getModeloGerencial());
+		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo(), nota.getModeloGerencial(), nota.getSerie());
 	}
 
 	@Override
 	public DadosPorTipoNota obterRemetenteDestinatario(NotaConsumo nota) {
-		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo(), nota.getModeloGerencial());
+		return getRemetenteDestinatario(nota.getStatus(), nota.getTerceiroRemetente(), nota.getTerceiroDestinatario(), nota.getTipo(), nota.getModeloGerencial(), nota.getSerie());
 	}
 	
 	@SuppressWarnings("incomplete-switch")
-	private DadosPorTipoNota getRemetenteDestinatario(StatusNota status, Terceiro remetente, Terceiro destinatario, TipoNota tipo, ModeloGerencial modelo) {
+	private DadosPorTipoNota getRemetenteDestinatario(StatusNota status, Terceiro remetente, Terceiro destinatario, TipoNota tipo, ModeloGerencial modelo, String serie) {
 		
 		DocumentoFiscal tipoDocumentoFiscal = null;
 		
@@ -71,7 +71,7 @@ public class DadosPorTipoNotaBusinessImpl implements DadosPorTipoNotaBusiness {
 		
 		remetenteDestinatario.setModeloDocumentoFiscal(tipoDocumentoFiscal);
 		remetenteDestinatario.setEmitente(Emitente.PROPRIO);
-		remetenteDestinatario.setSerie(""); // TODO SINTEGRA Solicitado na API VPSA de Nota de Mercadoria.	
+		remetenteDestinatario.setSerie(serie);	
 		remetenteDestinatario.setCnpj(destinatario.getDocumento());		
 		remetenteDestinatario.setIe(destinatario.getIe());
 		

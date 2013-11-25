@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.canalvpsasul.sintegra.business.Imposto.IcmsBusiness;
+import br.com.canalvpsasul.sintegra.business.Imposto.IpiBusiness;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfop;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIcms;
 import br.com.canalvpsasul.sintegra.entities.CombinacaoCfopIpi;

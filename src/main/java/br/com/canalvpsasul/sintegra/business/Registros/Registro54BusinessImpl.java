@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Registros;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.canalvpsasul.sintegra.business.DadosPorTipoNotaBusiness;
 import br.com.canalvpsasul.sintegra.entities.DadosPorTipoNota;
 import br.com.canalvpsasul.sintegra.entities.TipoItemRegistro54;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
@@ -83,18 +84,18 @@ public class Registro54BusinessImpl implements Registro54Business {
 		}
 		
 		if(freteTotal > 0)
-			registros.add(obterRegistro54(TipoItemRegistro54.FRETE, dadosPorTipoNota, nota, cfop, cst, freteTotal));
+			registros.add(obterRegistro54Adicional(TipoItemRegistro54.FRETE, dadosPorTipoNota, nota, cfop, cst, freteTotal));
 		if(seguroTotal > 0)
-			registros.add(obterRegistro54(TipoItemRegistro54.SEGURO, dadosPorTipoNota, nota, cfop, cst, seguroTotal));
+			registros.add(obterRegistro54Adicional(TipoItemRegistro54.SEGURO, dadosPorTipoNota, nota, cfop, cst, seguroTotal));
 		if(outrasTotal > 0)
-			registros.add(obterRegistro54(TipoItemRegistro54.OUTRASDESPESAS, dadosPorTipoNota, nota, cfop, cst, outrasTotal));
+			registros.add(obterRegistro54Adicional(TipoItemRegistro54.OUTRASDESPESAS, dadosPorTipoNota, nota, cfop, cst, outrasTotal));
 		if(pisTotal > 0)
-			registros.add(obterRegistro54(TipoItemRegistro54.PISCOFINS, dadosPorTipoNota, nota, cfop, cst, pisTotal + cofinsTotal));
+			registros.add(obterRegistro54Adicional(TipoItemRegistro54.PISCOFINS, dadosPorTipoNota, nota, cfop, cst, pisTotal + cofinsTotal));
 		
 		return registros;
 	}
 	
-	private Registro54 obterRegistro54(TipoItemRegistro54 tipo, DadosPorTipoNota dadosPorTipoNota, NotaMercadoria nota, Long cfop, String cst, Float valorItem) {
+	private Registro54 obterRegistro54Adicional(TipoItemRegistro54 tipo, DadosPorTipoNota dadosPorTipoNota, NotaMercadoria nota, Long cfop, String cst, Float valorItem) {
 		
 		Registro54 registro54 = new Registro54();
 

@@ -66,7 +66,7 @@
 											<c:forEach items="${configuracoes}" var="configuracao" varStatus="status">
 				
 												<tr>
-													<td>${configuracao.empresa.nome}</td>
+													<td>${configuracao.empresa.terceiro.nomeFantasia}</td>
 													<td oName="id" oValue="${configuracao.id}">
 														<c:if test="${configuracao.contribuinteIpi}">
 															Sim

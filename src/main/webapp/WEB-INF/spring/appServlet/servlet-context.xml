@@ -36,47 +36,53 @@
 	<!-- **************************************************************** -->
   	<!--  VPSA Business IOC			                                      -->
   	<!-- **************************************************************** -->
-	<beans:bean id="empresaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusinessImpl"/>
-	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl"/>
-	<beans:bean id="portalBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusinessImpl"/>
-	<beans:bean id="roleBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.RoleBusinessImpl"/>
-	<beans:bean id="terceiroBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusinessImpl"/>
-	<beans:bean id="userBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusinessImpl" id="empresaBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl" id="entidadeBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusinessImpl" id="portalBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.RoleBusinessImpl" id="roleBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusinessImpl" id="terceiroBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl" id="userBusiness" />
 	
-	<beans:bean id="notaMercadoriaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl"/>
-	<beans:bean id="notaConsumoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusinessImpl"/>
-	<beans:bean id="ncmBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NcmBusinessImpl"/>
-	<beans:bean id="reducaoZBusiness" class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl" id="notaMercadoriaBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusinessImpl" id="notaConsumoBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NcmBusinessImpl" id="ncmBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl" id="reducaoZBusiness"/>
 	
-	<beans:bean id="produtoBusiness" class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
 	
-	<beans:bean id="syncControlBusiness" class="br.com.canalvpsasul.vpsabusiness.business.SyncControlBusinessImpl"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.PedidoCompraBusinessImpl" id="pedidoCompraBusiness" />
 	
-	<beans:bean id="empresa" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa"/>
-	<beans:bean id="endereco" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Endereco"/>
-	<beans:bean id="entidade" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade"/>
-	<beans:bean id="portal" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal"/>
-	<beans:bean id="role" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Role"/>
-	<beans:bean id="telefone" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Telefone"/>
-	<beans:bean id="terceiro" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro"/>
-	<beans:bean id="user" class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.User"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.SyncControlBusinessImpl"  id="syncControlBusiness"/>
 	
-	<beans:bean id="cupomFiscal" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal"/>
-	<beans:bean id="imposto" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto"/>
-	<beans:bean id="itemNota" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota"/>
-	<beans:bean id="ncm" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Ncm"/>
-	<beans:bean id="itemNotaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNotaServico"/>
-	<beans:bean id="notaConsumo" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo"/>
-	<beans:bean id="notaMercadoria" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria"/>
-	<beans:bean id="notaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico"/>
-	<beans:bean id="retencaoNotaServico" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.RetencaoNotaServico"/>
-	<beans:bean id="reducaoZ" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ"/>
-	<beans:bean id="totalizadorReducao" class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa" id="empresa" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Endereco" id="endereco" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade" id="entidade" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal" id="portal" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Role" id="role" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Telefone" id="telefone" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro" id="terceiro" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.User" id="user" />
 	
-	<beans:bean id="produto" class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto"/>
-	<beans:bean id="servico" class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal" id="cupomFiscal" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto" id="imposto" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota" id="itemNota" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Ncm" id="ncm" />	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo" id="notaConsumo" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria" id="notaMercadoria" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico" id="notaServico" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoRetencao" id="notaServicoRetencao" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoItem" id="notaServicoItem" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ" id="reducaoZ" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao" id="totalizadorReducao" />
 	
-	<beans:bean id="syncControl" class="br.com.canalvpsasul.vpsabusiness.entities.SyncControl"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto" id="produto" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico" id="servico" />
+	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra" id="pedidoCompra" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraItem" id="pedidoCompraItem" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraParcela" id="pedidoCompraParcela" />
+	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.SyncControl" id="syncControl" />
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->

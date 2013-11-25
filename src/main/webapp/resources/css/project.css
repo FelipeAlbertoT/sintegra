@@ -1,4 +1,4 @@
-.logotipo {
+															  .logotipo {
 	background-image: url("../img/logotipo.png");
  	background-position: 10px 10px; 	
   	background-repeat: no-repeat;
@@ -87,7 +87,7 @@ header .navbar .nav > li > a {
 [class^="cicon-"],
 [class*=" cicon-"] {
   	display: inline-block;
-  	width: 28px;
+  	width: 36px;
   	height: 28px;
   	*margin-right: .3em;
   	line-height: 23px;
@@ -136,6 +136,30 @@ header .navbar .nav > li > a {
 .cicon-suitcase {
 	background-image: url("../img/glyphicons_357_suitcase.png");
 }
+
+.cicon-share-alt {
+	background-image: url("../img/glyphicons_308_share_alt.png");
+}
+
+.cicon-plus {
+	background-image: url("../img/glyphicons_432_plus.png");
+}
+
+.cicon-list {
+	background-image: url("../img/glyphicons_114_list.png");
+}
+
+.cicon-group {
+	background-image: url("../img/glyphicons_043_group.png");
+}
+
+.cicon-git-compare {
+	background-image: url("../img/glyphicons_428_git_compare.png");
+}
+
+.cicon-git-branch {
+	background-image: url("../img/glyphicons_422_git_branch.png");
+}   
 
 .cicon-nameplate {
 	background-image: url("../img/glyphicons_352_nameplate.png");

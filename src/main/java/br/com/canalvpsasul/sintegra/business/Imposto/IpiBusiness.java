@@ -1,4 +1,4 @@
-package br.com.canalvpsasul.sintegra.business;
+package br.com.canalvpsasul.sintegra.business.Imposto;
 
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto;
 

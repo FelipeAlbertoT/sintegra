@@ -8,7 +8,7 @@
 
 <html>  
 	<head>
-		<title><spring:message code="appDefaultTitle"/></title>
+		<title>Configuração de Bases VPSA</title>
 		
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/DT_bootstrap.css" />
 		
@@ -20,16 +20,14 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/top.js"></script>	
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/topCenter.js"></script>	
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/default.js"></script>
-		
 	</head>
 	<body>
-		<body>
 		<div class="row">
 		  	<div class="span12">
 				<div class="tabbable">
 
 					<%@ include file="menu.jsp"%>
-					
+	
 					<div class="tab-content">
 					
 						<form:form cssClass="form-horizontal" method="post">
@@ -37,7 +35,7 @@
 							<fieldset>
 	
 								<legend>
-									Configuração de Informantes
+									Configuração de Bases VPSA
 								</legend>
 								
 								<div class="control-group">
@@ -49,25 +47,21 @@
 								</div>
 								
 								<div class="control-group">
-									
-									<sec:authorize url="/configuracoes/informantes/cadastro"> 
-										<p><a class="btn btn-primary" href="<c:url value="/configuracoes/informantes/cadastro" />" type="button">Novo Informante</a></p>
-									</sec:authorize>
-		
+											
 									<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="consultatable">
 										<thead>
 											<tr>
-												<th>Empresa</th>
-												<th>Nome</th>								
+												<th>Nome</th>
+												<th>CNPJ</th>								
 											</tr>
 										</thead>
 										<tbody>
 										
-											<c:forEach items="${informantes}" var="informante" varStatus="status">
+											<c:forEach items="${portais}" var="portal" varStatus="status">
 				
 												<tr>
-													<td>${informante.empresa.terceiro.nomeFantasia}</td>
-													<td oName="id" oValue="${informante.id}">${informante.nome}</td>
+													<td oName="id" oValue="${portal.id}">${portal.nomeFantasia}</td>
+													<td>${portal.cnpj}</td>
 												</tr>
 				
 											</c:forEach>
@@ -111,7 +105,7 @@
 						           	{
 						           		addClass: 'btn btn-primary', text: 'Acessar Cadastro', onClick: function($noty) {
 						           		$noty.close();
-							               	document.location = "${pageContext.request.contextPath}/configuracoes/informantes/cadastro/" + entities.currentEntityId;
+							               	document.location = "${pageContext.request.contextPath}/configuracoes/bases/cadastro/" + entities.currentEntityId;
 							            }
 						           	},
 						           	{
@@ -134,7 +128,7 @@
 				}
 			};
 		
-			$(document).ready(function() {
+			$(document).ready(function () {
 				
 				entities.oTable = $('#consultatable').kappDataTable({ 
 					"MultiRowSelection": false,
@@ -146,4 +140,3 @@
 		</script>		
 	</body>
 </html>
-					

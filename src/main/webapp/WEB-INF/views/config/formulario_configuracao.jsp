@@ -38,17 +38,17 @@
 								</div>
 	
 								<div class="control-group">
-									<label class="control-label" for="empresa.nome">Empresa</label>
+									<label class="control-label" for="empresa.terceiro.nomeFantasia">Empresa</label>
 									<div class="controls">
 
 										<form:hidden path="empresa.id" />
 
-										<form:input path="empresa.nome"
+										<form:input path="empresa.terceiro.nomeFantasia"
 											readonly="${empresa.id != null}"
 											autocomplete="off" cssClass="span3" 
 											placeholder="Preencha a Empresa associada." />
 											
-										<form:errors cssClass="native-error" path="empresa.nome" />
+										<form:errors cssClass="native-error" path="empresa.terceiro.nomeFantasia" />
 
 									</div>
 								</div>
@@ -79,7 +79,7 @@
 		<script type="text/javascript">
 			$(function() {
 
-				$('#empresa\\.nome').blur(function() {
+				$('#empresa\\.terceiro\\.nomeFantasia').blur(function() {
 				  	if($(this).val() == ""){
 				  		$('#empresa\\.id').val("");
 				  	}	
@@ -88,7 +88,7 @@
 				  	}	
 				});
 				
-				$('#empresa\\.nome')
+				$('#empresa\\.terceiro\\.nomeFantasia')
 						.typeahead(
 								{
 	
@@ -109,7 +109,7 @@
 																			item) {
 																		var aItem = {
 																			id : item.id,
-																			nome : item.nome
+																			nome : item.terceiro.nomeFantasia
 																		};
 																		return JSON
 																				.stringify(aItem);
