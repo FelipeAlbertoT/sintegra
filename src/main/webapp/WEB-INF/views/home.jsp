@@ -31,7 +31,6 @@
 					<legend> Geração do Sintegra </legend>
 
 					<div class="control-group">
-					
 						<c:if test="${message != '' and message != null}">
 							<div class="alert alert-error">${message}</div>
 						</c:if>

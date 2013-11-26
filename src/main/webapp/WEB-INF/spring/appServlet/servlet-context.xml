@@ -15,8 +15,15 @@
 	<annotation-driven conversion-service="conversionService" >
 		<message-converters>
 			<beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+			<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <beans:property name="objectMapper">
+                    <beans:bean class="br.com.canalvpsasul.sintegra.helper.HibernateAwareObjectMapper" />
+                </beans:property>
+            </beans:bean>
 		</message-converters>
 	</annotation-driven>
+	
+	
 	<context:component-scan base-package="br.com.canalvpsasul" />
 	<context:annotation-config />
 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">

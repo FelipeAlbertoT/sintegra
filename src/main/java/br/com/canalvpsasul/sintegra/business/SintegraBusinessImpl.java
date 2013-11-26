@@ -110,6 +110,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		User user = userBusiness.getCurrent();
 
 		Configuracao configuracaoEmpresa = configuracaoBusiness.getConfiguracaoPorEmpresa(parametros.getEmpresa());
+		if(configuracaoEmpresa == null){
+			throw new Exception("É necessario configurar a empresa "+parametros.getEmpresa().getTerceiro().getNomeFantasia());
+		}
 
 		StringWriter sw = new StringWriter();
 		SintegraWriter sintegraWriter = new SintegraWriter(sw);
