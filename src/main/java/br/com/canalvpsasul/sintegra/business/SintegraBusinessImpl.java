@@ -29,6 +29,7 @@ import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
@@ -133,7 +134,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				parametros.getDataFinal(), configuracaoEmpresa);
 
 		if(parametros.getGerarRegistro74())
-			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario(), configuracaoEmpresa, user.getPortal());
+			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario(), configuracaoEmpresa, user.getPortal(), configuracaoEmpresa.getEntidades());
 		
 		sintegra.gerarRegistros90();
 
@@ -176,7 +177,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 	}
 
-	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa, Portal portal) { 
+	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa, Portal portal, List<Entidade> entidades) { 
 
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
@@ -189,7 +190,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			produtos = produtoBusiness.getAll(portal, pageRequest);
 			
 			for(Produto produto : produtos) {
-				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario));
+				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario, entidades));
 				registro75Business.addRegistro75(produto, sintegra, empresa, configuracaoEmpresa);
 			}
 			

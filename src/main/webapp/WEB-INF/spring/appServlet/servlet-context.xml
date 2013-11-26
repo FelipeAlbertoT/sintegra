@@ -49,6 +49,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl" id="reducaoZBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusinessImpl" id="saldoMercadoriaBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.PedidoCompraBusinessImpl" id="pedidoCompraBusiness" />
 	

@@ -142,7 +142,7 @@
 		var needSyncNotasMercadorias = ${needSyncNotasMercadorias};
 		var needSyncNotasConsumo = ${needSyncNotasConsumo};
 		var needSyncTerceiros = ${needSyncTerceiros};
-		
+		var needSyncSaldoMercadoria = true;
 		var isModalOpened = false;
 		
 		function bootstrapSync(){
@@ -187,6 +187,12 @@
 			else if(needSyncNotasConsumo){
 				openModal();
 				syncNotasConsumo(function(){
+			  		needSync();
+			  	});
+			}
+			else if($("#registro74").is(':checked') && needSyncSaldoMercadoria){
+				openModal();
+				syncSaldoMercadorias(function(){
 			  		needSync();
 			  	});
 			}
@@ -297,6 +303,25 @@
 			  	$('#modalSync > .modal-body').html(data);
 			  	
 			  	needSyncNotasConsumo = false;
+			  	
+			  	if(callback != null)
+			  		callback();				  	
+			});
+		}
+		
+		function syncSaldoMercadorias(callback){
+			
+			$('#modalSync > .modal-body p').remove();
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Obtendo Saldo de Mercadorias.</p>");
+			
+		  	var data = $('#dataInventario').val().split("/");
+		  	data = data[2]+'-'+data[1]+'-'+data[0];
+		  	
+			$.get('${pageContext.request.contextPath}/api/sync/saldos/mercadorias/empresa/'+$('#empresa\\.id').val() + '/' + data + '/', function(data) {
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	needSyncSaldoMercadoria = false;
 			  	
 			  	if(callback != null)
 			  		callback();				  	

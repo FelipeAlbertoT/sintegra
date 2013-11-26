@@ -34,11 +34,12 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao</class>
     	
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPreco</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PlanoPagamento</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.SaldoMercadoria</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPreco</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraItem</class>
