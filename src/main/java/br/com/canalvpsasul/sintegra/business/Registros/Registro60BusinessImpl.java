@@ -1,0 +1,148 @@
+package br.com.canalvpsasul.sintegra.business.Registros;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao;
+import coffeepot.br.sintegra.registros.Registro60A;
+import coffeepot.br.sintegra.registros.Registro60M;
+import coffeepot.br.sintegra.registros.Registro60R;
+
+public class Registro60BusinessImpl implements Registro60Business {
+
+	@Override
+	public Registro60M obterRegistro60M(ReducaoZ reducao) {
+
+		Registro60M registro60m = new Registro60M();
+				
+		registro60m.setCooFinal(Integer.valueOf(reducao.getCooFinal().toString()));
+		registro60m.setCooInicial(Integer.valueOf(reducao.getCooInicial().toString()));
+		registro60m.setCro(Integer.valueOf(reducao.getCro().toString()));
+		registro60m.setCrz(Integer.valueOf(reducao.getCrz().toString()));
+		registro60m.setDataEmissao(reducao.getDataReducaoZ());
+		registro60m.setModeloDocumento("2D");
+		registro60m.setNumeroOrdem(0); //TODO SINTEGRA REGISTRO 60M - Ajustar a geração do Registro após a criação do campo de número de ordem do ECF na API.
+		registro60m.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
+		registro60m.setValorGT(new Double(0)); //TODO SINTEGRA REGISTRO 60M - Ajustar a geração do Registro após a criação do campo de GT da redução na API.
+		registro60m.setVendaBruta(new Double(reducao.getVendaBrutaDiaria()));
+		
+		registro60m.setRegistros60A(new ArrayList<Registro60A>());
+		registro60m.getRegistros60A().addAll(obterRegistro60A(reducao));
+		
+		return registro60m;
+	}
+
+	private ArrayList<Registro60A> obterRegistro60A(ReducaoZ reducao) {
+
+		ArrayList<Registro60A> registros = new ArrayList<Registro60A>();
+		
+		for(TotalizadorReducao totalizadorReducao : reducao.getTotalizadores()) {
+			
+			Registro60A registro60a = new Registro60A();
+			registro60a.setDataEmissao(reducao.getDataReducaoZ());
+			registro60a.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
+			registro60a.setValorAcumulado(new Double(totalizadorReducao.getValorAcumulado()));
+			Boolean capturaOk = false;
+			if(totalizadorReducao.getCodigo().equals("I1")){
+				registro60a.setTotalizadorParcial("I");
+				capturaOk = true;
+			}
+			else if(totalizadorReducao.getCodigo().equals("F1")){
+				registro60a.setTotalizadorParcial("F");
+				capturaOk = true;
+			}
+			else if(totalizadorReducao.getCodigo().equals("N1")){
+				registro60a.setTotalizadorParcial("N");
+				capturaOk = true;
+			}
+			else if(totalizadorReducao.getCodigo().equals("FS1")){
+				registro60a.setTotalizadorParcial("ISS");
+				capturaOk = true;
+			}
+			else if(totalizadorReducao.getCodigo().contains("T")){
+				String codigo = totalizadorReducao.getCodigo();
+				String[] codigosStrings = codigo.split("T");	
+				if(codigosStrings.length > 0) {
+					registro60a.setTotalizadorParcial(codigosStrings[1]);
+					capturaOk = true;
+				}
+			}
+			
+			if(capturaOk)
+				registros.add(registro60a);
+		}
+		
+		return registros;
+	}
+
+	@Override
+	public ArrayList<Registro60R> obterRegistro60R(List<CupomFiscal> cuponsFiscais) {
+
+		ArrayList<Registro60R> registros = new ArrayList<Registro60R>();
+		
+		String situacaoTributaria = "";
+		
+		SimpleDateFormat formatDate = new SimpleDateFormat("MMyyyy");
+		
+		for(CupomFiscal cf : cuponsFiscais) {
+			for(ItemNota itemNota : cf.getItens()) {
+				
+				if(itemNota.getIcms() != null) {
+					
+					if(itemNota.getIcms().equals("00")) {
+						situacaoTributaria = new Double(itemNota.getIcms().getAliquota() * 100).toString();
+						if(situacaoTributaria.length() == 3)
+							situacaoTributaria = "0" + situacaoTributaria;
+					}
+					else if(itemNota.getIcms().equals("40")) {
+						situacaoTributaria = "I";
+					}
+					else if(itemNota.getIcms().equals("41")) {
+						situacaoTributaria = "N";
+					}
+					else if(itemNota.getIcms().equals("60")) {
+						situacaoTributaria = "F";
+					}	
+						
+				}
+				
+				Registro60R registro60r = null;
+				Boolean inArray = false;
+				for(Registro60R reg : registros) {
+					if(reg.getCodigoProduto().equals(itemNota.getProduto().getVpsaId().toString()) && reg.getTotalizadorParcial().equals(situacaoTributaria)) {
+						registro60r = reg;
+						inArray = true;
+						break;
+					}
+				}
+				
+				if(registro60r == null) {
+					registro60r = new Registro60R();
+					registro60r.setBaseDeCalculoIcms(new Double(0));
+					registro60r.setQuantidade(new Double(0));
+					registro60r.setValorLiquidoProduto(new Double(0));
+					registro60r.setTotalizadorParcial(situacaoTributaria);
+					registro60r.setCodigoProduto(itemNota.getProduto().getVpsaId().toString());
+					registro60r.setMesAno(formatDate.format(cf.getData()));
+				}
+				
+				if(itemNota.getIcms() != null) {
+					registro60r.setBaseDeCalculoIcms(registro60r.getBaseDeCalculoIcms() + itemNota.getIcms().getBase());
+				}
+				
+				registro60r.setQuantidade(registro60r.getQuantidade() + itemNota.getQuantidade());
+				registro60r.setValorLiquidoProduto(registro60r.getValorLiquidoProduto() + (itemNota.getValorTotal() - itemNota.getValorDesconto()));
+				
+				if(!inArray)
+					registros.add(registro60r);
+			}
+		}
+		
+		return registros;
+	}
+
+}

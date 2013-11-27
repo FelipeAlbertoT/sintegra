@@ -121,6 +121,32 @@ public class SyncApiController {
 	}
 
 	@ResponseBody
+    @RequestMapping(value = "cupons/fiscais", method = RequestMethod.GET)
+    public String syncCuponsFiscais() {
+			
+		try {
+			syncControlBusiness.syncCuponsFiscais(userBusiness.getCurrent().getPortal());
+		} catch (Exception e) {
+			return "<p class='text-error'>Erro ao realizar a atualização dos registros de Cupons Fiscais.</p><p>Detalhes: " + e.getMessage() + "</p>";
+		}
+		
+        return "<p class='text-success'>Atualização de Cupons Fiscais realizada com Sucesso!</p>";
+	}
+
+	@ResponseBody
+    @RequestMapping(value = "reducoes", method = RequestMethod.GET)
+    public String syncReducoes() {
+			
+		try {
+			syncControlBusiness.syncReducoesZ(userBusiness.getCurrent().getPortal());
+		} catch (Exception e) {
+			return "<p class='text-error'>Erro ao realizar a atualização dos registros de Reduções Z.</p><p>Detalhes: " + e.getMessage() + "</p>";
+		}
+		
+        return "<p class='text-success'>Atualização deReduções Z realizada com Sucesso!</p>";
+	}
+
+	@ResponseBody
     @RequestMapping(value = "saldos/mercadorias/empresa/{idempresa}/{data}", method = RequestMethod.GET)
     public String syncSaldoMercadorias(@PathVariable("idempresa") Long idempresa, @PathVariable("data") String data) throws Exception {
 		

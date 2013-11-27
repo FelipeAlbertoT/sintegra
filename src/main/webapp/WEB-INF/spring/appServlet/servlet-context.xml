@@ -50,6 +50,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusinessImpl" id="terceiroBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl" id="userBusiness" />
 	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.CupomFiscalBusinessImpl" id="cupomFiscalBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl" id="notaMercadoriaBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusinessImpl" id="notaConsumoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NcmBusinessImpl" id="ncmBusiness"/>

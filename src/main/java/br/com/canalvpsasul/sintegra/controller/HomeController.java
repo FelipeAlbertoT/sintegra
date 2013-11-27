@@ -91,13 +91,15 @@ public class HomeController {
 		model.addAttribute("needSyncNotasMercadorias", syncControlBusiness.needSyncNotasMercadorias(portal));
 		model.addAttribute("needSyncNotasConsumo", syncControlBusiness.needSyncNotasConsumo(portal));
 		model.addAttribute("needSyncTerceiros", syncControlBusiness.needSyncTerceiros(portal));
+		model.addAttribute("needSyncCuponsFiscais", syncControlBusiness.needSyncCuponsFiscais(portal));
+		model.addAttribute("needSyncReducoesZ", syncControlBusiness.needSyncReducoesZ(portal));
 				
 		SintegraParametros parametros = new SintegraParametros();		
 		model.addAttribute("parametros", parametros);
 		
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "/home/gerar", method = RequestMethod.POST)
 	public String gerarSintegra(@Valid SintegraParametros parametros,
 			BindingResult result, Model model) {
@@ -128,6 +130,8 @@ public class HomeController {
 			model.addAttribute("needSyncNotasMercadorias", syncControlBusiness.needSyncNotasMercadorias(portal));
 			model.addAttribute("needSyncNotasConsumo", syncControlBusiness.needSyncNotasConsumo(portal));
 			model.addAttribute("needSyncTerceiros", syncControlBusiness.needSyncTerceiros(portal));
+			model.addAttribute("needSyncCuponsFiscais", syncControlBusiness.needSyncCuponsFiscais(portal));
+			model.addAttribute("needSyncReducoesZ", syncControlBusiness.needSyncReducoesZ(portal));
 			
 			return "home";
 		}
