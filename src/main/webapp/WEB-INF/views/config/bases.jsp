@@ -52,7 +52,8 @@
 										<thead>
 											<tr>
 												<th>Nome</th>
-												<th>CNPJ</th>								
+												<th>CNPJ</th>	
+												<th>Status</th>							
 											</tr>
 										</thead>
 										<tbody>
@@ -62,6 +63,7 @@
 												<tr>
 													<td oName="id" oValue="${portal.id}">${portal.nomeFantasia}</td>
 													<td>${portal.cnpj}</td>
+													<td>${portal.statusPortal}</td>
 												</tr>
 				
 											</c:forEach>

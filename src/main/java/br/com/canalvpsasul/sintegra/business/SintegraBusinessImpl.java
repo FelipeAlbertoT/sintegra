@@ -41,6 +41,8 @@ import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ;
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
+import br.com.canalvpsasul.vpsapi.entity.fiscal.StatusNota;
+import br.com.canalvpsasul.vpsapi.entity.fiscal.TipoNota;
 import coffeepot.br.sintegra.Sintegra;
 import coffeepot.br.sintegra.registros.Registro50;
 import coffeepot.br.sintegra.registros.Registro51;
@@ -190,6 +192,13 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 
 		for (NotaMercadoria nota : notasMercadoria) {
+			
+			/*
+			 * Notas de entrada emitidas por terceiros com status cancelado não devem entrar no sintegra.
+			 * */
+			if(nota.getTipo() == TipoNota.ENTRADA && nota.getStatus() == StatusNota.CANCELADO && nota.getTerceiroDestinatario() == empresa.getTerceiro())
+				continue;
+			
 			sintegra.getRegistros50().addAll(registro50Business.obterRegistro50(nota));
 			sintegra.getRegistros51().addAll(registro51Business.obterRegistro51(nota));
 			sintegra.getRegistros53().addAll(registro53Business.obterRegistro53(nota));
@@ -205,6 +214,12 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		List<ReducaoZ> reducoes = reducaoZBusiness.findByDate(empresa, dataInicial, dataFinal);
 		
 		for (ReducaoZ reducao : reducoes) {
+			
+			/*
+			 * Somente vão ao sintegra as reduções que possuem movimentação.
+			 * */
+			if(reducao.getVendaBrutaDiaria() <= 0)
+				continue;
 			
 			sintegra.getRegistros60M().add(registro60Business.obterRegistro60M(reducao));
 			

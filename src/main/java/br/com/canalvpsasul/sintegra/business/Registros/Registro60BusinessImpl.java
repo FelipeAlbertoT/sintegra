@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ;
@@ -12,6 +14,7 @@ import coffeepot.br.sintegra.registros.Registro60A;
 import coffeepot.br.sintegra.registros.Registro60M;
 import coffeepot.br.sintegra.registros.Registro60R;
 
+@Service
 public class Registro60BusinessImpl implements Registro60Business {
 
 	@Override
@@ -29,10 +32,8 @@ public class Registro60BusinessImpl implements Registro60Business {
 		registro60m.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
 		registro60m.setValorGT(new Double(0)); //TODO SINTEGRA REGISTRO 60M - Ajustar a geração do Registro após a criação do campo de GT da redução na API.
 		registro60m.setVendaBruta(new Double(reducao.getVendaBrutaDiaria()));
-		
 		registro60m.setRegistros60A(new ArrayList<Registro60A>());
 		registro60m.getRegistros60A().addAll(obterRegistro60A(reducao));
-		
 		return registro60m;
 	}
 
@@ -42,10 +43,15 @@ public class Registro60BusinessImpl implements Registro60Business {
 		
 		for(TotalizadorReducao totalizadorReducao : reducao.getTotalizadores()) {
 			
+			if(totalizadorReducao.getValorAcumulado() == 0)
+				continue;
+			
 			Registro60A registro60a = new Registro60A();
 			registro60a.setDataEmissao(reducao.getDataReducaoZ());
 			registro60a.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
+			
 			registro60a.setValorAcumulado(new Double(totalizadorReducao.getValorAcumulado()));
+			
 			Boolean capturaOk = false;
 			if(totalizadorReducao.getCodigo().equals("I1")){
 				registro60a.setTotalizadorParcial("I");
@@ -83,9 +89,7 @@ public class Registro60BusinessImpl implements Registro60Business {
 	public ArrayList<Registro60R> obterRegistro60R(List<CupomFiscal> cuponsFiscais) {
 
 		ArrayList<Registro60R> registros = new ArrayList<Registro60R>();
-		
 		String situacaoTributaria = "";
-		
 		SimpleDateFormat formatDate = new SimpleDateFormat("MMyyyy");
 		
 		for(CupomFiscal cf : cuponsFiscais) {
@@ -93,21 +97,20 @@ public class Registro60BusinessImpl implements Registro60Business {
 				
 				if(itemNota.getIcms() != null) {
 					
-					if(itemNota.getIcms().equals("00")) {
+					if(itemNota.getIcms().getCst().equals("00") || itemNota.getIcms().getCst().equals("101")) {
 						situacaoTributaria = new Double(itemNota.getIcms().getAliquota() * 100).toString();
 						if(situacaoTributaria.length() == 3)
 							situacaoTributaria = "0" + situacaoTributaria;
 					}
-					else if(itemNota.getIcms().equals("40")) {
+					else if(itemNota.getIcms().getCst().equals("40") || itemNota.getIcms().getCst().equals("103")) {
 						situacaoTributaria = "I";
 					}
-					else if(itemNota.getIcms().equals("41")) {
+					else if(itemNota.getIcms().getCst().equals("41") || itemNota.getIcms().getCst().equals("400")) {
 						situacaoTributaria = "N";
 					}
-					else if(itemNota.getIcms().equals("60")) {
+					else if(itemNota.getIcms().getCst().equals("60") || itemNota.getIcms().getCst().equals("500")) {
 						situacaoTributaria = "F";
 					}	
-						
 				}
 				
 				Registro60R registro60r = null;

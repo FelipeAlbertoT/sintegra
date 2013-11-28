@@ -10,10 +10,8 @@
 <html>  
 	<head>
 		<title>Manutenção de Configurações</title>
-		
 		<script type="text/javascript"
 			src="${pageContext.request.contextPath}/resources/js/configuracao.js"></script>
-			
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -70,7 +68,7 @@
 								</div>
 
 								<div id="entidades" class="control-group">
-									<label class="control-label">Entidades para Cálculo do Saldo do Regsitro 74</label>
+									<label class="control-label">Entidades Registro 74</label>
 	
 									<div class="controls">
 										
@@ -89,21 +87,13 @@
 										<button type="button" class="btn" disabled="disabled" id="addEntBtn"
 											onclick="javascript: configProc.addEntidade()"><i class="icon-plus"></i></button>
 									</div>
-	
-									<c:forEach items="${configuracao.entidades}" var="entidade"
-										varStatus="status">
-	
+									<c:forEach items="${configuracao.entidades}" var="entidade" varStatus="status">
 										<div class="controls">
-	
 											<form:hidden path="entidades[${status.index}].id" />
 											<form:input cssClass="span3 entidade" readonly="true" path="entidades[${status.index}].nome" />
-	
-											<a id="del${status.index}" class="btn"
-												onclick="configProc.removeEntidade(${status.index});"><i class="icon-minus"></i></a>
-											
+											<a id="del${status.index}" class="btn" onclick="configProc.removeEntidade(${status.index});"><i class="icon-minus"></i></a>
 										</div>
 									</c:forEach>
-									
 								</div>
 								
 								<div class="form-actions">

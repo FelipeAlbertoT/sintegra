@@ -235,6 +235,10 @@
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
 			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
+			  	
 			  	needSyncEmpresa = false;
 			  	
 			  	if(callback != null)
@@ -250,6 +254,10 @@
 			$.get('${pageContext.request.contextPath}/api/sync/entidades', function(data) {
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
 			  	
 			  	needSyncEntidade = false;
 			  	
@@ -267,6 +275,10 @@
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
 			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
+			  	
 			  	needSyncTerceiros = false;
 			  	
 			  	if(callback != null)
@@ -282,6 +294,10 @@
 			$.get('${pageContext.request.contextPath}/api/sync/produtos', function(data) {
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
 			  	
 			  	needSyncProduto = false;
 			  	
@@ -299,6 +315,10 @@
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
 			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
+			  	
 			  	needSyncNotasMercadorias = false;
 			  	
 			  	if(callback != null)
@@ -315,6 +335,10 @@
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
 			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
+			  	
 			  	needSyncNotasConsumo = false;
 			  	
 			  	if(callback != null)
@@ -325,11 +349,15 @@
 		function syncCuponsFiscais(callback){
 			
 			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Notas de Consumo.</p>");
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Cupons Fiscais.</p>");
 			
 			$.get('${pageContext.request.contextPath}/api/sync/cupons/fiscais', function(data) {
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
 			  	
 			  	needSyncCuponsFiscais = false;
 			  	
@@ -341,11 +369,15 @@
 		function syncReducoesZ(callback){
 			
 			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Notas de Consumo.</p>");
+		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Reduções Z.</p>");
 			
 			$.get('${pageContext.request.contextPath}/api/sync/reducoes', function(data) {
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
 			  	
 			  	needSyncReducoesZ = false;
 			  	
@@ -365,6 +397,10 @@
 			$.get('${pageContext.request.contextPath}/api/sync/saldos/mercadorias/empresa/'+$('#empresa\\.id').val() + '/' + data + '/', function(data) {
 				$('#modalSync > .modal-body p').remove();
 			  	$('#modalSync > .modal-body').html(data);
+			  	
+			  	if(data.indexOf("Erro") != -1) {
+			  		return;
+			  	}
 			  	
 			  	needSyncSaldoMercadoria = false;
 			  	
