@@ -121,19 +121,6 @@ public class SyncApiController {
 	}
 
 	@ResponseBody
-    @RequestMapping(value = "cupons/fiscais", method = RequestMethod.GET)
-    public String syncCuponsFiscais() {
-			
-		try {
-			syncControlBusiness.syncCuponsFiscais(userBusiness.getCurrent().getPortal());
-		} catch (Exception e) {
-			return "<p class='text-error'>Erro ao realizar a atualização dos registros de Cupons Fiscais.</p><p>Detalhes: " + e.getMessage() + "</p>";
-		}
-		
-        return "<p class='text-success'>Atualização de Cupons Fiscais realizada com Sucesso!</p>";
-	}
-
-	@ResponseBody
     @RequestMapping(value = "reducoes", method = RequestMethod.GET)
     public String syncReducoes() {
 			

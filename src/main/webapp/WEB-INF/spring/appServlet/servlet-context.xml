@@ -56,42 +56,13 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NcmBusinessImpl" id="ncmBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl" id="reducaoZBusiness"/>
 	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeBusinessImpl" id="gradeBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusinessImpl" id="saldoMercadoriaBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.PedidoCompraBusinessImpl" id="pedidoCompraBusiness" />
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.SyncControlBusinessImpl"  id="syncControlBusiness"/>
-	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa" id="empresa" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Endereco" id="endereco" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade" id="entidade" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal" id="portal" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Role" id="role" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Telefone" id="telefone" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro" id="terceiro" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.administrativo.User" id="user" />
-	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal" id="cupomFiscal" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto" id="imposto" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota" id="itemNota" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.Ncm" id="ncm" />	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo" id="notaConsumo" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria" id="notaMercadoria" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServico" id="notaServico" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoRetencao" id="notaServicoRetencao" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoItem" id="notaServicoItem" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ" id="reducaoZ" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao" id="totalizadorReducao" />
-	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto" id="produto" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico" id="servico" />
-	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra" id="pedidoCompra" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraItem" id="pedidoCompraItem" />
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraParcela" id="pedidoCompraParcela" />
-	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.entities.SyncControl" id="syncControl" />
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->

@@ -141,7 +141,6 @@
 		var needSyncNotasMercadorias = ${needSyncNotasMercadorias};
 		var needSyncNotasConsumo = ${needSyncNotasConsumo};
 		var needSyncTerceiros = ${needSyncTerceiros};
-		var needSyncCuponsFiscais = ${needSyncCuponsFiscais};
 		var needSyncReducoesZ = ${needSyncReducoesZ};
 		var needSyncSaldoMercadoria = true;
 		var isModalOpened = false;
@@ -188,12 +187,6 @@
 			else if(needSyncNotasConsumo){
 				openModal();
 				syncNotasConsumo(function(){
-			  		needSync();
-			  	});
-			}
-			else if(needSyncCuponsFiscais){
-				openModal();
-				syncCuponsFiscais(function(){
 			  		needSync();
 			  	});
 			}
@@ -340,26 +333,6 @@
 			  	}
 			  	
 			  	needSyncNotasConsumo = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncCuponsFiscais(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Cupons Fiscais.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/cupons/fiscais', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncCuponsFiscais = false;
 			  	
 			  	if(callback != null)
 			  		callback();				  	
