@@ -6,13 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import br.com.canalvpsasul.vpsabusiness.entities.EntityBase;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
@@ -42,15 +38,6 @@ public class Sintegra extends EntityBase {
 		return id;
 	}
 	
-	@NotNull
-	@Override
-	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, fetch=FetchType.EAGER)
-	@JoinColumn(name="id_portal", referencedColumnName="id_portal")
-	@JsonManagedReference
-	public Portal getPortal() {
-		return portal;
-	}
-
 	@NotNull
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, fetch=FetchType.LAZY)
 	public Empresa getEmpresa() {

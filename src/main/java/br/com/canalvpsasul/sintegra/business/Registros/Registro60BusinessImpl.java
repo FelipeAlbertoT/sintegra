@@ -145,6 +145,18 @@ public class Registro60BusinessImpl implements Registro60Business {
 			}
 		}
 		
+
+		Registro60R regTemp = null;
+		for(int i = 0; i < registros.size() - 1; i++) {
+			for(int j = i + 1; j < registros.size(); j++) {
+				if(new Long(registros.get(i).getCodigoProduto()) > new Long(registros.get(j).getCodigoProduto())) {
+					regTemp = registros.get(i);
+					registros.set(i, registros.get(j));
+					registros.set(j, regTemp);
+				}
+			}
+		}
+		
 		return registros;
 	}
 

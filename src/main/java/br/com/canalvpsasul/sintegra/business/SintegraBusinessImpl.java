@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -212,7 +211,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private void gerarRegistrosReducoes(Empresa empresa, Sintegra sintegra, Date dataInicial, Date dataFinal) {
 		
 		List<ReducaoZ> reducoes = reducaoZBusiness.findByDate(empresa, dataInicial, dataFinal);
-		
+		List<CupomFiscal> cuponsFiscais = new ArrayList<CupomFiscal>();
 		for (ReducaoZ reducao : reducoes) {
 			
 			/*
@@ -223,30 +222,35 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			
 			sintegra.getRegistros60M().add(registro60Business.obterRegistro60M(reducao));
 			
-			List<CupomFiscal> cuponsFiscais = cupomFiscalBusiness.getByDataEmissaoFromEcf(empresa.getPortal(), reducao.getNumeroSerieECF(), reducao.getDataMovimento());
-			if(cuponsFiscais.size() > 0)
-				sintegra.getRegistros60R().addAll(registro60Business.obterRegistro60R(cuponsFiscais));
+			List<CupomFiscal> cuponsFiscaisTemp = cupomFiscalBusiness.getByDataEmissaoFromEcf(empresa.getPortal(), reducao.getNumeroSerieECF(), reducao.getDataMovimento());
+			if(cuponsFiscaisTemp.size() > 0)
+				cuponsFiscais.addAll(cuponsFiscaisTemp);				
 		}
+		
+		if(cuponsFiscais.size() > 0)
+			sintegra.getRegistros60R().addAll(registro60Business.obterRegistro60R(cuponsFiscais));
 	}
 
 	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa, Portal portal, List<Entidade> entidades) { 
 
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
-		PageRequest pageRequest;		
-		List<Produto> produtos;
+		List<Produto> produtos = produtoBusiness.getAll(portal);
 		
-		int pageNumber = 0, returnCount = 50;
-		do {			
-			pageRequest = new PageRequest(pageNumber++, returnCount);			
-			produtos = produtoBusiness.getAll(portal, pageRequest);
-			
-			for(Produto produto : produtos) {
-				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario, entidades));
-				registro75Business.addRegistro75(produto, sintegra, empresa, configuracaoEmpresa);
+		Produto produtoTemp = null;
+		for(int i = 0; i < produtos.size() - 1; i++) {
+			for(int j = i + 1; j < produtos.size(); j++) {
+				if(produtos.get(i).getVpsaId() > produtos.get(j).getVpsaId()) {				
+					produtoTemp = produtos.get(i);
+					produtos.set(i, produtos.get(j));
+					produtos.set(j, produtoTemp);
+				}
 			}
-			
-		}while(produtos.size() == returnCount);
+		}
+		
+		for(Produto produto : produtos) {
+			sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario, entidades));
+			registro75Business.addRegistro75(produto, sintegra, empresa, configuracaoEmpresa);
+		}
 	}
-	
 }
