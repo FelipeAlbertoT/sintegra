@@ -112,9 +112,7 @@ public class LoginController {
 			}
 
 			try {
-				Terceiro terceiro = terceiroBusiness.fromVpsaEntity(portal, api
-						.getTerceiro(Long.parseLong(vpsaOAuthToken
-								.getId_terceiro())));
+				Terceiro terceiro = terceiroBusiness.mapFromVpsaAndSaveLocal(portal, api.getTerceiro(Long.parseLong(vpsaOAuthToken.getId_terceiro())));
 				terceiro.setPortal(user.getPortal());
 				user.setTerceiro(terceiro);
 			} catch (Exception e) {
