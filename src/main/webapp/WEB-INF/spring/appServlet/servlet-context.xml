@@ -36,9 +36,16 @@
 	    </beans:property>
 	</beans:bean> 
 	
-	<interceptors>
-      <beans:bean class="br.com.canalvpsasul.vpsabusiness.security.mvc.SecurityInfoInterceptor" />
+    <interceptors>
+    
+      <interceptor>
+      	<mapping path="/**"/>
+        <exclude-mapping path="/api/**"/>
+        <beans:bean class="br.com.canalvpsasul.vpsabusiness.security.mvc.SecurityInfoInterceptor" />
+      </interceptor>
+      
     </interceptors> 
+    
 	
 	<!-- **************************************************************** -->
   	<!--  VPSA Business IOC			                                      -->

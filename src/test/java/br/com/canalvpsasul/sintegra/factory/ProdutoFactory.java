@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Random;
 
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
-import br.com.canalvpsasul.vpsapi.entity.fiscal.MetodoControle;
+import br.com.canalvpsasul.vpsapi.entity.operacional.MetodoControle;
 
 public class ProdutoFactory {
 
