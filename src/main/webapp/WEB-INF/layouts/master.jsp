@@ -87,7 +87,7 @@
 	    </div>
 	</header>
 	
-	<div class="container">
+	<div class="container master">
 		<decorator:body/>
 	</div>
 	

@@ -37,7 +37,7 @@
 						
 						<div class="alert alert-info">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
-							<strong>Informação:</strong> Serão gerados os registros 10, 11, 50, 51, 53, 54, 75 e 90.
+							<strong>Informação:</strong> A aplicação suporta a geração dos seguintes registros: 10, 11, 50, 51, 53, 54, 60M, 60A, 60R, 74, 75 e 90.
 						</div>
 						<div class="alert">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -81,17 +81,68 @@
 						</div>
 					</div>
 					
-
 					<div class="control-group">
-						<form:label path="gerarRegistro74" for="registro74" cssClass="control-label">Gerar Registro 74:</form:label>
 						<div class="controls">
 							<label class="checkbox"> 
-								<form:checkbox path="gerarRegistro74" id="registro74" />
+								<form:checkbox path="gerarRegistro50" id="registro50" cssClass="blockOnTotal" /> Gerar Registro 50
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro50" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro51" id="registro51" cssClass="blockOnTotal" /> Gerar Registro 51
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro51" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro53" id="registro53" cssClass="blockOnTotal" /> Gerar Registro 53
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro53" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro54" id="registro54" cssClass="blockOnTotal" /> Gerar Registro 54
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro54" />
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro60" id="registro60" cssClass="blockOnTotal" /> Gerar Registro 60
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro60" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro74" id="registro74" cssClass="blockOnTotal" /> Gerar Registro 74
 							</label>
 							<form:errors cssClass="native-error" path="gerarRegistro74" />
 						</div>
 					</div>
 					
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro75" id="registro75" cssClass="blockOnTotal" /> Gerar Registro 75
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro75" />
+						</div>
+					</div>
 					
 					<div class="control-group">
 						<label class="control-label" for="dataInventario">Último Inventário</label>
@@ -201,8 +252,24 @@
 				syncSaldoMercadorias(function(){
 			  		needSync();
 			  	});
-			}
+			} 
 			else {
+				
+				if($('#empresa\\.id').val() == ''){
+					
+					$('#modalSync > .modal-header h3').empty();
+					$('#modalSync > .modal-header h3').html("Atenção!");
+					
+					$('#modalSync > .modal-body p').remove();
+				  	$('#modalSync > .modal-body').html("<p>Informe uma empresa para geração do sintegra!</p>");
+				  	
+				  	openModal();
+				  	
+				  	return;
+				}
+				
+				$('#dataInventario').attr('disabled',false);
+				
 				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);
 				$("#modalSubmit").modal();
 				$("#form").submit();
@@ -361,6 +428,34 @@
 		
 		function syncSaldoMercadorias(callback){
 			
+			if($('#empresa\\.id').val() == ''){
+				
+
+				$('#modalSync > .modal-header h3').empty();
+				$('#modalSync > .modal-header h3').html("Atenção!");
+				
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html("<p>Informe uma empresa para geração do sintegra!</p>");
+			  	
+			  	return;
+			}
+			
+			if($('#dataInventario').val() == ''){
+				
+
+				$('#modalSync > .modal-header h3').empty();
+				$('#modalSync > .modal-header h3').html("Atenção!");
+				
+				$('#modalSync > .modal-body p').remove();
+			  	$('#modalSync > .modal-body').html("<p>Informe a data do inventário para consulta do saldo na retaguarda!</p>");
+			  	
+			  	return;
+			}
+			
+			$('#modalSync > .modal-header h3').empty();
+			$('#modalSync > .modal-header h3').html("Atualizando Registros!");
+				
+			
 			$('#modalSync > .modal-body p').remove();
 		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Obtendo Saldo de Mercadorias.</p>");
 			
@@ -507,6 +602,37 @@
 				}).on('changeDate', function(ev) {
 					checkout.hide();
 				}).data('datepicker');
+				
+				$('#dataInventario').attr('disabled',true);
+				if($('#registro74').is(":checked"))
+					$('#dataInventario').attr('disabled',false);
+				
+				$('input[name="finalidadeArquivo"]').change(function() {
+					  if($( this ).val() == 2) {
+						  $('.blockOnTotal').each(function(idx, value){
+							  $(this).attr('checked', false);
+							  $(this).attr('disabled',true);
+						  });	
+						  
+						  $('#dataInventario').attr('disabled',true);
+					  } 
+					  else
+						  $('.blockOnTotal').each(function(idx, value){
+							  $(this).attr('checked', false);
+							  $(this).attr('disabled', false);
+						  });
+				});
+				
+				$('#registro74').change(function() {
+					if($(this).is(":checked")){
+						$('#dataInventario').val('');
+						$('#dataInventario').attr('disabled',false);
+					}
+					else{
+						$('#dataInventario').val('');
+						$('#dataInventario').attr('disabled',true);
+					}
+				});
 				
 			});
 		

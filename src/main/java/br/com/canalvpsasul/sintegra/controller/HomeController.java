@@ -71,6 +71,7 @@ public class HomeController {
 		
 		finalidades.add(FinalidadeArquivo.NORMAL);
 		finalidades.add(FinalidadeArquivo.RETIFICACAO_TOTAL);
+		finalidades.add(FinalidadeArquivo.RETIFICACAO_ADITIVA);
 		
 		return finalidades;
 	}

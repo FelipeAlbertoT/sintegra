@@ -28,12 +28,13 @@ public class Registro60BusinessImpl implements Registro60Business {
 		registro60m.setCrz(Integer.valueOf(reducao.getCrz().toString()));
 		registro60m.setDataEmissao(reducao.getDataReducaoZ());
 		registro60m.setModeloDocumento("2D");
-		registro60m.setNumeroOrdem(0); //TODO SINTEGRA REGISTRO 60M - Ajustar a geração do Registro após a criação do campo de número de ordem do ECF na API.
+		registro60m.setNumeroOrdem(reducao.getNumeroSequencialECF());
 		registro60m.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
-		registro60m.setValorGT(new Double(0)); //TODO SINTEGRA REGISTRO 60M - Ajustar a geração do Registro após a criação do campo de GT da redução na API.
+		registro60m.setValorGT(new Double(reducao.getTotalizadorGeral())); 
 		registro60m.setVendaBruta(new Double(reducao.getVendaBrutaDiaria()));
 		registro60m.setRegistros60A(new ArrayList<Registro60A>());
 		registro60m.getRegistros60A().addAll(obterRegistro60A(reducao));
+		
 		return registro60m;
 	}
 
@@ -105,7 +106,7 @@ public class Registro60BusinessImpl implements Registro60Business {
 					else if(itemNota.getIcms().getCst().equals("40") || itemNota.getIcms().getCst().equals("103")) {
 						situacaoTributaria = "I";
 					}
-					else if(itemNota.getIcms().getCst().equals("41") || itemNota.getIcms().getCst().equals("400")) {
+					else if(itemNota.getIcms().getCst().equals("41") || itemNota.getIcms().getCst().equals("400") || itemNota.getIcms().getCst().equals("102")) {
 						situacaoTributaria = "N";
 					}
 					else if(itemNota.getIcms().getCst().equals("60") || itemNota.getIcms().getCst().equals("500")) {
