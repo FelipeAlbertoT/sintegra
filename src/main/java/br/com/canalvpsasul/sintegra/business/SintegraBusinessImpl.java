@@ -2,7 +2,6 @@ package br.com.canalvpsasul.sintegra.business;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,7 @@ import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
-import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade;
-import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
@@ -121,13 +118,12 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	private Registro75Business registro75Business;
 	
 	@Override
-	public br.com.canalvpsasul.sintegra.entities.Sintegra gerarSintegra(
-			SintegraParametros parametros) throws Exception {
+	public br.com.canalvpsasul.sintegra.entities.Sintegra gerarSintegra(SintegraParametros parametros) throws Exception {
 
 		User user = userBusiness.getCurrent();
 
 		Configuracao configuracaoEmpresa = configuracaoBusiness.getConfiguracaoPorEmpresa(parametros.getEmpresa());
-		if(configuracaoEmpresa == null){
+		if(configuracaoEmpresa == null) {
 			throw new Exception("É necessario configurar a empresa "+parametros.getEmpresa().getTerceiro().getNomeFantasia());
 		}
 
@@ -144,21 +140,14 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistros60R(new ArrayList<Registro60R>());
 		sintegra.setRegistros75(new ArrayList<Registro75>());
 
-		sintegra.setRegistro10(registro10Business.obterRegistro10(parametros.getEmpresa(),
-				parametros.getDataInicial(), parametros.getDataFinal(),
-				parametros.getFinalidadeArquivo(),
-				parametros.getNaturezaOperacao()));
+		sintegra.setRegistro10(registro10Business.obterRegistro10(parametros.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal(), parametros.getFinalidadeArquivo(), parametros.getNaturezaOperacao()));
 		
 		Informante informante = informanteBusiness.getInformantePorEmpresa(parametros.getEmpresa());
 		sintegra.setRegistro11(registro11Business.obterRegistro11(parametros.getEmpresa(), informante));
 
-		gerarRegistrosNotas(parametros.getEmpresa(), sintegra, parametros.getDataInicial(),
-				parametros.getDataFinal(), configuracaoEmpresa);
-
-		gerarRegistrosReducoes(parametros.getEmpresa(), sintegra, parametros.getDataInicial(), parametros.getDataFinal());
-		
-		if(parametros.getGerarRegistro74())
-			gerarRegistrosInventario(sintegra, parametros.getEmpresa(), parametros.getDataInventario(), configuracaoEmpresa, user.getPortal(), configuracaoEmpresa.getEntidades());
+		gerarRegistrosNotas(sintegra, configuracaoEmpresa, parametros);
+		gerarRegistrosReducoes(sintegra, parametros);
+		gerarRegistrosInventario(sintegra, configuracaoEmpresa, configuracaoEmpresa.getEntidades(), parametros);
 		
 		sintegra.gerarRegistros90();
 
@@ -177,14 +166,13 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		return armazenamentoSintegra.get(id);
 	}
 
-	private void gerarRegistrosNotas(Empresa empresa, Sintegra sintegra, Date dataInicial,
-			Date dataFinal, Configuracao configuracaoEmpresa) {
+	private void gerarRegistrosNotas(Sintegra sintegra, Configuracao configuracaoEmpresa, SintegraParametros parametros) {
 
-		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(empresa,
-				dataInicial, dataFinal);
+		if(!parametros.getGerarRegistro50() && !parametros.getGerarRegistro51() && !parametros.getGerarRegistro53() && !parametros.getGerarRegistro54() && !parametros.getGerarRegistro75())
+			return;
 		
-		List<NotaMercadoria> notasMercadoria = notaMercadoriaBusiness
-				.findByDate(empresa, dataInicial, dataFinal);
+		List<NotaConsumo> notasConsumo = notaConsumoBusiness.findByDate(parametros.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal());		
+		List<NotaMercadoria> notasMercadoria = notaMercadoriaBusiness.findByDate(parametros.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal());
 
 		for (NotaConsumo nota : notasConsumo) {			
 			sintegra.getRegistros50().add(registro50Business.obterRegistro50(nota));
@@ -195,23 +183,34 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			/*
 			 * Notas de entrada emitidas por terceiros com status cancelado não devem entrar no sintegra.
 			 * */
-			if(nota.getTipo() == TipoNota.ENTRADA && nota.getStatus() == StatusNota.CANCELADO && nota.getTerceiroDestinatario() == empresa.getTerceiro())
+			if(nota.getTipo() == TipoNota.ENTRADA && nota.getStatus() == StatusNota.CANCELADO && nota.getTerceiroDestinatario() == parametros.getEmpresa().getTerceiro())
 				continue;
+				
+			if(parametros.getGerarRegistro50())
+				sintegra.getRegistros50().addAll(registro50Business.obterRegistro50(nota));
+			if(parametros.getGerarRegistro51())
+				sintegra.getRegistros51().addAll(registro51Business.obterRegistro51(nota));
+			if(parametros.getGerarRegistro53())
+				sintegra.getRegistros53().addAll(registro53Business.obterRegistro53(nota));
+			if(parametros.getGerarRegistro54())
+				sintegra.getRegistros54().addAll(registro54Business.obterRegistro54(nota));
 			
-			sintegra.getRegistros50().addAll(registro50Business.obterRegistro50(nota));
-			sintegra.getRegistros51().addAll(registro51Business.obterRegistro51(nota));
-			sintegra.getRegistros53().addAll(registro53Business.obterRegistro53(nota));
-			sintegra.getRegistros54().addAll(registro54Business.obterRegistro54(nota));
-			
-			for (ItemNota item : nota.getItens())
-				registro75Business.addRegistro75(item.getProduto(), sintegra, empresa, configuracaoEmpresa);
+			if(parametros.getGerarRegistro75()) {
+				for (ItemNota item : nota.getItens()) {
+					registro75Business.addRegistro75(item.getProduto(), sintegra, parametros.getEmpresa(), configuracaoEmpresa);
+				}
+			}
 		}
 	}
 	
-	private void gerarRegistrosReducoes(Empresa empresa, Sintegra sintegra, Date dataInicial, Date dataFinal) {
+	private void gerarRegistrosReducoes(Sintegra sintegra, SintegraParametros parametros) {
 		
-		List<ReducaoZ> reducoes = reducaoZBusiness.findByDate(empresa, dataInicial, dataFinal);
+		if(!parametros.getGerarRegistro60())
+			return;
+		
+		List<ReducaoZ> reducoes = reducaoZBusiness.findByDate(parametros.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal());
 		List<CupomFiscal> cuponsFiscais = new ArrayList<CupomFiscal>();
+		
 		for (ReducaoZ reducao : reducoes) {
 			
 			/*
@@ -222,7 +221,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			
 			sintegra.getRegistros60M().add(registro60Business.obterRegistro60M(reducao));
 			
-			List<CupomFiscal> cuponsFiscaisTemp = cupomFiscalBusiness.getByDataEmissaoFromEcf(empresa.getPortal(), reducao.getNumeroSerieECF(), reducao.getDataMovimento());
+			List<CupomFiscal> cuponsFiscaisTemp = cupomFiscalBusiness.getByDataEmissaoFromEcf(parametros.getEmpresa().getPortal(), reducao.getNumeroSerieECF(), reducao.getDataMovimento());
+			
 			if(cuponsFiscaisTemp.size() > 0)
 				cuponsFiscais.addAll(cuponsFiscaisTemp);				
 		}
@@ -231,11 +231,14 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			sintegra.getRegistros60R().addAll(registro60Business.obterRegistro60R(cuponsFiscais));
 	}
 
-	private void gerarRegistrosInventario(Sintegra sintegra, Empresa empresa, Date dataInventario, Configuracao configuracaoEmpresa, Portal portal, List<Entidade> entidades) { 
+	private void gerarRegistrosInventario(Sintegra sintegra, Configuracao configuracaoEmpresa, List<Entidade> entidades, SintegraParametros parametros) { 
 
+		if(!parametros.getGerarRegistro74() && !parametros.getGerarRegistro75())
+			return;
+		
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
-		List<Produto> produtos = produtoBusiness.getAll(portal);
+		List<Produto> produtos = produtoBusiness.getAll(parametros.getEmpresa().getPortal());
 		
 		Produto produtoTemp = null;
 		for(int i = 0; i < produtos.size() - 1; i++) {
@@ -249,8 +252,12 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 		
 		for(Produto produto : produtos) {
-			sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, empresa, dataInventario, entidades));
-			registro75Business.addRegistro75(produto, sintegra, empresa, configuracaoEmpresa);
+			
+			if(parametros.getGerarRegistro74())
+				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, parametros.getEmpresa(), parametros.getDataInventario(), entidades));
+			
+			if(parametros.getGerarRegistro75())
+				registro75Business.addRegistro75(produto, sintegra, parametros.getEmpresa(), configuracaoEmpresa);
 		}
 	}
 }
