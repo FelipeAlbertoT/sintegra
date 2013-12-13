@@ -29,9 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.canalvpsasul.sintegra.business.SintegraBusiness;
 import br.com.canalvpsasul.sintegra.entities.Sintegra;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
-import br.com.canalvpsasul.vpsabusiness.business.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlAdministrativoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.fiscal.SyncControlFiscalBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 
@@ -54,7 +56,13 @@ public class HomeController {
 	private SintegraBusiness sintegraBusiness;
 
 	@Autowired
-	private SyncControlBusiness syncControlBusiness;
+	private SyncControlAdministrativoBusiness syncControlAdministrativoBusiness;
+
+	@Autowired
+	private SyncControlOperacionalBusiness syncControlOperacionalBusiness;
+
+	@Autowired
+	private SyncControlFiscalBusiness syncControlFiscalBusiness;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -86,13 +94,7 @@ public class HomeController {
 				
 		Portal portal = userBusiness.getCurrent().getPortal();
 		
-		model.addAttribute("needSyncEmpresa", syncControlBusiness.needSyncEmpresas(portal));
-		model.addAttribute("needSyncEntidade", syncControlBusiness.needSyncEntidades(portal));
-		model.addAttribute("needSyncProduto", syncControlBusiness.needSyncProdutos(portal));
-		model.addAttribute("needSyncNotasMercadorias", syncControlBusiness.needSyncNotasMercadorias(portal));
-		model.addAttribute("needSyncNotasConsumo", syncControlBusiness.needSyncNotasConsumo(portal));
-		model.addAttribute("needSyncTerceiros", syncControlBusiness.needSyncTerceiros(portal));
-		model.addAttribute("needSyncReducoesZ", syncControlBusiness.needSyncReducoesZ(portal));
+		addAttrsToModel(portal, model);
 				
 		SintegraParametros parametros = new SintegraParametros();		
 		model.addAttribute("parametros", parametros);
@@ -124,20 +126,26 @@ public class HomeController {
 			
 			model.addAttribute("parametros", parametros);
 			model.addAttribute("message", e.getMessage());
-			model.addAttribute("needSyncEmpresa", syncControlBusiness.needSyncEmpresas(portal));
-			model.addAttribute("needSyncEntidade", syncControlBusiness.needSyncEntidades(portal));
-			model.addAttribute("needSyncProduto", syncControlBusiness.needSyncProdutos(portal));
-			model.addAttribute("needSyncNotasMercadorias", syncControlBusiness.needSyncNotasMercadorias(portal));
-			model.addAttribute("needSyncNotasConsumo", syncControlBusiness.needSyncNotasConsumo(portal));
-			model.addAttribute("needSyncTerceiros", syncControlBusiness.needSyncTerceiros(portal));
-			model.addAttribute("needSyncCuponsFiscais", syncControlBusiness.needSyncCuponsFiscais(portal));
-			model.addAttribute("needSyncReducoesZ", syncControlBusiness.needSyncReducoesZ(portal));
+			addAttrsToModel(portal, model);
 			
 			return "home";
 		}
 		
 		model.addAttribute("sintegra", sintegra);
 		return "sintegra";
+	}
+	
+	private Model addAttrsToModel(Portal portal, Model model) {
+		
+		model.addAttribute("needSyncEmpresa", syncControlAdministrativoBusiness.needSyncEmpresas(portal));
+		model.addAttribute("needSyncEntidade", syncControlAdministrativoBusiness.needSyncEntidades(portal));
+		model.addAttribute("needSyncProduto", syncControlOperacionalBusiness.needSyncProdutos(portal));
+		model.addAttribute("needSyncNotasMercadorias", syncControlFiscalBusiness.needSyncNotasMercadorias(portal));
+		model.addAttribute("needSyncNotasConsumo", syncControlFiscalBusiness.needSyncNotasConsumo(portal));
+		model.addAttribute("needSyncTerceiros", syncControlAdministrativoBusiness.needSyncTerceiros(portal));
+		model.addAttribute("needSyncReducoesZ", syncControlFiscalBusiness.needSyncReducoesZ(portal));
+		
+		return model;
 	}
 	
 	@RequestMapping(value = "/home/download/{id}", produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)

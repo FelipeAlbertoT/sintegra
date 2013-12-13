@@ -15,6 +15,8 @@
         "bProcessing": false,
         "bServerSide": false,
         "bFilter": true,
+        "bPaginate": true,
+        "bInfo": true,
         "iDisplayLength": 10
     };
 
@@ -64,6 +66,8 @@
             "bProcessing": settings.bProcessing,
             "bServerSide": settings.bServerSide,
             "bFilter": settings.bFilter,
+            "bPaginate": settings.bPaginate,
+            "bInfo": settings.bInfo,
             "iDisplayLength" : settings.iDisplayLength
         });
         

@@ -36,6 +36,7 @@
     <filter-class>
 		org.springframework.web.filter.DelegatingFilterProxy
 	</filter-class>
+	<async-supported>true</async-supported>
   </filter>
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -45,7 +46,8 @@
     <filter-name>sitemesh</filter-name>
     <filter-class>
 	        com.opensymphony.module.sitemesh.filter.PageFilter
-	    </filter-class>
+    </filter-class>
+    <async-supported>true</async-supported>
   </filter>
   <filter-mapping>
     <filter-name>sitemesh</filter-name>
@@ -55,7 +57,8 @@
    	<filter-name>openEntityManager</filter-name>
    	<filter-class>
        	org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter
-  		</filter-class>
+	</filter-class>
+	<async-supported>true</async-supported>
   </filter>
   <filter-mapping>
 	<filter-name>openEntityManager</filter-name>

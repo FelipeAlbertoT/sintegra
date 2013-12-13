@@ -4,9 +4,11 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- **************************************************************** -->
@@ -23,6 +25,8 @@
 		</message-converters>
 	</annotation-driven>
 	
+	<task:annotation-driven executor="executorWithPoolSizeRange"/>
+	<task:executor id="executorWithPoolSizeRange" pool-size="5-25" queue-capacity="100"/> 
 	
 	<context:component-scan base-package="br.com.canalvpsasul" />
 	<context:annotation-config />
@@ -56,20 +60,24 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.RoleBusinessImpl" id="roleBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusinessImpl" id="terceiroBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl" id="userBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlAdministrativoBusinessImpl"  id="syncControlAdministrativoBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.CupomFiscalBusinessImpl" id="cupomFiscalBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusinessImpl" id="notaMercadoriaBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusinessImpl" id="notaConsumoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.NcmBusinessImpl" id="ncmBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl" id="reducaoZBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.SyncControlFiscalBusinessImpl"  id="syncControlFiscalBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeBusinessImpl" id="gradeBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusinessImpl" id="saldoMercadoriaBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusinessImpl"  id="syncControlOperacionalBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.PedidoCompraBusinessImpl" id="pedidoCompraBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.SyncControlComprasBusinessImpl"  id="syncControlComprasBusiness"/>
 	
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.SyncControlBusinessImpl"  id="syncControlBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncControlBusinessImpl"  id="syncControlBusiness"/>
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->
