@@ -90,7 +90,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 	
 	private Boolean checkExists(Sintegra sintegra, Produto produto) {
 		for(Registro75 registro75 : sintegra.getRegistros75()) {
-			if(registro75.getCodigoProduto().equals(produto.getVpsaId())) {
+			if(registro75.getCodigoProduto().equals(produto.getVpsaId().toString())) {
 				return true;
 			}			
 		}

@@ -146,8 +146,19 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistro11(registro11Business.obterRegistro11(parametros.getEmpresa(), informante));
 
 		gerarRegistrosNotas(sintegra, configuracaoEmpresa, parametros);
-		gerarRegistrosReducoes(sintegra, parametros);
+		gerarRegistrosReducoes(sintegra, configuracaoEmpresa, parametros);
 		gerarRegistrosInventario(sintegra, configuracaoEmpresa, configuracaoEmpresa.getEntidades(), parametros);
+		
+		Registro75 registroTemp = null;
+		for(int i = 0; i < sintegra.getRegistros75().size() - 1; i++) {
+			for(int j = i + 1; j < sintegra.getRegistros75().size(); j++) {
+				if(new Long(sintegra.getRegistros75().get(i).getCodigoProduto()) > new Long(sintegra.getRegistros75().get(j).getCodigoProduto())) {				
+					registroTemp = sintegra.getRegistros75().get(i);
+					sintegra.getRegistros75().set(i, sintegra.getRegistros75().get(j));
+					sintegra.getRegistros75().set(j, registroTemp);
+				}
+			}
+		}
 		
 		sintegra.gerarRegistros90();
 
@@ -203,7 +214,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		}
 	}
 	
-	private void gerarRegistrosReducoes(Sintegra sintegra, SintegraParametros parametros) {
+	private void gerarRegistrosReducoes(Sintegra sintegra, Configuracao configuracaoEmpresa, SintegraParametros parametros) {
 		
 		if(!parametros.getGerarRegistro60())
 			return;
@@ -227,37 +238,29 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				cuponsFiscais.addAll(cuponsFiscaisTemp);				
 		}
 		
-		if(cuponsFiscais.size() > 0)
+		if(cuponsFiscais.size() > 0) {
 			sintegra.getRegistros60R().addAll(registro60Business.obterRegistro60R(cuponsFiscais));
+			
+			for(CupomFiscal cFiscal : cuponsFiscais) {
+				for(ItemNota itemNota : cFiscal.getItens()){
+					registro75Business.addRegistro75(itemNota.getProduto(), sintegra, parametros.getEmpresa(), configuracaoEmpresa);
+				}
+			}
+		}
 	}
 
 	private void gerarRegistrosInventario(Sintegra sintegra, Configuracao configuracaoEmpresa, List<Entidade> entidades, SintegraParametros parametros) { 
 
-		if(!parametros.getGerarRegistro74() && !parametros.getGerarRegistro75())
+		if(!parametros.getGerarRegistro74())
 			return;
 		
 		sintegra.setRegistros74(new ArrayList<Registro74>());
 		
 		List<Produto> produtos = produtoBusiness.getAll(parametros.getEmpresa().getPortal());
 		
-		Produto produtoTemp = null;
-		for(int i = 0; i < produtos.size() - 1; i++) {
-			for(int j = i + 1; j < produtos.size(); j++) {
-				if(produtos.get(i).getVpsaId() > produtos.get(j).getVpsaId()) {				
-					produtoTemp = produtos.get(i);
-					produtos.set(i, produtos.get(j));
-					produtos.set(j, produtoTemp);
-				}
-			}
-		}
-		
 		for(Produto produto : produtos) {
-			
-			if(parametros.getGerarRegistro74())
-				sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, parametros.getEmpresa(), parametros.getDataInventario(), entidades));
-			
-			if(parametros.getGerarRegistro75())
-				registro75Business.addRegistro75(produto, sintegra, parametros.getEmpresa(), configuracaoEmpresa);
+			sintegra.getRegistros74().add(registro74Business.obterRegistro74(produto, parametros.getEmpresa(), parametros.getDataInventario(), entidades));
+			registro75Business.addRegistro75(produto, sintegra, parametros.getEmpresa(), configuracaoEmpresa);			
 		}
 	}
 }

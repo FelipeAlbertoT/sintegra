@@ -106,11 +106,15 @@ public class HomeController {
 	public String gerarSintegra(@Valid SintegraParametros parametros,
 			BindingResult result, Model model) {
 
+		Portal portal = userBusiness.getCurrent().getPortal();
+		
 		if (result.hasErrors()) {
 
 			for (ObjectError error : result.getAllErrors())
 				logger.info("Erro: " + error.toString());
-
+			
+			addAttrsToModel(portal, model);
+			
 			model.addAttribute("parametros", parametros);
 			
 			return "home";
@@ -122,16 +126,16 @@ public class HomeController {
 			sintegra = sintegraBusiness.gerarSintegra(parametros);
 		} catch (Exception e) {
 
-			Portal portal = userBusiness.getCurrent().getPortal();
-			
 			model.addAttribute("parametros", parametros);
 			model.addAttribute("message", e.getMessage());
+			
 			addAttrsToModel(portal, model);
 			
 			return "home";
 		}
 		
 		model.addAttribute("sintegra", sintegra);
+		
 		return "sintegra";
 	}
 	

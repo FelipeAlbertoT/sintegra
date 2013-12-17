@@ -22,7 +22,6 @@ public class SintegraParametros {
 	@NotNull
 	private FinalidadeArquivo finalidadeArquivo;
 	
-	@NotNull
 	private Date dataInventario;
 	
 	private NaturezaOperacao naturezaOperacao = NaturezaOperacao.TOTALIDADE_DAS_OPERACOES;

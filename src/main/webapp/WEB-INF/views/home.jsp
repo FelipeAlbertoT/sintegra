@@ -268,8 +268,6 @@
 				  	return;
 				}
 				
-				$('#dataInventario').attr('disabled',false);
-				
 				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);
 				$("#modalSubmit").modal();
 				$("#form").submit();
