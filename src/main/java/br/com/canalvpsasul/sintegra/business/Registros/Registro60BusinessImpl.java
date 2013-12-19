@@ -2,6 +2,7 @@ package br.com.canalvpsasul.sintegra.business.Registros;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -36,6 +37,54 @@ public class Registro60BusinessImpl implements Registro60Business {
 		registro60m.getRegistros60A().addAll(obterRegistro60A(reducao));
 		
 		return registro60m;
+	}
+	
+	@Override
+	public List<Registro60A> obterRegistro60A(List<CupomFiscal> cuponsFiscais) {
+		
+		ArrayList<Registro60A> registros = new ArrayList<Registro60A>();
+		
+		Float cancelamentos = new Float(0);
+		Float descontos = new Float(0);
+		Date dataEmissao = null;
+		String numeroSerieEcf = null;
+		for(CupomFiscal cf : cuponsFiscais) {
+		
+			dataEmissao = cf.getData();
+			numeroSerieEcf = cf.getNumeroSerieEcf();
+			
+			if(cf.getCancelado())
+				cancelamentos += cf.getValorTotal();
+			
+			for(ItemNota itemNota : cf.getItens()) {
+				if(itemNota.getValorDesconto() > 0) {
+					descontos += itemNota.getValorDesconto();
+				}
+			}
+			
+		}
+		
+		if(cancelamentos > 0) {
+			Registro60A registro60a = new Registro60A();
+			registro60a.setDataEmissao(dataEmissao);
+			registro60a.setNumeroSerieEquipamento(numeroSerieEcf);
+			registro60a.setTotalizadorParcial("CANC");
+			registro60a.setValorAcumulado(new Double(cancelamentos));
+			
+			registros.add(registro60a);
+		}
+		
+		if(descontos > 0) {
+			Registro60A registro60a = new Registro60A();
+			registro60a.setDataEmissao(dataEmissao);
+			registro60a.setNumeroSerieEquipamento(numeroSerieEcf);
+			registro60a.setTotalizadorParcial("DESC");
+			registro60a.setValorAcumulado(new Double(descontos));
+			
+			registros.add(registro60a);
+		}
+		
+		return registros;
 	}
 
 	private ArrayList<Registro60A> obterRegistro60A(ReducaoZ reducao) {
@@ -78,6 +127,8 @@ public class Registro60BusinessImpl implements Registro60Business {
 					capturaOk = true;
 				}
 			}
+			
+			//TODO SINTEGRA 60A - Mapear totalizadores de Cancelamentos e Descontos.
 			
 			if(capturaOk)
 				registros.add(registro60a);
@@ -160,5 +211,4 @@ public class Registro60BusinessImpl implements Registro60Business {
 		
 		return registros;
 	}
-
 }

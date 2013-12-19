@@ -44,6 +44,7 @@ import coffeepot.br.sintegra.registros.Registro50;
 import coffeepot.br.sintegra.registros.Registro51;
 import coffeepot.br.sintegra.registros.Registro53;
 import coffeepot.br.sintegra.registros.Registro54;
+import coffeepot.br.sintegra.registros.Registro60A;
 import coffeepot.br.sintegra.registros.Registro60M;
 import coffeepot.br.sintegra.registros.Registro60R;
 import coffeepot.br.sintegra.registros.Registro74;
@@ -230,9 +231,18 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			if(reducao.getVendaBrutaDiaria() <= 0)
 				continue;
 			
-			sintegra.getRegistros60M().add(registro60Business.obterRegistro60M(reducao));
+			Registro60M registro60m = registro60Business.obterRegistro60M(reducao);
 			
 			List<CupomFiscal> cuponsFiscaisTemp = cupomFiscalBusiness.getByDataEmissaoFromEcf(parametros.getEmpresa().getPortal(), reducao.getNumeroSerieECF(), reducao.getDataMovimento());
+			
+			/*
+			 * Adicionando totalizadores de cancelamentos e descontos.
+			 * */
+			List<Registro60A> registros60A = registro60Business.obterRegistro60A(cuponsFiscaisTemp);
+			if(registros60A.size() > 0)
+				registro60m.getRegistros60A().addAll(registros60A);
+			
+			sintegra.getRegistros60M().add(registro60m);
 			
 			if(cuponsFiscaisTemp.size() > 0)
 				cuponsFiscais.addAll(cuponsFiscaisTemp);				
