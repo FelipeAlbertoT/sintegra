@@ -44,7 +44,7 @@ import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory
-			.getLogger(ConfiguracoesController.class);
+			.getLogger(HomeController.class);
 	
 	@Autowired
 	private UserBusiness userBusiness;

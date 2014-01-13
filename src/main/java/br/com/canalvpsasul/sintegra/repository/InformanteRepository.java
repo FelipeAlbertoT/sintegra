@@ -2,14 +2,14 @@ package br.com.canalvpsasul.sintegra.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
+import br.com.canalvpsasul.vpsabusiness.repository.RepositoryBase;
 
-public interface InformanteRepository  extends JpaRepository<Informante, Long> {
+public interface InformanteRepository  extends RepositoryBase<Informante> {
 	 
 	@Query("select i from Informante i where i.empresa = :empresa")
 	Informante findByEmpresa(@Param("empresa") Empresa empresa); 

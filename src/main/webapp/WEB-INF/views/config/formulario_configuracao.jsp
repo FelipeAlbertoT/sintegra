@@ -119,7 +119,7 @@
 		  	</div>
 		  	<div class="modal-footer">
 		    	<a href="#" data-dismiss="modal" class="btn btn-primary">Voltar ao Cadastro</a>
-		    	<a href="javascript: rede.ignoreEntAndContinue();" class="btn">Submeter</a>
+		    	<a href="javascript: configProc.ignoreEntAndContinue();" class="btn">Submeter</a>
 		  	</div>
 		</div>
 		

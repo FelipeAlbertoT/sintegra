@@ -3,7 +3,6 @@ package br.com.canalvpsasul.sintegra.controller.api;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +22,6 @@ import br.com.canalvpsasul.vpsabusiness.business.operacional.CategoriaProdutoBus
 import br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
-import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
-import br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto;
 import br.com.canalvpsasul.vpsabusiness.security.VpsaOAuthService;
 
 @Controller
@@ -60,25 +57,6 @@ public class SyncApiController {
 	
 	@Autowired
 	private VpsaOAuthService service;
-	
-	@ResponseBody
-    @RequestMapping(value = "teste", method = RequestMethod.GET)
-    public String teste() throws Exception {
-			
-		Portal portal = userBusiness.getCurrent().getPortal();
-		syncControlOperacionalBusiness.syncCategoriaProduto(portal);
-		
-		List<CategoriaProduto> categs =  categoriaProdutoBusiness.getAll(portal);
-		
-		for(CategoriaProduto categoriaProduto : categs) {
-			categoriaProduto.setNome(categoriaProduto.getNome() + '.');
-			try {
-			categoriaProdutoBusiness.syncToVpsa(categoriaProduto);
-			} catch(Exception e) {}
-		}
-		
-        return "<p class='text-success'>Atualização de empresas realizada com Sucesso!</p>";
-	}
 	
 	@ResponseBody
     @RequestMapping(value = "empresas", method = RequestMethod.GET)
