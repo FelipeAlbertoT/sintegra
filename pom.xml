@@ -322,7 +322,7 @@
 		<dependency>
 			<groupId>br.com.canalvpsasul</groupId>
 			<artifactId>vpsabusiness</artifactId>
-			<version>1.2.3.0</version>
+			<version>1.2.4.0</version>
 		</dependency>
 		
 		<!-- Jackson/Hibernate -->
