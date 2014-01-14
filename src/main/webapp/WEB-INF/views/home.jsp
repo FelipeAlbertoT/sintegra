@@ -269,7 +269,10 @@
 				}
 				
 				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);
-				$("#modalSubmit").modal();
+				$("#modalSubmit").modal({
+					backdrop: 'static',
+					keyboard: false
+				});
 				$("#form").submit();
 			}				
 		}
@@ -280,8 +283,9 @@
 				return;
 			
 			$('#modalSync').modal({
-			  keyboard: false
-			});				
+				backdrop: 'static',
+				keyboard: false
+			});		
 		}
 		
 		function syncEmpresa(callback){
