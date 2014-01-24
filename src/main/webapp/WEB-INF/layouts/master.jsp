@@ -15,32 +15,32 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">		
 		
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-responsive.css">
-	<link rel="stylesheet" type="text/css" href="/resources/css/project.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css" />
-	<link rel="stylesheet" type="text/css"	href="/resources/css/datepicker.css" />
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap-responsive.css">
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/project.css" />
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/DT_bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/datepicker.css" />
 	
-	<script type="text/javascript" src="/resources/js/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>	
-	<script type="text/javascript" src="/resources/js/project.js"></script>	
+	<script type="text/javascript" src="http://static.scsul.com.br/js/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/bootstrap.min.js"></script>	
+	<script type="text/javascript" src="http://static.scsul.com.br/js/project.js"></script>	
 	
-	<script type="text/javascript" src="/resources/js/jquery.maskedinput.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.maskMoney.min.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/jquery.maskedinput.min.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/jquery.maskMoney.min.js"></script>
 		
-	<script type="text/javascript" src="/resources/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/resources/js/DT_bootstrap.js"></script>
-	<script type="text/javascript" src="/resources/js/kapp.dataTables.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/DT_bootstrap.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/kapp.dataTables.js"></script>
 
-	<script type="text/javascript" src="/resources/js/noty/jquery.noty.js"></script>
-	<script type="text/javascript" src="/resources/js/noty/top.js"></script>	
-	<script type="text/javascript" src="/resources/js/noty/topCenter.js"></script>	
-	<script type="text/javascript" src="/resources/js/noty/default.js"></script>
-	<script type="text/javascript"	src="/resources/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/noty/jquery.noty.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/noty/top.js"></script>	
+	<script type="text/javascript" src="http://static.scsul.com.br/js/noty/topCenter.js"></script>	
+	<script type="text/javascript" src="http://static.scsul.com.br/js/noty/default.js"></script>
+	<script type="text/javascript"	src="http://static.scsul.com.br/js/bootstrap-datepicker.js"></script>
  
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="/resources/js/html5shiv.js"></script>
+      <script src="http://static.scsul.com.br/js/html5shiv.js"></script>
     <![endif]-->
        
     <decorator:head/>
@@ -111,12 +111,8 @@
 	    </div>
 	</header>
 
-	
-	
 	<div class="container master">
-	
 		<decorator:body/>
-
 	</div>
 	
 	<script type="text/javascript">

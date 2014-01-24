@@ -13,17 +13,17 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">		
 		
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-responsive.css">
-	<link rel="stylesheet" type="text/css" href="/resources/css/project.css" />
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap-responsive.css">
+	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/project.css" />
 	
-	<script type="text/javascript" src="/resources/js/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/resources/js/project.js"></script>	
+	<script type="text/javascript" src="http://static.scsul.com.br/js/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://static.scsul.com.br/js/project.js"></script>	
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="/resources/js/html5shiv.js"></script>
+      <script src="http://static.scsul.com.br/js/html5shiv.js"></script>
     <![endif]-->
         
     <decorator:head/>
