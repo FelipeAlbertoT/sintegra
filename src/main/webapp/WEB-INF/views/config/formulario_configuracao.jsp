@@ -10,8 +10,7 @@
 <html>  
 	<head>
 		<title>Manutenção de Configurações</title>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/js/configuracao.js"></script>
+		<script type="text/javascript"	src="${pageContext.request.contextPath}/resources/js/configuracao.js"></script>
 	</head>
 	<body>
 		<div class="row-fluid">

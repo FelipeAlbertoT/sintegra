@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- **************************************************************** -->
-  	<!--  SPRING ANNOTATION PROCESSING                                    -->
+  	<!--  Serviços de Conversão		                                      -->
   	<!-- **************************************************************** -->
 	<annotation-driven conversion-service="conversionService" >
 		<message-converters>
@@ -30,6 +30,11 @@
 	
 	<context:component-scan base-package="br.com.canalvpsasul" />
 	<context:annotation-config />
+	
+	<!-- **************************************************************** -->
+  	<!--  Conversores 				                                      -->
+  	<!-- **************************************************************** -->
+	
 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<beans:property name="formatters">
 			<beans:set>
@@ -40,20 +45,43 @@
 	    </beans:property>
 	</beans:bean> 
 	
+	<!-- **************************************************************** -->
+  	<!--  Interceptors 				                                      -->
+  	<!-- **************************************************************** -->
+	
     <interceptors>
-    
       <interceptor>
       	<mapping path="/**"/>
         <exclude-mapping path="/api/**"/>
-        <beans:bean class="br.com.canalvpsasul.vpsabusiness.security.mvc.SecurityInfoInterceptor" />
+        <beans:bean class="br.com.canalvpsasul.vpsaweb.security.mvc.SecurityInfoInterceptor" />
       </interceptor>
-      
+      <interceptor>
+      	<mapping path="/**"/>
+        <exclude-mapping path="/api/**"/>
+        <beans:bean class="br.com.canalvpsasul.vpsaweb.interceptor.SyncInterceptor" />
+      </interceptor>
     </interceptors> 
+    
+    <!-- **************************************************************** -->
+  	<!--  Tratamento de erro genérico                                     -->
+  	<!-- **************************************************************** -->
+    
+    <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop key="java.lang.Exception">shared/error</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
     
 	
 	<!-- **************************************************************** -->
   	<!--  VPSA Business IOC			                                      -->
   	<!-- **************************************************************** -->
+  	
+  	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.UserFormatter" id="userFormatter" />
+  	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.EmpresaFormatter" id="empresaFormatter" />
+  	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusinessImpl" id="empresaBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl" id="entidadeBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusinessImpl" id="portalBusiness" />
@@ -78,6 +106,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.SyncControlComprasBusinessImpl"  id="syncControlComprasBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncControlBusinessImpl"  id="syncControlBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncBusinessImpl" id="syncBusiness" />
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->

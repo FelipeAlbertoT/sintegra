@@ -9,14 +9,8 @@
 
 <html>
 <head>
-<title><spring:message code="appDefaultTitle" /></title>
-
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/css/datepicker.css" />
-
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js"></script>
-
+<title>
+	<spring:message code="appDefaultTitle" /></title>
 </head>
 <body>
 	<div class="row-fluid">
@@ -184,68 +178,13 @@
 	
 	<script type="text/javascript">
 	
-		var needSyncEmpresa = ${needSyncEmpresa};
-		var needSyncEntidade = ${needSyncEntidade};
-		var needSyncProduto = ${needSyncProduto};
-		var needSyncNotasMercadorias = ${needSyncNotasMercadorias};
-		var needSyncNotasConsumo = ${needSyncNotasConsumo};
-		var needSyncTerceiros = ${needSyncTerceiros};
-		var needSyncReducoesZ = ${needSyncReducoesZ};
 		var needSyncSaldoMercadoria = true;
 		var isModalOpened = false;
 		
-		function bootstrapSync(){
-			
-			if(needSyncEmpresa){	
-				openModal();
-			  	syncEmpresa(function(){
-			  		bootstrapSync();
-			  	});
-			}
-			else if(needSyncEntidade){
-				openModal();
-				syncEntidade(function(){
-					bootstrapSync();
-			  	});
-			}
-			else {
-				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);		
-			}	
-		}
-		
+
 		function needSync() {
 			
-			if(needSyncTerceiros){
-				openModal();
-				syncTerceiro(function(){
-			  		needSync();
-			  	});
-			}
-			else if(needSyncProduto){
-				openModal();
-				syncProduto(function(){
-			  		needSync();
-			  	});
-			}
-			else if(needSyncNotasMercadorias){
-				openModal();
-				syncNotasMercadoria(function(){
-			  		needSync();
-			  	});
-			}
-			else if(needSyncNotasConsumo){
-				openModal();
-				syncNotasConsumo(function(){
-			  		needSync();
-			  	});
-			}
-			else if(needSyncReducoesZ){
-				openModal();
-				syncReducoesZ(function(){
-			  		needSync();
-			  	});
-			}
-			else if($("#registro74").is(':checked') && needSyncSaldoMercadoria){
+			if($("#registro74").is(':checked') && needSyncSaldoMercadoria){
 				openModal();
 				syncSaldoMercadorias(function(){
 			  		needSync();
@@ -284,146 +223,6 @@
 				backdrop: 'static',
 				keyboard: false
 			});		
-		}
-		
-		function syncEmpresa(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Empresas.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/empresas', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncEmpresa = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncEntidade(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Entidades.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/entidades', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncEntidade = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncTerceiro(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Terceiros.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/terceiros', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncTerceiros = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncProduto(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Produtos.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/produtos', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncProduto = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncNotasMercadoria(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Notas de Mercadoria.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/notas/mercadoria', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncNotasMercadorias = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncNotasConsumo(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Notas de Consumo.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/notas/consumo', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncNotasConsumo = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
-		}
-		
-		function syncReducoesZ(callback){
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Atualizando base de Reduções Z.</p>");
-			
-			$.get('${pageContext.request.contextPath}/api/sync/reducoes', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
-			  	if(data.indexOf("Erro") != -1) {
-			  		return;
-			  	}
-			  	
-			  	needSyncReducoesZ = false;
-			  	
-			  	if(callback != null)
-			  		callback();				  	
-			});
 		}
 		
 		function syncSaldoMercadorias(callback){
@@ -477,8 +276,6 @@
 			});
 		}
 	
-		bootstrapSync();
-		
 		$(function() {
 
 			$('#empresa\\.terceiro\\.nomeFantasia').blur(function() {

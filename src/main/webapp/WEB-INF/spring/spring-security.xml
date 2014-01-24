@@ -24,6 +24,33 @@
 		<intercept-url pattern="/configuracoes/configuracao/" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/configuracoes/configuracao/**" access="hasRole('ROLE_USER')"/>
 
+		<intercept-url pattern="/api" access="hasRole('ROLE_USER')"/>
+		
+		<intercept-url pattern="/api/empresa" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/empresa/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/entidade" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/entidade/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/user" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/user/**" access="hasRole('ROLE_USER')"/>	
+			
+		<intercept-url pattern="/api/sync/manual/portal/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/api/sync/status/portal/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/api/sync/manual" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/status" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/empresas" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/entidades" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/produtos" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/terceiros" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/categorias" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/tabelaPreco" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/planoPagamento" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/grades" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/pedidos/compras" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/notas/mercadoria" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/notas/consumo" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/reducoes" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/api/sync/saldos/mercadorias/empresa/**" access="hasRole('ROLE_USER')"/>
+
 		<form-login
 	    	login-page="/auth/login"
 	    	authentication-failure-url="/auth/login?error=true"
@@ -42,7 +69,7 @@
 	</authentication-manager>
 	 
 	<!-- A custom service where Spring will retrieve users and their corresponding access levels  -->
-	<beans:bean id="customUserDetailsService" class="br.com.canalvpsasul.vpsabusiness.security.CustomAuthenticationProvider"/>
+	<beans:bean id="customUserDetailsService" class="br.com.canalvpsasul.vpsaweb.security.CustomAuthenticationProvider"/>
   
 	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 	  <beans:property name="decisionVoters">

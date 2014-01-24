@@ -8,19 +8,7 @@
 
 <html>  
 	<head>
-		<title><spring:message code="appDefaultTitle"/></title>
-		
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/DT_bootstrap.css" />
-		
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/DT_bootstrap.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/kapp.dataTables.js"></script>
-	
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/jquery.noty.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/top.js"></script>	
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/topCenter.js"></script>	
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/noty/default.js"></script>
-		
+		<title><spring:message code="appDefaultTitle"/></title>		
 	</head>
 	<body>
 		<body>

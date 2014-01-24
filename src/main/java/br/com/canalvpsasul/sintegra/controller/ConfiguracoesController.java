@@ -26,6 +26,7 @@ import br.com.canalvpsasul.vpsabusiness.business.administrativo.PortalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlAdministrativoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.SyncControlFiscalBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.geral.SyncBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.geral.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
@@ -63,6 +64,9 @@ public class ConfiguracoesController {
 
 	@Autowired
 	private SyncControlBusiness syncControlBusiness;
+	
+	@Autowired
+	private SyncBusiness syncBusiness;
 
 	@ModelAttribute("statusPortais")
 	public List<StatusPortal> populateStatusPortais() {
@@ -115,54 +119,48 @@ public class ConfiguracoesController {
 		return "config/formulario_portal";
 	}
 	
-	private Model addAttrsToModel(Portal portal, Model model) {
+	private Model addAttrsToModel(Portal portal, Model model) throws Exception {
 	
 		model.addAttribute("portal", portal);
+		model.addAttribute("statusSync", syncBusiness.inSync(portal));
 		
 		SyncControl syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.EMPRESA);
-		model.addAttribute("needSyncEmpresa", syncControlAdministrativoBusiness.needSyncEmpresas(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncEmpresa", syncControl.getSyncDate());
 		else
 			model.addAttribute("lastSyncEmpresa", null);
 		
 		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.ENTIDADE);
-		model.addAttribute("needSyncEntidade", syncControlAdministrativoBusiness.needSyncEntidades(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncEntidade", syncControl.getSyncDate());
 		else
 			model.addAttribute("lastSyncEntidade", null);
 		
 		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.PRODUTO);
-		model.addAttribute("needSyncProduto", syncControlOperacionalBusiness.needSyncProdutos(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncProduto", syncControl.getSyncDate());
 		else
 			model.addAttribute("lastSyncProduto", null);
 		
 		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.NOTAMERCADORIA);
-		model.addAttribute("needSyncNotasMercadorias", syncControlFiscalBusiness.needSyncNotasMercadorias(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncNotasMercadorias", syncControl.getSyncDate());
 		else
 			model.addAttribute("lastSyncNotasMercadorias", null);
 		
 		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.NOTASCONSUMO);
-		model.addAttribute("needSyncNotasConsumo", syncControlFiscalBusiness.needSyncNotasConsumo(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncNotasConsumo", syncControl.getSyncDate());
 		else
 			model.addAttribute("lastSyncNotasConsumo", null);
 		
 		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.TERCEIRO);
-		model.addAttribute("needSyncTerceiros", syncControlAdministrativoBusiness.needSyncTerceiros(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncTerceiros", syncControl.getSyncDate());
 		else
 			model.addAttribute("lastSyncTerceiros", null);
 		
 		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.REDUCAOZ);
-		model.addAttribute("needSyncReducoesZ", syncControlFiscalBusiness.needSyncReducoesZ(portal));
 		if(syncControl != null)
 			model.addAttribute("lastSyncReducoesZ", syncControl.getSyncDate());
 		else
@@ -173,7 +171,7 @@ public class ConfiguracoesController {
 	
 	@RequestMapping(value = "/bases/cadastro/salvar", method = RequestMethod.POST)
 	public String salvarBase(@Valid @ModelAttribute("portal") Portal portal,
-			BindingResult result, Model model) {
+			BindingResult result, Model model) throws Exception {
 
 		if (result.hasErrors()) {
 

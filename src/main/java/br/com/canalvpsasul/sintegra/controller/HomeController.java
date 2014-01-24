@@ -34,7 +34,6 @@ import br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlAdmin
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.SyncControlFiscalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusiness;
-import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
 
 /**
@@ -92,10 +91,6 @@ public class HomeController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 				
-		Portal portal = userBusiness.getCurrent().getPortal();
-		
-		addAttrsToModel(portal, model);
-				
 		SintegraParametros parametros = new SintegraParametros();		
 		model.addAttribute("parametros", parametros);
 		
@@ -106,14 +101,10 @@ public class HomeController {
 	public String gerarSintegra(@Valid SintegraParametros parametros,
 			BindingResult result, Model model) {
 
-		Portal portal = userBusiness.getCurrent().getPortal();
-		
 		if (result.hasErrors()) {
 
 			for (ObjectError error : result.getAllErrors())
 				logger.info("Erro: " + error.toString());
-			
-			addAttrsToModel(portal, model);
 			
 			model.addAttribute("parametros", parametros);
 			
@@ -129,8 +120,6 @@ public class HomeController {
 			model.addAttribute("parametros", parametros);
 			model.addAttribute("message", e.getMessage());
 			
-			addAttrsToModel(portal, model);
-			
 			return "home";
 		}
 		
@@ -138,20 +127,6 @@ public class HomeController {
 		
 		return "sintegra";
 	}
-	
-	private Model addAttrsToModel(Portal portal, Model model) {
-		
-		model.addAttribute("needSyncEmpresa", syncControlAdministrativoBusiness.needSyncEmpresas(portal));
-		model.addAttribute("needSyncEntidade", syncControlAdministrativoBusiness.needSyncEntidades(portal));
-		model.addAttribute("needSyncProduto", syncControlOperacionalBusiness.needSyncProdutos(portal));
-		model.addAttribute("needSyncNotasMercadorias", syncControlFiscalBusiness.needSyncNotasMercadorias(portal));
-		model.addAttribute("needSyncNotasConsumo", syncControlFiscalBusiness.needSyncNotasConsumo(portal));
-		model.addAttribute("needSyncTerceiros", syncControlAdministrativoBusiness.needSyncTerceiros(portal));
-		model.addAttribute("needSyncReducoesZ", syncControlFiscalBusiness.needSyncReducoesZ(portal));
-		
-		return model;
-	}
-	
 	@RequestMapping(value = "/home/download/{id}", produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public byte[] downloadSintegra(@PathVariable Long id, Model model, HttpServletResponse response) throws Exception {
