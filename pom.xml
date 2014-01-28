@@ -316,7 +316,7 @@
 		<dependency>
 			<groupId>br.com.canalvpsasul</groupId>
 			<artifactId>vpsaweb</artifactId>
-			<version>1.0.1.0</version>
+			<version>1.0.1.1</version>
 		</dependency> 
 		
 		<!-- Jackson/Hibernate -->
