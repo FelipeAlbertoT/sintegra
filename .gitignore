@@ -2,6 +2,8 @@
 
 /target
 
+.settings/
+
 # Package Files #
 *.jar
 *.war
