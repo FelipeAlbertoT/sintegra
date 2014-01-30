@@ -122,7 +122,7 @@ public class ConfiguracoesController {
 	private Model addAttrsToModel(Portal portal, Model model) throws Exception {
 	
 		model.addAttribute("portal", portal);
-		model.addAttribute("statusSync", syncBusiness.inSync(portal));
+		model.addAttribute("statusSync", syncBusiness.inSync(portal.getId()));
 		
 		SyncControl syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.EMPRESA);
 		if(syncControl != null)
