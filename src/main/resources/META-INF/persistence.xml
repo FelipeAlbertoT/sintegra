@@ -32,6 +32,8 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao</class>
     	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaDisponibilidade</class>
+    	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Grade</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributoValor</class>

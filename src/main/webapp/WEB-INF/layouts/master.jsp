@@ -91,7 +91,7 @@
 								
 								<li id="sync" data-placement="bottom" rel="popover" data-trigger="manual" data-content="" data-original-title="Status de Sincronização">
 									<a href="javascript: syncControlObj.syncManual();">
-										<i class="icon-refresh visible-desktop"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
+										<i class="icon-refresh visible-desktop" title="Sincronizar com VPSA"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
 									</a>								
 								</li>
 								
@@ -143,6 +143,8 @@
 					
 					if(!$(syncControlObj.syncImg).hasClass("cicon-refresh-in-progress"))
 						$("#sync > a > i ").addClass("cicon-refresh-in-progress");
+					
+					$("#sync > a > i ").attr("title","Sincronização em andamento");
 			  	}
 			  	else{
 			  		
@@ -152,7 +154,9 @@
 						$("#sync > a > i ").removeClass("cicon-refresh-in-progress");
 			  		
 			  		if(!$(syncControlObj.syncImg).hasClass("icon-refresh"))
-						$("#sync > a > i ").addClass("icon-refresh");		  		
+						$("#sync > a > i ").addClass("icon-refresh");
+			  		
+			  		$("#sync > a > i ").attr("title","Sincronizar com VPSA");
 			  	}	
 				
 				if(syncControlObj.popoverShow) {
