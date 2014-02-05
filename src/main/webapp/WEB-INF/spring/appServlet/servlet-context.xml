@@ -81,6 +81,8 @@
   	
   	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.UserFormatter" id="userFormatter" />
   	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.EmpresaFormatter" id="empresaFormatter" />
+  	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.TerceiroFormatter" id="terceiroFormatter" />
+  	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.PortalFormatter" id="portalFormatter" />
   	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusinessImpl" id="empresaBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl" id="entidadeBusiness" />
@@ -101,6 +103,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.SyncControlFiscalBusinessImpl"  id="syncControlFiscalBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeBusinessImpl" id="gradeBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.PedidoBusinessImpl" id="pedidoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusinessImpl" id="saldoMercadoriaBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusinessImpl"  id="syncControlOperacionalBusiness"/>

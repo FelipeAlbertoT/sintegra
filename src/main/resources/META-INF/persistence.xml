@@ -33,11 +33,14 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaDisponibilidade</class>
-    	
+	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Grade</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributoValor</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Pedido</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoItem</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoParcela</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PlanoPagamento</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.SaldoMercadoria</class>
@@ -48,7 +51,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraParcela</class>
     	
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControl</class>    	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControl</class>
     	
 		<properties>
 			
