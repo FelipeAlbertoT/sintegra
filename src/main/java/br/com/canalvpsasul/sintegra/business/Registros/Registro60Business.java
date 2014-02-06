@@ -1,5 +1,6 @@
 package br.com.canalvpsasul.sintegra.business.Registros;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +12,16 @@ import coffeepot.br.sintegra.registros.Registro60R;
 
 public interface Registro60Business {
 
-	Registro60M obterRegistro60M(ReducaoZ reducao);
-	
-	/**
-	 * Retorna os registros 60A dos totalizadores exigidos pelo sintegra mais que não são retornados pela redução Z, como CANC e DESC. 
-	 * 
-	 * @param cuponsFiscais Lista dos cupons fiscais emitidos pela ECF na data do movimento representado pela redução Z.
-	 * @return Lista dos registros 60 A referentes aos totalizadores CANC e DESC quando aplicados.
-	 */
-	List<Registro60A> obterRegistro60A(List<CupomFiscal> cuponsFiscais);
-	
+	Registro60M obterRegistro60M(ReducaoZ reducao) throws ParseException;
+
 	ArrayList<Registro60R> obterRegistro60R(List<CupomFiscal> cuponsFiscais);
 	
+	/**
+	 * Para sintegras gerados a partir de Fevereiro de 2014, os totalizadores serão trazidos na redução Z, sem ser necessário calculá-los via CFs do período.
+	 * 
+	 * @param cuponsFiscais LIsta de cupons do período de geração do sintegra para cálculo dos totalizadores faltantes na redução.
+	 * @return Registros 60A referentes aos totalizadores de Cancelamentos, Descontos e ISS.
+	 */
+	@Deprecated
+	List<Registro60A> obterRegistro60A(List<CupomFiscal> cuponsFiscais);
 }

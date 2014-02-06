@@ -1,5 +1,6 @@
 package br.com.canalvpsasul.sintegra.business.Registros;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +20,7 @@ import coffeepot.br.sintegra.registros.Registro60R;
 public class Registro60BusinessImpl implements Registro60Business {
 
 	@Override
-	public Registro60M obterRegistro60M(ReducaoZ reducao) {
+	public Registro60M obterRegistro60M(ReducaoZ reducao) throws ParseException {
 
 		Registro60M registro60m = new Registro60M();
 				
@@ -40,6 +41,7 @@ public class Registro60BusinessImpl implements Registro60Business {
 	}
 	
 	@Override
+	@Deprecated
 	public List<Registro60A> obterRegistro60A(List<CupomFiscal> cuponsFiscais) {
 		
 		ArrayList<Registro60A> registros = new ArrayList<Registro60A>();
@@ -61,7 +63,6 @@ public class Registro60BusinessImpl implements Registro60Business {
 					descontos += itemNota.getValorDesconto();
 				}
 			}
-			
 		}
 		
 		if(cancelamentos > 0) {
@@ -86,8 +87,8 @@ public class Registro60BusinessImpl implements Registro60Business {
 		
 		return registros;
 	}
-
-	private ArrayList<Registro60A> obterRegistro60A(ReducaoZ reducao) {
+	
+	private ArrayList<Registro60A> obterRegistro60A(ReducaoZ reducao) throws ParseException {
 
 		ArrayList<Registro60A> registros = new ArrayList<Registro60A>();
 		
@@ -127,11 +128,56 @@ public class Registro60BusinessImpl implements Registro60Business {
 					capturaOk = true;
 				}
 			}
-			
-			//TODO SINTEGRA 60A - Mapear totalizadores de Cancelamentos e Descontos.
-			
+
 			if(capturaOk)
 				registros.add(registro60a);
+		}
+		
+		
+		/*
+		 * Como as melhorias na API de redução Z saíram no dia 30/01/2014,
+		 * para geração de sintegra de antes dessa data, é necessário
+		 * calcular os totalizadores de cancelamento, desconto e iss
+		 * mediante avaliação dos cupons do período. Após essa data, os
+		 * totalizadores já são preenchidos de acordo com os dados da 
+		 * redução. 
+		 */
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		String dateInString = "31-01-2014 00:00:00";
+		Date date = sdf.parse(dateInString);
+		
+		if(reducao.getDataReducaoZ().before(date))
+			return registros;
+		
+		if(reducao.getCancelamentoICMS() > 0) {
+			Registro60A registro60a = new Registro60A();
+			registro60a.setDataEmissao(reducao.getDataReducaoZ());
+			registro60a.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
+			registro60a.setTotalizadorParcial("CANC");
+			registro60a.setValorAcumulado(new Double(reducao.getCancelamentoICMS()));
+			
+			registros.add(registro60a);
+		}
+		
+		if(reducao.getDescontoICMS() > 0) {
+			Registro60A registro60a = new Registro60A();
+			registro60a.setDataEmissao(reducao.getDataReducaoZ());
+			registro60a.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
+			registro60a.setTotalizadorParcial("DESC");
+			registro60a.setValorAcumulado(new Double(reducao.getDescontoICMS()));
+			
+			registros.add(registro60a);
+		}
+		
+		if(reducao.getTotalISS() > 0) {
+			Registro60A registro60a = new Registro60A();
+			registro60a.setDataEmissao(reducao.getDataReducaoZ());
+			registro60a.setNumeroSerieEquipamento(reducao.getNumeroSerieECF());
+			registro60a.setTotalizadorParcial("ISS");
+			registro60a.setValorAcumulado(new Double(reducao.getTotalISS()));
+			
+			registros.add(registro60a);
 		}
 		
 		return registros;
