@@ -9,6 +9,7 @@ import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
+import br.com.canalvpsasul.vpsabusiness.utils.StringUtils;
 import coffeepot.br.sintegra.Sintegra;
 import coffeepot.br.sintegra.registros.Registro75;
 
@@ -78,7 +79,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 		registro75.setCodigoProduto(produto.getVpsaId().toString());
 		registro75.setDataInicial(sintegra.getRegistro10().getDataInicial());
 		registro75.setDataFinal(sintegra.getRegistro10().getDataFinal());
-		registro75.setDescricaoProduto(produto.getDescricao());
+		registro75.setDescricaoProduto(StringUtils.removeAccents(produto.getDescricao()));
 		
 		if(produto.getNcm() != null)		
 			registro75.setNcm(produto.getNcm().getDenominacao());

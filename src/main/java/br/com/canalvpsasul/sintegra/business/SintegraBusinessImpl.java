@@ -267,6 +267,17 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 		for (ReducaoZ reducao : reducoes) {
 
+			//TODO Após a correção do chamado da API de reduções Z da Gbaby, remover essa validação desnecessária. A api da vpsa está trazendo reduções duplicadas.
+			Boolean crzRepetido = false;
+			for(Registro60M registros60M : sintegra.getRegistros60M()) {
+				if(registros60M.getCrz() == Integer.valueOf(reducao.getCrz().toString())) {
+					crzRepetido = true;
+					break;
+				}	
+			}			
+			if(crzRepetido)
+				continue;
+			
 			/*
 			 * Somente vão ao sintegra as reduções que possuem movimentação.
 			 */

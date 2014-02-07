@@ -11,7 +11,7 @@
 	</appender>
 	
 	<appender name="file" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/mnt/log/apps/sintegra.log" />
+		<param name="File" value="/mnt/log/apps/app_sintegra.log" />
 		<param name="MaxFileSize" value="20MB" />
 		<param name="MaxBackupIndex" value="20" />
 		<layout class="org.apache.log4j.PatternLayout">

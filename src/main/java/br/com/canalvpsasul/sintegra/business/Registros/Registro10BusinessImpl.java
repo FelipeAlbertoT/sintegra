@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Endereco;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro;
+import br.com.canalvpsasul.vpsabusiness.utils.StringUtils;
 import coffeepot.br.sintegra.registros.Registro10;
 import coffeepot.br.sintegra.tipos.Convenio;
 import coffeepot.br.sintegra.tipos.FinalidadeArquivo;
@@ -43,8 +44,8 @@ public class Registro10BusinessImpl implements Registro10Business {
 		
 		Endereco empresaEndereco = empresaTerceiro.getEnderecos().get(0);
 		
-		registro10.setRazaoSocial(empresaTerceiro.getNome());
-		registro10.setCidade(empresaEndereco.getCidade());
+		registro10.setRazaoSocial(StringUtils.removeAccents(empresaTerceiro.getNome()));
+		registro10.setCidade(StringUtils.removeAccents(empresaEndereco.getCidade()));
 		registro10.setUf(empresaEndereco.getSiglaEstado());
 		registro10.setIe(empresaTerceiro.getIe());
 		registro10.setFax("");
