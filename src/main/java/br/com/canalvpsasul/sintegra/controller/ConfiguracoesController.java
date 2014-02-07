@@ -32,7 +32,7 @@ import br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacio
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Portal;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.StatusPortal;
 import br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControl;
-import br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControlType;
+import br.com.canalvpsasul.vpsapi.entity.geral.SyncControlType;
 
 @Controller
 @RequestMapping("/configuracoes")
