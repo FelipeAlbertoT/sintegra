@@ -92,6 +92,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusinessImpl" id="userBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.administrativo.SyncControlAdministrativoBusinessImpl"  id="syncControlAdministrativoBusiness"/>
 	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.financeiro.AdiantamentoRecebidosBusinessImpl"  id="adiantamentoRecebidosBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.financeiro.ContaDisponibilidadeBusinessImpl"  id="contaDisponibilidadeBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.financeiro.ContaPagarBusinessImpl"  id="contaPagarBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.financeiro.ContaReceberBusinessImpl"  id="contaReceberBusiness"/>

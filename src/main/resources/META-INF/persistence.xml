@@ -32,6 +32,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao</class>
     	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.AdiantamentoRecebidos</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.BaixaCartao</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.BaixaCheque</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ComposicaoValorBaixadoPagar</class>
