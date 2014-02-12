@@ -16,7 +16,7 @@ public class TerceiroFactory {
 		
 		ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
 		Endereco endereco = new Endereco();
-		endereco.setSiglaEstado("RJ");		
+		endereco.getMunicipio().setSiglaEstado("RJ");		
 		enderecos.add(endereco);
 		
 		terceiro.setEnderecos(enderecos);
@@ -33,7 +33,7 @@ public class TerceiroFactory {
 		
 		ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
 		Endereco endereco = new Endereco();
-		endereco.setSiglaEstado("RJ");		
+		endereco.getMunicipio().setSiglaEstado("RJ");		
 		enderecos.add(endereco);
 		
 		terceiro.setEnderecos(enderecos);
@@ -50,7 +50,7 @@ public class TerceiroFactory {
 		
 		ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
 		Endereco endereco = new Endereco();
-		endereco.setSiglaEstado("RJ");		
+		endereco.getMunicipio().setSiglaEstado("RJ");		
 		enderecos.add(endereco);
 		
 		terceiro.setEnderecos(enderecos);

@@ -76,7 +76,7 @@ public class DadosPorTipoNotaBusinessImpl implements DadosPorTipoNotaBusiness {
 		remetenteDestinatario.setIe(destinatario.getIe());
 		
 		if(destinatario.getEnderecos().size() > 0) 
-			remetenteDestinatario.setUf(destinatario.getEnderecos().get(0).getSiglaEstado());
+			remetenteDestinatario.setUf(destinatario.getEnderecos().get(0).getMunicipio().getSiglaEstado());
 		
 		remetenteDestinatario.setSituacao(SituacaoDocumentoFiscal.NORMAL);
 		if(status == StatusNota.CANCELADO)
@@ -88,7 +88,7 @@ public class DadosPorTipoNotaBusinessImpl implements DadosPorTipoNotaBusiness {
 			remetenteDestinatario.setCnpj(remetente.getDocumento());
 			
 			if(remetente.getEnderecos().size() > 0)
-				remetenteDestinatario.setUf(remetente.getEnderecos().get(0).getSiglaEstado());
+				remetenteDestinatario.setUf(remetente.getEnderecos().get(0).getMunicipio().getSiglaEstado());
 			
 			remetenteDestinatario.setIe(remetente.getIe());		
 		}

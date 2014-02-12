@@ -114,6 +114,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.PedidoCompraBusinessImpl" id="pedidoCompraBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.SyncControlComprasBusinessImpl"  id="syncControlComprasBusiness"/>
 	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.MunicipioBusinessImpl"  id="municipioBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncControlBusinessImpl"  id="syncControlBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncBusinessImpl" id="syncBusiness" />
 	

@@ -24,7 +24,7 @@ public class Registro74BusinessImpl implements Registro74Business {
 		
 		String uf = "";
 		if(empresa.getTerceiro().getEnderecos().size() > 0) 
-			uf = empresa.getTerceiro().getEnderecos().get(0).getSiglaEstado();
+			uf = empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado();
 		
 		Registro74 registro74 = new Registro74();
 		

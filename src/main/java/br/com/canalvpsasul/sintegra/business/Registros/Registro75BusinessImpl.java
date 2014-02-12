@@ -45,11 +45,11 @@ public class Registro75BusinessImpl implements Registro75Business {
 		 * SC 17%
 		 * RS 17% 
 		 * */		
-		if(empresa.getTerceiro().getEnderecos().get(0).getSiglaEstado().equalsIgnoreCase("pr"))
+		if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("pr"))
 			registro75.setAliquotaIcms(new Double(18));
-		else if(empresa.getTerceiro().getEnderecos().get(0).getSiglaEstado().equalsIgnoreCase("sc"))
+		else if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("sc"))
 			registro75.setAliquotaIcms(new Double(17));
-		else if(empresa.getTerceiro().getEnderecos().get(0).getSiglaEstado().equalsIgnoreCase("rs"))
+		else if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("rs"))
 			registro75.setAliquotaIcms(new Double(17));
 		
 		/*

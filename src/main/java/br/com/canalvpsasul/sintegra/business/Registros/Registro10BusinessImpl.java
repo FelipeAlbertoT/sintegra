@@ -45,8 +45,8 @@ public class Registro10BusinessImpl implements Registro10Business {
 		Endereco empresaEndereco = empresaTerceiro.getEnderecos().get(0);
 		
 		registro10.setRazaoSocial(StringUtils.removeAccents(empresaTerceiro.getNome()));
-		registro10.setCidade(StringUtils.removeAccents(empresaEndereco.getCidade()));
-		registro10.setUf(empresaEndereco.getSiglaEstado());
+		registro10.setCidade(StringUtils.removeAccents(empresaEndereco.getMunicipio().getNome()));
+		registro10.setUf(empresaEndereco.getMunicipio().getSiglaEstado());
 		registro10.setIe(empresaTerceiro.getIe());
 		registro10.setFax("");
 
