@@ -64,7 +64,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 				if(item.getProduto().equals(produto)){
 					
 					if(item.getIcmsst() != null)
-						registro75.setBaseCalculoIcmsST(new Double(item.getIcmsst().getBase()));
+						registro75.setBaseCalculoIcmsST(new Double(item.getIcmsst().getBase()/item.getQuantidade()));
 					
 					break;
 				}
