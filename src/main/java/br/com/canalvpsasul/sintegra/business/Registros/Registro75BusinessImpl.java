@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
+import br.com.canalvpsasul.sintegra.entities.ProdutoAliquotaIcmsInterna;
+import br.com.canalvpsasul.sintegra.repository.ProdutoAliquotaIcmsInternaRepository;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
@@ -16,6 +18,9 @@ import coffeepot.br.sintegra.registros.Registro75;
 @Service
 public class Registro75BusinessImpl implements Registro75Business {
 
+	@Autowired
+	private ProdutoAliquotaIcmsInternaRepository produtoAliquotaIcmsInternaRepository;
+	
 	@Autowired
 	private NotaMercadoriaBusiness notaMercadoriaBusiness;
 	
@@ -37,20 +42,28 @@ public class Registro75BusinessImpl implements Registro75Business {
 		else
 			registro75.setAliquotaIpi(new Double(0));
 
-		/*
-		 * Gerar conforme estado (No momento não temos como obter essa informação do sistema)
-		 * Então pegamos a alíquota interna e consideramos ela.
-		 * 
-		 * PR 18%
-		 * SC 17%
-		 * RS 17% 
-		 * */		
-		if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("pr"))
-			registro75.setAliquotaIcms(new Double(18));
-		else if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("sc"))
-			registro75.setAliquotaIcms(new Double(17));
-		else if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("rs"))
-			registro75.setAliquotaIcms(new Double(17));
+		ProdutoAliquotaIcmsInterna icmsAliquotaIcmsInterna = produtoAliquotaIcmsInternaRepository.findOne(produto.getId());
+		
+		if(icmsAliquotaIcmsInterna == null) {
+		
+			/*
+			 * Gerar conforme estado (No momento não temos como obter essa informação do sistema)
+			 * Então pegamos a alíquota interna e consideramos ela.
+			 * 
+			 * PR 18%
+			 * SC 17%
+			 * RS 17% 
+			 * */		
+			if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("pr"))
+				registro75.setAliquotaIcms(new Double(18));
+			else if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("sc"))
+				registro75.setAliquotaIcms(new Double(17));
+			else if(empresa.getTerceiro().getEnderecos().get(0).getMunicipio().getSiglaEstado().equalsIgnoreCase("rs"))
+				registro75.setAliquotaIcms(new Double(17));
+			
+		}
+		else
+			registro75.setAliquotaIcms(new Double(icmsAliquotaIcmsInterna.getAliquota()));
 		
 		/*
 		 * Obter a última entrada do item e verificar se ele veio com ST.
