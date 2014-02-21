@@ -10,6 +10,16 @@
 <html>
 <head>
 <title><spring:message code="appDefaultTitle" /></title>
+
+	<style type="text/css">
+
+            .scrollable {
+                height: 100%;
+                overflow: auto;
+            }
+            
+    </style>
+
 </head>
 <body>
 	<div class="row-fluid">
@@ -30,7 +40,7 @@
 				</form>
 
 				<div class="control-group">
-					<textarea id="sintegra" rows="10" class="span12">${sintegra.sintegra}</textarea>
+					<pre class="pre-scrollable" >${sintegra.sintegra}</pre>
 				</div>
 				
 			</fieldset>
