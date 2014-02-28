@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
-import br.com.canalvpsasul.vpsabusiness.repository.RepositoryBase;
+import br.com.canalvpsasul.vpsabusiness.repository.RepositoryBaseRoot;
 
-public interface InformanteRepository  extends RepositoryBase<Informante> {
+public interface InformanteRepository  extends RepositoryBaseRoot<Informante> {
 	 
 	@Query("select i from Informante i where i.empresa = :empresa")
 	Informante findByEmpresa(@Param("empresa") Empresa empresa); 

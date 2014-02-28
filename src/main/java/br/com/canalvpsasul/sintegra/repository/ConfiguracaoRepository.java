@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
-import br.com.canalvpsasul.vpsabusiness.repository.RepositoryBase;
+import br.com.canalvpsasul.vpsabusiness.repository.RepositoryBaseRoot;
 
-public interface ConfiguracaoRepository extends RepositoryBase<Configuracao> {
+public interface ConfiguracaoRepository extends RepositoryBaseRoot<Configuracao> {
 	 
 	@Query("select c from Configuracao c where c.empresa = :empresa")
 	Configuracao findByEmpresa(@Param("empresa") Empresa empresa); 
