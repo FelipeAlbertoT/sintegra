@@ -71,7 +71,7 @@
 								</div>
 								
 								<div class="control-group">
-									<label class="control-label" for="statusPortal">Status Sincronização</label>
+									<label class="control-label">Status Sincronização</label>
 									<div class="controls">
 										<c:if test="${statusSync == true}">
 						      				<input readonly="readonly" type="text" autocomplete="off" class="span3" value="Em andamento" />
@@ -83,7 +83,7 @@
 								</div>
 								
 								<div class="control-group">
-									<label class="control-label" for="statusPortal">Status Sincronização</label>
+									<label class="control-label">Status Sincronização</label>
 									<div class="controls">
 										<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="consultatable">
 											<thead>
