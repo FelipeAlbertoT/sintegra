@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 
 @Controller
@@ -19,7 +19,7 @@ import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 public class EmpresaApiController {
 
 	@Autowired
-	private EmpresaBusiness empresaBusiness;
+	private UserBusiness userBusiness;
 	
 	@ResponseBody
     @RequestMapping(value = "get", method = RequestMethod.GET)
@@ -28,7 +28,7 @@ public class EmpresaApiController {
 		if(StringUtils.isEmpty(query))
 			return null;
 
-		List<Empresa> empresas = empresaBusiness.getEmpresaFromCurrentUser();
+		List<Empresa> empresas = userBusiness.getCurrent().getPortal().getEmpresas();
 		
 		if(empresas == null)
 			return null;
