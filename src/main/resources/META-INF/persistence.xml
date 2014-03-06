@@ -53,6 +53,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.SaldoMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPreco</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Representante</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraItem</class>

@@ -110,6 +110,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusinessImpl" id="saldoMercadoriaBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SyncControlOperacionalBusinessImpl"  id="syncControlOperacionalBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.RepresentanteBusinessImpl"  id="representanteBusiness"/>
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.PedidoCompraBusinessImpl" id="pedidoCompraBusiness" />
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.compras.SyncControlComprasBusinessImpl"  id="syncControlComprasBusiness"/>
