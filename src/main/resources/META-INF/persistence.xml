@@ -68,8 +68,8 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
-			
-			<property name="hibernate.connection.autoReconnect" value="true" />
+						
+			<property name="connection.provider_class" value="org.springframework.jdbc.datasource.DriverManagerDataSource" />
 			
 			<!-- atualiza o banco, gera as tableas se for preciso -->
 			<property name="hibernate.hbm2ddl.auto" value="update" /> <!-- Alterar para create sempre que precisar alterar o schema -->

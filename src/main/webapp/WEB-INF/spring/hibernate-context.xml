@@ -14,11 +14,29 @@
 	
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	
-	<bean id="appDataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="${jdbc.driverClassName}"/>
-		<property name="url" value="${jdbc.url}"/>
-		<property name="username" value="${jdbc.username}"/>		
+	<bean id="sysProps" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	  	<property name="targetClass"><value>java.lang.System</value></property>
+	  	<property name="targetMethod"><value>setProperty</value></property>
+	  	<property name="arguments">
+	    	<list>
+	      		<value>com.mchange.v2.c3p0.management.ManagementCoordinator</value>
+	      		<value>com.mchange.v2.c3p0.management.NullManagementCoordinator</value>
+	    		</list>
+	  	</property>
+	</bean>
+	
+	<bean id="appDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" depends-on="sysProps">
+		<property name="driverClass" value="${jdbc.driverClassName}"/>
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.username}"/>		
 		<property name="password" value="${jdbc.password}"/>
+		
+		<!-- these are C3P0 properties --> 
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" /> 
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" /> 
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" /> 
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+
 	</bean>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
