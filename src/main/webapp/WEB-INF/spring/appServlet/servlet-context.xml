@@ -28,7 +28,7 @@
 	<task:annotation-driven executor="executorWithPoolSizeRange"/>
 	<task:executor id="executorWithPoolSizeRange" pool-size="5-25" queue-capacity="100"/> 
 	
-	<context:component-scan base-package="br.com.canalvpsasul" />
+	<context:component-scan base-package="br.com.canalvpsasul.sintegra.controller" />
 	<context:annotation-config />
 	
 	<!-- **************************************************************** -->

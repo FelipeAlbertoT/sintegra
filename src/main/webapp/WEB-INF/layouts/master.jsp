@@ -78,7 +78,7 @@
 		            	
 		            	<ul class="nav nav-top-menu pull-right">
 		            	
-		            		<sec:authorize access="isAuthenticated()">
+		            		<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 		            			<li class="divider-vertical"></li>	
 								<li class="visible-desktop">							
 									<a href="#"><i class="icon-user"></i>  &nbsp; <span class="text-success">${currentLoggedUser.nome}</span></a>								
@@ -87,21 +87,69 @@
 			              	
 					    	<sec:authorize access="isAuthenticated()">
 					    	
-								<li class="divider-vertical"></li>
-								
-								<li id="sync" data-placement="bottom" rel="popover" data-trigger="manual" data-content="" data-original-title="Status de Sincronização">
-									<a href="javascript: syncControlObj.syncManual();">
-										<i class="icon-refresh visible-desktop" title="Sincronizar com VPSA"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
-									</a>								
-								</li>
-								
-								<li class="divider-vertical"></li>		
-									    	
-					   			<li>					   			
-					   				<a href="<c:url value="/j_spring_security_logout" />" title="Sair do Sistema"><i class="icon-off visible-desktop"></i> <span class="hidden-desktop">Sair do Sistema</span></a>					   			
+					    		<!-- #################### TUTORIAL -->
+					    	
+								<%-- <li class="divider-vertical visible-desktop"></li>		
+							
+								<li class="visible-desktop">					   			
+					   				<a href="<c:url value="/resources/tutorial.pdf" />" target="_blank" title="Tutorial"><i class="icon-book"></i></a>					   			
 					   			</li>
 					   			
-					   			<li class="divider-vertical"></li>
+					   			<li class="hidden-desktop">						   			
+					   				<a href="<c:url value="/resources/tutorial.pdf" />" target="_blank" title="Tutorial">Tutorial</a>					   			
+					   			</li> --%>
+					   			
+					   			<!-- #################### TUTORIAL -->
+					   			
+					   			
+					   			
+					   			<!-- #################### ISSUE -->
+		
+					   			<li class="divider-vertical visible-desktop"></li>
+					   			
+					   			<li class="visible-desktop">					   			
+					   				<a href="<c:url value="/util/issue/cadastro" />" title="Suporte"><i class="icon-envelope"></i></a>					   			
+					   			</li>
+					   		
+					   			<li class="hidden-desktop">					   			
+					   				<a href="<c:url value="/util/issue/cadastro" />" title="Suporte">Suporte</a>					   			
+					   			</li>
+					   			
+					   			<!-- #################### ISSUE -->
+					   			
+					   			
+					   			
+					   			<!-- #################### SYNC -->
+					   			
+					   			<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+									<li class="divider-vertical visible-desktop"></li>
+									
+									<li id="sync" data-placement="bottom" rel="popover" data-trigger="manual" data-content="" data-original-title="Status de Sincronização">
+										<a href="javascript: syncControlObj.syncManual();">
+											<i class="icon-refresh visible-desktop" title="Sincronizar com VPSA"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
+										</a>								
+									</li>
+								</sec:authorize>
+					   			
+					   			<!-- #################### SYNC -->
+					   			
+					   			
+					   			<!-- #################### LOGOUT -->
+					   			
+					   			<li class="divider-vertical visible-desktop"></li>
+									    	
+					   			<li class="visible-desktop">					   			
+					   				<a href="<c:url value="/j_spring_security_logout" />" title="Sair do Sistema"><i class="icon-off"></i></a>					   			
+					   			</li>
+				   				
+					   			<li class="hidden-desktop">					   			
+					   				<a href="<c:url value="/j_spring_security_logout" />" title="Sair do Sistema">Sair do Sistema</a>					   			
+					   			</li>
+					   			
+					   			<!-- #################### LOGOUT -->
+					   			
+					   		
+				   				<li class="divider-vertical visible-desktop"></li>
 					   			   
 					   		</sec:authorize>	
                     	</ul>
