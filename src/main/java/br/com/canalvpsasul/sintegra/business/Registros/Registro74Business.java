@@ -10,5 +10,5 @@ import coffeepot.br.sintegra.registros.Registro74;
 
 public interface Registro74Business {
 
-	Registro74 obterRegistro74(Produto produto, Empresa empresa, Date dataInventario, List<Entidade> entidades);	
+	Registro74 obterRegistro74(Produto produto, Empresa empresa, Date dataInventario, List<Entidade> entidades) throws Exception;	
 }

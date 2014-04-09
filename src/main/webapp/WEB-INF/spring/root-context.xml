@@ -16,14 +16,14 @@
 		<beans:property name="basename" value="messages" />
 	</beans:bean>
 	
-	<task:scheduler id="scheduler"/>
-	<task:annotation-driven executor="executorWithPoolSizeRange" scheduler="scheduler"/>
-	<task:executor id="executorWithPoolSizeRange" pool-size="5-25" queue-capacity="100"/>  
-	
 	<!-- Load everything except @Controllers -->
 	<context:component-scan base-package="br.com.canalvpsasul" >
 		<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
 	</context:component-scan>
+	
+	<task:scheduler id="scheduler"/>
+	<task:annotation-driven executor="executorWithPoolSizeRange" scheduler="scheduler"/>
+	<task:executor id="executorWithPoolSizeRange" pool-size="5-25" queue-capacity="100"/>  
 	
 	<util:properties id="appProperties" location="classpath:application.properties" />
 	

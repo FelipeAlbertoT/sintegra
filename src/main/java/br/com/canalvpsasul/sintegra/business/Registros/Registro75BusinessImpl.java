@@ -43,7 +43,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 			registro75.setAliquotaIpi(new Double(0));
 
 		ProdutoAliquotaIcmsInterna icmsAliquotaIcmsInterna = produtoAliquotaIcmsInternaRepository.findOne(produto.getId());
-		
+
 		if(icmsAliquotaIcmsInterna == null) {
 		
 			/*

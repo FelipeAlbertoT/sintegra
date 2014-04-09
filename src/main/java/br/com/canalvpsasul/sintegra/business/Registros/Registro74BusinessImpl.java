@@ -20,7 +20,7 @@ public class Registro74BusinessImpl implements Registro74Business {
 	private SaldoMercadoriaBusiness saldoMercadoriaBusiness;
 	
 	@Override			
-	public Registro74 obterRegistro74(Produto produto, Empresa empresa, Date dataInventario, List<Entidade> entidades) {
+	public Registro74 obterRegistro74(Produto produto, Empresa empresa, Date dataInventario, List<Entidade> entidades) throws Exception {
 		
 		String uf = "";
 		if(empresa.getTerceiro().getEnderecos().size() > 0) 
@@ -28,7 +28,13 @@ public class Registro74BusinessImpl implements Registro74Business {
 		
 		Registro74 registro74 = new Registro74();
 		
-		Float saldoMercadoria = saldoMercadoriaBusiness.getSaldoByDate(produto, dataInventario, entidades);
+		Float saldoMercadoria = 0F;
+		try {
+			saldoMercadoria = saldoMercadoriaBusiness.getSaldoByDate(produto, dataInventario, entidades);
+		}
+		catch (Exception e) {
+			saldoMercadoria = 0F;
+		}
 		
 		/*
 		 * TODO SINTEGRA (LIMITAÇÃO) - Colocar como risco (limitação) do mecanismo. Seguindo limitações do ERP, consideramos como possuidor da mercadoria sempre o PROPRIEDADE_INFORMANTE_POSSE_INFORMATANTE.

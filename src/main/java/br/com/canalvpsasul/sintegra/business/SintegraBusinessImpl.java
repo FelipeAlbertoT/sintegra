@@ -337,7 +337,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	private void gerarRegistrosInventario(Sintegra sintegra,
 			Configuracao configuracaoEmpresa, List<Entidade> entidades,
-			SintegraParametros parametros) {
+			SintegraParametros parametros) throws Exception {
 
 		if (!parametros.getGerarRegistro74())
 			return;
