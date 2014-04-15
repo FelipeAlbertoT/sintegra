@@ -36,6 +36,10 @@ public class SintegraParametros {
 	
 	private Boolean gerarRegistro60;
 
+	private Boolean gerarRegistro70;
+	
+	private Boolean gerarRegistro71;
+	
 	private Boolean gerarRegistro74;
 	
 	private Boolean gerarRegistro75;
@@ -126,6 +130,22 @@ public class SintegraParametros {
 
 	public void setGerarRegistro60(Boolean gerarRegistro60) {
 		this.gerarRegistro60 = gerarRegistro60;
+	}
+	
+	public Boolean getGerarRegistro70() {
+		return gerarRegistro70;
+	}
+
+	public void setGerarRegistro70(Boolean gerarRegistro70) {
+		this.gerarRegistro70 = gerarRegistro70;
+	}
+
+	public Boolean getGerarRegistro71() {
+		return gerarRegistro71;
+	}
+
+	public void setGerarRegistro71(Boolean gerarRegistro71) {
+		this.gerarRegistro71 = gerarRegistro71;
 	}
 
 	public Boolean getGerarRegistro74() {

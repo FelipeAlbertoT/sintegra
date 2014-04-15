@@ -19,6 +19,7 @@ import br.com.canalvpsasul.sintegra.business.Registros.Registro51Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro53Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro54Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro60Business;
+import br.com.canalvpsasul.sintegra.business.Registros.Registro70Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro74Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro75Business;
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
@@ -26,6 +27,7 @@ import br.com.canalvpsasul.sintegra.entities.Informante;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
+import br.com.canalvpsasul.vpsabusiness.business.fiscal.ConhecimentoTransporteBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.CupomFiscalBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaConsumoBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
@@ -34,6 +36,7 @@ import br.com.canalvpsasul.vpsabusiness.business.geral.SyncControlBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Entidade;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.User;
+import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ConhecimentoTransporte;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
 import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaConsumo;
@@ -50,6 +53,7 @@ import coffeepot.br.sintegra.registros.Registro54;
 import coffeepot.br.sintegra.registros.Registro60A;
 import coffeepot.br.sintegra.registros.Registro60M;
 import coffeepot.br.sintegra.registros.Registro60R;
+import coffeepot.br.sintegra.registros.Registro70;
 import coffeepot.br.sintegra.registros.Registro74;
 import coffeepot.br.sintegra.registros.Registro75;
 import coffeepot.br.sintegra.writer.SintegraWriter;
@@ -90,6 +94,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	@Autowired
 	private CupomFiscalBusiness cupomFiscalBusiness;
+	
+	@Autowired
+	private ConhecimentoTransporteBusiness conhecimentoTransporteBusiness;
 
 	@Autowired
 	private SyncControlBusiness syncControlBusiness;
@@ -115,6 +122,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private Registro60Business registro60Business;
 
+	@Autowired
+	private Registro70Business registro70Business;
+	
 	@Autowired
 	private Registro74Business registro74Business;
 
@@ -145,6 +155,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		sintegra.setRegistros54(new ArrayList<Registro54>());
 		sintegra.setRegistros60M(new ArrayList<Registro60M>());
 		sintegra.setRegistros60R(new ArrayList<Registro60R>());
+		sintegra.setRegistros70(new ArrayList<Registro70>());
 		sintegra.setRegistros75(new ArrayList<Registro75>());
 
 		sintegra.setRegistro10(registro10Business.obterRegistro10(
@@ -161,6 +172,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 		gerarRegistrosReducoes(sintegra, configuracaoEmpresa, parametros);
 		gerarRegistrosInventario(sintegra, configuracaoEmpresa,
 				configuracaoEmpresa.getEntidades(), parametros);
+		gerarRegistrosConhecimento(sintegra, configuracaoEmpresa, parametros);
 
 		Registro75 registroTemp = null;
 		for (int i = 0; i < sintegra.getRegistros75().size() - 1; i++) {
@@ -354,6 +366,22 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 							parametros.getDataInventario(), entidades));
 			registro75Business.addRegistro75(produto, sintegra,
 					parametros.getEmpresa(), configuracaoEmpresa);
+		}
+	}
+	
+	private void gerarRegistrosConhecimento(Sintegra sintegra,
+			Configuracao configuracaoEmpresa,
+			SintegraParametros parametros) throws Exception {
+
+		if (!parametros.getGerarRegistro70() && !parametros.getGerarRegistro71())
+			return;
+
+		sintegra.setRegistros70(new ArrayList<Registro70>());
+
+		List<ConhecimentoTransporte> conhecimentos = conhecimentoTransporteBusiness.findByDate(configuracaoEmpresa.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal());
+
+		for (ConhecimentoTransporte conhec : conhecimentos) {
+			sintegra.getRegistros70().add(registro70Business.obterRegistro70(conhec));
 		}
 	}
 }

@@ -20,6 +20,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.User</class>
     	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ConhecimentoTransporte</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota</class>

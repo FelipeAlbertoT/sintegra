@@ -166,6 +166,12 @@ public class ConfiguracoesController {
 		else
 			model.addAttribute("lastSyncReducoesZ", null);
 		
+		syncControl = syncControlBusiness.getLastByType(portal, SyncControlType.CONHECIMENTOTRANSPORTE);
+		if(syncControl != null)
+			model.addAttribute("lastSyncConhecimentoTransporte", syncControl.getSyncDate());
+		else
+			model.addAttribute("lastSyncConhecimentoTransporte", null);
+		
 		return model;
 	}
 	

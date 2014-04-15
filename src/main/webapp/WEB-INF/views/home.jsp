@@ -123,6 +123,15 @@
 					<div class="control-group">
 						<div class="controls">
 							<label class="checkbox"> 
+								<form:checkbox path="gerarRegistro70" id="registro70" cssClass="blockOnTotal" /> Gerar Registro 70
+							</label>
+							<form:errors cssClass="native-error" path="gerarRegistro70" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"> 
 								<form:checkbox path="gerarRegistro74" id="registro74" cssClass="blockOnTotal" /> Gerar Registro 74
 							</label>
 							<form:errors cssClass="native-error" path="gerarRegistro74" />

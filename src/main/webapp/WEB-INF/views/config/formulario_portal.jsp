@@ -135,6 +135,12 @@
 										      		</td>
 										      		<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${lastSyncNotasConsumo}" /></td>
 										    	</tr>
+										    	<tr>
+										      		<td>
+										      			Dados de Conhecimento de Transporte 
+										      		</td>
+										      		<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${lastSyncConhecimentoTransporte}" /></td>
+										    	</tr>
 										  	</tbody>
 										</table>
 									</div>
