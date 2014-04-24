@@ -188,13 +188,10 @@
 	<script type="text/javascript">
 	
 		var needSyncSaldoMercadoria = true;
-		var isModalOpened = false;
 		
-
 		function needSync() {
 			
 			if($("#registro74").is(':checked') && needSyncSaldoMercadoria){
-				openModal();
 				syncSaldoMercadorias(function(){
 			  		needSync();
 			  	});
@@ -202,79 +199,75 @@
 			else {
 				
 				if($('#empresa\\.id').val() == ''){
+
+					noty({
+						text: 'Informe uma empresa para geração do sintegra!',
+						type: 'error',
+						layout: 'top',
+						timeout: false,
+					});	
 					
-					$('#modalSync > .modal-header h3').empty();
-					$('#modalSync > .modal-header h3').html("Atenção!");
-					
-					$('#modalSync > .modal-body p').remove();
-				  	$('#modalSync > .modal-body').html("<p>Informe uma empresa para geração do sintegra!</p>");
-				  	
-				  	openModal();
-				  	
 				  	return;
 				}
-				
-				setTimeout("$('#modalSync').modal('hide'); isModalOpened = false;", 2000);
+
 				$("#modalSubmit").modal({
 					backdrop: 'static',
 					keyboard: false
 				});
+				
 				$("#form").submit();
 			}				
-		}
-		
-		function openModal(){
-			
-			if(isModalOpened)
-				return;
-			
-			$('#modalSync').modal({
-				backdrop: 'static',
-				keyboard: false
-			});		
 		}
 		
 		function syncSaldoMercadorias(callback){
 			
 			if($('#empresa\\.id').val() == ''){
-				
 
-				$('#modalSync > .modal-header h3').empty();
-				$('#modalSync > .modal-header h3').html("Atenção!");
-				
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html("<p>Informe uma empresa para geração do sintegra!</p>");
+			  	noty({
+					text: 'Informe uma empresa para geração do sintegra!',
+					type: 'error',
+					layout: 'top',
+					timeout: false,
+				});	
 			  	
 			  	return;
 			}
 			
 			if($('#dataInventario').val() == ''){
 				
-
-				$('#modalSync > .modal-header h3').empty();
-				$('#modalSync > .modal-header h3').html("Atenção!");
-				
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html("<p>Informe a data do inventário para consulta do saldo na retaguarda!</p>");
+			  	noty({
+					text: 'Informe a data do inventário para consulta do saldo na retaguarda!',
+					type: 'error',
+					layout: 'top',
+					timeout: false,
+				});	
 			  	
 			  	return;
 			}
+
+			$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Obtendo Saldo de Mercadorias.</p>");
 			
-			$('#modalSync > .modal-header h3').empty();
-			$('#modalSync > .modal-header h3').html("Atualizando Registros!");
-				
-			
-			$('#modalSync > .modal-body p').remove();
-		  	$('#modalSync > .modal-body').html("<p>Os registros da aplicação estão sendo atualizados!</p><p>Obtendo Saldo de Mercadorias.</p>");
+			$("#modalSync").modal({
+				backdrop: 'static',
+				keyboard: false
+			});
 			
 		  	var data = $('#dataInventario').val().split("/");
 		  	data = data[2]+'-'+data[1]+'-'+data[0];
 		  	
 			$.get('${pageContext.request.contextPath}/api/sync/saldos/mercadorias/empresa/'+$('#empresa\\.id').val() + '/' + data + '/', function(data) {
-				$('#modalSync > .modal-body p').remove();
-			  	$('#modalSync > .modal-body').html(data);
-			  	
+
+				$("#modalSync").modal('hide');
+				
 			  	if(data.indexOf("Erro") != -1) {
+			  		
+			  		noty({
+						text: data,
+						type: 'error',
+						layout: 'top',
+						timeout: false,
+					});
+			  		
 			  		return;
 			  	}
 			  	
@@ -299,7 +292,6 @@
 			$('#empresa\\.terceiro\\.nomeFantasia')
 				.typeahead(
 					{
-
 						source : function(query, process) {
 
 							return $

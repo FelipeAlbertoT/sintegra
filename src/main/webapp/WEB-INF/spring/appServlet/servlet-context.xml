@@ -106,6 +106,8 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.ReducaoZBusinessImpl" id="reducaoZBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.fiscal.SyncControlFiscalBusinessImpl"  id="syncControlFiscalBusiness"/>
 	
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.CategoriaProdutoBusinessImpl" id="categoriaProdutoBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.NivelCategoriaProdutoBusinessImpl" id="nivelCategoriaProdutoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeBusinessImpl" id="gradeBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.PedidoBusinessImpl" id="pedidoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>

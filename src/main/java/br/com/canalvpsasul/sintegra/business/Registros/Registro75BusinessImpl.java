@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.entities.ProdutoAliquotaIcmsInterna;
+import br.com.canalvpsasul.sintegra.entities.ProdutoBaseIcmsSt;
 import br.com.canalvpsasul.sintegra.repository.ProdutoAliquotaIcmsInternaRepository;
+import br.com.canalvpsasul.sintegra.repository.ProdutoBaseIcmsStRepository;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.NotaMercadoriaBusiness;
 import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
-import br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota;
-import br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaMercadoria;
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
 import br.com.canalvpsasul.vpsabusiness.utils.StringUtils;
 import coffeepot.br.sintegra.Sintegra;
@@ -20,12 +20,15 @@ public class Registro75BusinessImpl implements Registro75Business {
 
 	@Autowired
 	private ProdutoAliquotaIcmsInternaRepository produtoAliquotaIcmsInternaRepository;
+
+	@Autowired
+	private ProdutoBaseIcmsStRepository produtoBaseIcmsStRepository;
 	
 	@Autowired
 	private NotaMercadoriaBusiness notaMercadoriaBusiness;
 	
 	@Override
-	public void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa) {
+	public void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa, boolean hasSt) {
 
 		if(checkExists(sintegra, produto))
 			return;
@@ -70,18 +73,11 @@ public class Registro75BusinessImpl implements Registro75Business {
 		 * Caso tenha ST, dividir a base aplicada no item na entrada pela quantidade.
 		 * Caso contrário, zerar o campo.
 		 * */
-		NotaMercadoria nota = notaMercadoriaBusiness.obterUltimaNotaEntradaProduto(empresa, produto);
 		registro75.setBaseCalculoIcmsST(new Double(0));
-		if(nota != null) {			
-			for(ItemNota item :nota.getItens()) {
-				if(item.getProduto().equals(produto)){
-					
-					if(item.getIcmsst() != null)
-						registro75.setBaseCalculoIcmsST(new Double(item.getIcmsst().getBase()/item.getQuantidade()));
-					
-					break;
-				}
-			}			
+		if(hasSt) {
+			ProdutoBaseIcmsSt baseSt = produtoBaseIcmsStRepository.findLastByEmpresaAndProduto(empresa, produto);
+			if(baseSt != null && baseSt.getBase() > 0)
+				registro75.setBaseCalculoIcmsST(new Double(baseSt.getBase()));
 		}
 			
 		/*

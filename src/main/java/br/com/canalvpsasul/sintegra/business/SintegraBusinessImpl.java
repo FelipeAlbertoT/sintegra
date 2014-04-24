@@ -24,7 +24,9 @@ import br.com.canalvpsasul.sintegra.business.Registros.Registro74Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro75Business;
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.entities.Informante;
+import br.com.canalvpsasul.sintegra.entities.ProdutoBaseIcmsSt;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
+import br.com.canalvpsasul.sintegra.repository.ProdutoBaseIcmsStRepository;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.fiscal.ConhecimentoTransporteBusiness;
@@ -131,6 +133,11 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 	@Autowired
 	private Registro75Business registro75Business;
 
+	@Autowired
+	private ProdutoBaseIcmsStRepository produtoBaseIcmsStRepository;
+	
+	private List<ProdutoBaseIcmsSt> produtosComSts;
+
 	@Override
 	public br.com.canalvpsasul.sintegra.entities.Sintegra gerarSintegra(
 			SintegraParametros parametros) throws Exception {
@@ -167,7 +174,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				.getInformantePorEmpresa(parametros.getEmpresa());
 		sintegra.setRegistro11(registro11Business.obterRegistro11(
 				parametros.getEmpresa(), informante));
-
+				
+		produtosComSts = produtoBaseIcmsStRepository.findProdutosComBaseST(parametros.getEmpresa());
+		
 		gerarRegistrosNotas(sintegra, configuracaoEmpresa, parametros);
 		gerarRegistrosReducoes(sintegra, configuracaoEmpresa, parametros);
 		gerarRegistrosInventario(sintegra, configuracaoEmpresa,
@@ -259,10 +268,18 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				for (ItemNota item : nota.getItens()) {
 					registro75Business.addRegistro75(item.getProduto(),
 							sintegra, parametros.getEmpresa(),
-							configuracaoEmpresa);
+							configuracaoEmpresa, hasSt(item.getProduto()));
 				}
 			}
 		}
+	}
+	
+	private boolean hasSt(Produto produto) {
+		for(ProdutoBaseIcmsSt produtoBaseIcmsSt : produtosComSts) {
+			if(produto.equals(produtoBaseIcmsSt.getProduto()))
+				return true;
+		}
+		return false;
 	}
 
 	private void gerarRegistrosReducoes(Sintegra sintegra,
@@ -341,7 +358,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				for (ItemNota itemNota : cFiscal.getItens()) {
 					registro75Business.addRegistro75(itemNota.getProduto(),
 							sintegra, parametros.getEmpresa(),
-							configuracaoEmpresa);
+							configuracaoEmpresa, hasSt(itemNota.getProduto()));
 				}
 			}
 		}
@@ -365,7 +382,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 							parametros.getEmpresa(),
 							parametros.getDataInventario(), entidades));
 			registro75Business.addRegistro75(produto, sintegra,
-					parametros.getEmpresa(), configuracaoEmpresa);
+					parametros.getEmpresa(), configuracaoEmpresa, hasSt(produto));
 		}
 	}
 	

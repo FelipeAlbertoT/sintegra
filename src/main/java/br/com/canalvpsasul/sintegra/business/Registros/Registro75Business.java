@@ -7,6 +7,6 @@ import coffeepot.br.sintegra.Sintegra;
 
 public interface Registro75Business {
 
-	void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa);
+	void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa, boolean hasSt);
 	
 }

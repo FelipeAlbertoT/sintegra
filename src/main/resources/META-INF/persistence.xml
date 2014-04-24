@@ -42,6 +42,7 @@
 		<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaPagar</class>
 		<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaReceber</class>
 	
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.NivelCategoriaProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Grade</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributo</class>
