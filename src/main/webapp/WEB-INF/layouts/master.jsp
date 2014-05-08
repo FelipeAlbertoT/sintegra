@@ -68,7 +68,12 @@
 				             	<li class="">
 				                	<a href="<c:url value="/home" />">Home</a>
 				              	</li>
-			              	</sec:authorize>      
+			              	</sec:authorize>   
+			              	<sec:authorize url="/reducao/">    	
+				             	<li class="">
+				                	<a href="<c:url value="/reducao/" />">Reduções Z</a>
+				              	</li>
+			              	</sec:authorize>     
 		            		<sec:authorize url="/configuracoes/">    	
 				             	<li class="">
 				                	<a href="<c:url value="/configuracoes/" />">Configurações</a>
