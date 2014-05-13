@@ -329,11 +329,25 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			 * já é realizado pelo método Registro60Business.obterRegistro60M();
 			 */
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-			String dateInString = "31-01-2014 00:00:00";
-			Date date = sdf.parse(dateInString);
+			String dateFimString = "31-01-2014 00:00:00";
+			String dateInicioString = "01-01-2014 00:00:00";
+			Date datefim = sdf.parse(dateFimString);
+			Date dateInicio = sdf.parse(dateInicioString);
 
-			if (reducao.getDataReducaoZ().before(date)) {
-
+			/*
+			 * Regra específica para a Box - Remover após passar a necessidade
+			 * Reduções cadastradas manualmente
+			 * */
+			Boolean corrigirViaCupom = true;
+			if(parametros.getEmpresa().getPortal().getCnpj().equals("16646228000193") && reducao.getDataMovimento().before(dateInicio)) {
+				/*
+				 * Na box nesse perído, as reduções foram cadastradas manualmente, então deve pegar da redução os cancelamentos e descontos de ICMS.
+				 * */
+				corrigirViaCupom = false;
+			}
+			
+			if (reducao.getDataReducaoZ().before(datefim) && corrigirViaCupom) {
+				
 				/*
 				 * Adicionando totalizadores de cancelamentos e descontos.
 				 */
