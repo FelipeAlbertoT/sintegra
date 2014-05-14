@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.canalvpsasul.vpsabusiness.entities.EntityBaseRoot;
+import br.com.canalvpsasul.vpsabusiness.entities.administrativo.Empresa;
 import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
 
 @Entity
@@ -17,7 +18,9 @@ import br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto;
 public class ProdutoAliquotaIcmsInterna extends EntityBaseRoot {
 	
 	private Produto produto;
-
+	
+	private Empresa empresa;
+	
 	private Float aliquota;
 
 	@Id
@@ -39,6 +42,16 @@ public class ProdutoAliquotaIcmsInterna extends EntityBaseRoot {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, fetch=FetchType.LAZY)
+	@JoinColumn(name="id_empresa", referencedColumnName="id_empresa")
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	public Float getAliquota() {

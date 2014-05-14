@@ -28,7 +28,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 	private NotaMercadoriaBusiness notaMercadoriaBusiness;
 	
 	@Override
-	public void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa, boolean hasSt) {
+	public void addRegistro75(Produto produto, Sintegra sintegra, Empresa empresa, Configuracao configuracaoEmpresa, boolean hasSt, ProdutoAliquotaIcmsInterna icmsAliquotaIcmsInterna) {
 
 		if(checkExists(sintegra, produto))
 			return;
@@ -44,8 +44,6 @@ public class Registro75BusinessImpl implements Registro75Business {
 			registro75.setAliquotaIpi(new Double(produto.getNcm().getAliquota())); 	
 		else
 			registro75.setAliquotaIpi(new Double(0));
-
-		ProdutoAliquotaIcmsInterna icmsAliquotaIcmsInterna = produtoAliquotaIcmsInternaRepository.findOne(produto.getId());
 
 		if(icmsAliquotaIcmsInterna == null) {
 		

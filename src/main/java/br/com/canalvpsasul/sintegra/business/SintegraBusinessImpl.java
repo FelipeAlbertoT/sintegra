@@ -24,8 +24,10 @@ import br.com.canalvpsasul.sintegra.business.Registros.Registro74Business;
 import br.com.canalvpsasul.sintegra.business.Registros.Registro75Business;
 import br.com.canalvpsasul.sintegra.entities.Configuracao;
 import br.com.canalvpsasul.sintegra.entities.Informante;
+import br.com.canalvpsasul.sintegra.entities.ProdutoAliquotaIcmsInterna;
 import br.com.canalvpsasul.sintegra.entities.ProdutoBaseIcmsSt;
 import br.com.canalvpsasul.sintegra.entities.SintegraParametros;
+import br.com.canalvpsasul.sintegra.repository.ProdutoAliquotaIcmsInternaRepository;
 import br.com.canalvpsasul.sintegra.repository.ProdutoBaseIcmsStRepository;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.TerceiroBusiness;
 import br.com.canalvpsasul.vpsabusiness.business.administrativo.UserBusiness;
@@ -96,7 +98,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	@Autowired
 	private CupomFiscalBusiness cupomFiscalBusiness;
-	
+
 	@Autowired
 	private ConhecimentoTransporteBusiness conhecimentoTransporteBusiness;
 
@@ -126,7 +128,7 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	@Autowired
 	private Registro70Business registro70Business;
-	
+
 	@Autowired
 	private Registro74Business registro74Business;
 
@@ -135,8 +137,13 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 	@Autowired
 	private ProdutoBaseIcmsStRepository produtoBaseIcmsStRepository;
-	
+
+	@Autowired
+	private ProdutoAliquotaIcmsInternaRepository produtoAliquotaIcmsInternaRepository;
+
 	private List<ProdutoBaseIcmsSt> produtosComSts;
+
+	private List<ProdutoAliquotaIcmsInterna> produtoAliquotasIcmsInternas;
 
 	@Override
 	public br.com.canalvpsasul.sintegra.entities.Sintegra gerarSintegra(
@@ -174,9 +181,12 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				.getInformantePorEmpresa(parametros.getEmpresa());
 		sintegra.setRegistro11(registro11Business.obterRegistro11(
 				parametros.getEmpresa(), informante));
-				
-		produtosComSts = produtoBaseIcmsStRepository.findProdutosComBaseST(parametros.getEmpresa());
-		
+
+		produtosComSts = produtoBaseIcmsStRepository
+				.findProdutosComBaseST(parametros.getEmpresa());
+		produtoAliquotasIcmsInternas = produtoAliquotaIcmsInternaRepository
+				.findByEmpresa(parametros.getEmpresa());
+
 		gerarRegistrosNotas(sintegra, configuracaoEmpresa, parametros);
 		gerarRegistrosReducoes(sintegra, configuracaoEmpresa, parametros);
 		gerarRegistrosInventario(sintegra, configuracaoEmpresa,
@@ -268,18 +278,27 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				for (ItemNota item : nota.getItens()) {
 					registro75Business.addRegistro75(item.getProduto(),
 							sintegra, parametros.getEmpresa(),
-							configuracaoEmpresa, hasSt(item.getProduto()));
+							configuracaoEmpresa, hasSt(item.getProduto()),
+							getFromProduto(item.getProduto()));
 				}
 			}
 		}
 	}
-	
+
 	private boolean hasSt(Produto produto) {
-		for(ProdutoBaseIcmsSt produtoBaseIcmsSt : produtosComSts) {
-			if(produto.equals(produtoBaseIcmsSt.getProduto()))
+		for (ProdutoBaseIcmsSt produtoBaseIcmsSt : produtosComSts) {
+			if (produto.equals(produtoBaseIcmsSt.getProduto()))
 				return true;
 		}
 		return false;
+	}
+
+	private ProdutoAliquotaIcmsInterna getFromProduto(Produto produto) {
+		for (ProdutoAliquotaIcmsInterna produtoAliquotaIcmsInterna : produtoAliquotasIcmsInternas) {
+			if (produto.equals(produtoAliquotaIcmsInterna.getProduto()))
+				return produtoAliquotaIcmsInterna;
+		}
+		return null;
 	}
 
 	private void gerarRegistrosReducoes(Sintegra sintegra,
@@ -296,17 +315,20 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 
 		for (ReducaoZ reducao : reducoes) {
 
-			//TODO Após a correção do chamado da API de reduções Z da Gbaby, remover essa validação desnecessária. A api da vpsa está trazendo reduções duplicadas.
+			// TODO Após a correção do chamado da API de reduções Z da Gbaby,
+			// remover essa validação desnecessária. A api da vpsa está trazendo
+			// reduções duplicadas.
 			Boolean crzRepetido = false;
-			for(Registro60M registros60M : sintegra.getRegistros60M()) {
-				if(registros60M.getCrz() == Integer.valueOf(reducao.getCrz().toString())) {
+			for (Registro60M registros60M : sintegra.getRegistros60M()) {
+				if (registros60M.getCrz() == Integer.valueOf(reducao.getCrz()
+						.toString())) {
 					crzRepetido = true;
 					break;
-				}	
-			}			
-			if(crzRepetido)
+				}
+			}
+			if (crzRepetido)
 				continue;
-			
+
 			/*
 			 * Somente vão ao sintegra as reduções que possuem movimentação.
 			 */
@@ -325,8 +347,9 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			 * Como as melhorias na API de redução Z saíram no dia 30/01/2014,
 			 * para geração de sintegra de antes dessa data, é necessário
 			 * calcular os totalizadores de cancelamento, desconto e iss
-			 * mediante avaliação dos cupons do período. Após essa data, o cálculo
-			 * já é realizado pelo método Registro60Business.obterRegistro60M();
+			 * mediante avaliação dos cupons do período. Após essa data, o
+			 * cálculo já é realizado pelo método
+			 * Registro60Business.obterRegistro60M();
 			 */
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 			String dateFimString = "31-01-2014 00:00:00";
@@ -337,17 +360,21 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 			/*
 			 * Regra específica para a Box - Remover após passar a necessidade
 			 * Reduções cadastradas manualmente
-			 * */
+			 */
 			Boolean corrigirViaCupom = true;
-			if(parametros.getEmpresa().getPortal().getCnpj().equals("16646228000193") && reducao.getDataMovimento().before(dateInicio)) {
+			if (parametros.getEmpresa().getPortal().getCnpj()
+					.equals("16646228000193")
+					&& reducao.getDataMovimento().before(dateInicio)) {
 				/*
-				 * Na box nesse perído, as reduções foram cadastradas manualmente, então deve pegar da redução os cancelamentos e descontos de ICMS.
-				 * */
+				 * Na box nesse perído, as reduções foram cadastradas
+				 * manualmente, então deve pegar da redução os cancelamentos e
+				 * descontos de ICMS.
+				 */
 				corrigirViaCupom = false;
 			}
-			
+
 			if (reducao.getDataReducaoZ().before(datefim) && corrigirViaCupom) {
-				
+
 				/*
 				 * Adicionando totalizadores de cancelamentos e descontos.
 				 */
@@ -372,7 +399,8 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 				for (ItemNota itemNota : cFiscal.getItens()) {
 					registro75Business.addRegistro75(itemNota.getProduto(),
 							sintegra, parametros.getEmpresa(),
-							configuracaoEmpresa, hasSt(itemNota.getProduto()));
+							configuracaoEmpresa, hasSt(itemNota.getProduto()),
+							getFromProduto(itemNota.getProduto()));
 				}
 			}
 		}
@@ -396,23 +424,28 @@ public class SintegraBusinessImpl implements SintegraBusiness {
 							parametros.getEmpresa(),
 							parametros.getDataInventario(), entidades));
 			registro75Business.addRegistro75(produto, sintegra,
-					parametros.getEmpresa(), configuracaoEmpresa, hasSt(produto));
+					parametros.getEmpresa(), configuracaoEmpresa,
+					hasSt(produto), getFromProduto(produto));
 		}
 	}
-	
-	private void gerarRegistrosConhecimento(Sintegra sintegra,
-			Configuracao configuracaoEmpresa,
-			SintegraParametros parametros) throws Exception {
 
-		if (!parametros.getGerarRegistro70() && !parametros.getGerarRegistro71())
+	private void gerarRegistrosConhecimento(Sintegra sintegra,
+			Configuracao configuracaoEmpresa, SintegraParametros parametros)
+			throws Exception {
+
+		if (!parametros.getGerarRegistro70()
+				&& !parametros.getGerarRegistro71())
 			return;
 
 		sintegra.setRegistros70(new ArrayList<Registro70>());
 
-		List<ConhecimentoTransporte> conhecimentos = conhecimentoTransporteBusiness.findByDate(configuracaoEmpresa.getEmpresa(), parametros.getDataInicial(), parametros.getDataFinal());
+		List<ConhecimentoTransporte> conhecimentos = conhecimentoTransporteBusiness
+				.findByDate(configuracaoEmpresa.getEmpresa(),
+						parametros.getDataInicial(), parametros.getDataFinal());
 
 		for (ConhecimentoTransporte conhec : conhecimentos) {
-			sintegra.getRegistros70().add(registro70Business.obterRegistro70(conhec));
+			sintegra.getRegistros70().add(
+					registro70Business.obterRegistro70(conhec));
 		}
 	}
 }
