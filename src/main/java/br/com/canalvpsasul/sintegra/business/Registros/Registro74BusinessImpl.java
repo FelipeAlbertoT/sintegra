@@ -48,7 +48,7 @@ public class Registro74BusinessImpl implements Registro74Business {
 		registro74.setCodigoProduto(produto.getVpsaId().toString());
 		registro74.setDataInventario(dataInventario); 
 		registro74.setQuantidade(new Double(saldoMercadoria));
-		registro74.setValorTotalProduto(new Double(saldoMercadoria * produto.getPreco()));		
+		registro74.setValorTotalProduto(new Double(saldoMercadoria * produto.getCustoReferencial()));		
 		
 		return registro74;
 	}
