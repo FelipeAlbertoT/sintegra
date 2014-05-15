@@ -31,6 +31,8 @@ public class Registro74BusinessImpl implements Registro74Business {
 		Float saldoMercadoria = 0F;
 		try {
 			saldoMercadoria = saldoMercadoriaBusiness.getSaldoByDate(produto, dataInventario, entidades);
+			if (saldoMercadoria < 0)
+				saldoMercadoria = 0F;
 		}
 		catch (Exception e) {
 			saldoMercadoria = 0F;

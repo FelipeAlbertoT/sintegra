@@ -102,6 +102,7 @@ public class SintegraImportadorBusinessImpl implements SintegraImportadorBusines
 		reducaoZ.getTotalizadores().add(totalizadorReducao);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private ReducaoZ processarReducao(String registro, Portal portal) throws Exception {
 		
 		String[] colunas = obterColunasRegistro(registro);
