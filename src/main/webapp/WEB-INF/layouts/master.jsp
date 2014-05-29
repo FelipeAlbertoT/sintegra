@@ -81,7 +81,7 @@
 		            		<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 		            			<li class="divider-vertical"></li>	
 								<li class="visible-desktop">							
-									<a href="#"><i class="icon-user"></i>  &nbsp; <span class="text-success">${currentLoggedUser.nome}</span></a>								
+									<a href="#" title="Usuário"><i class="icon-user"></i>  &nbsp; <span class="text-success">${currentLoggedUser.nome}</span></a>								
 								</li>	
 			              	</sec:authorize>
 			              	
