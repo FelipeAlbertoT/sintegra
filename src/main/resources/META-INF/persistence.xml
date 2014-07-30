@@ -20,7 +20,6 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.Terceiro</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.administrativo.User</class>
     	
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ConhecimentoTransporte</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.CupomFiscal</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.Imposto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ItemNota</class>
@@ -32,6 +31,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.NotaServicoItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ReducaoZ</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.TotalizadorReducao</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.fiscal.ConhecimentoTransporte</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.AdiantamentoRecebidos</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.BaixaCartao</class>
@@ -44,17 +44,21 @@
 	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.NivelCategoriaProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Devolucao</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.DevolucaoItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Grade</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributoValor</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Pedido</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoParcela</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoValeUtilizado</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PlanoPagamento</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.SaldoMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPreco</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPrecoProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Representante</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra</class>
@@ -62,7 +66,7 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompraParcela</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.Municipio</class>  
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControl</class> 
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControl</class>
     	
 		<properties>
 			
