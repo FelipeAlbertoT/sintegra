@@ -108,7 +108,8 @@
 	
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.CategoriaProdutoBusinessImpl" id="categoriaProdutoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.NivelCategoriaProdutoBusinessImpl" id="nivelCategoriaProdutoBusiness"/>
-	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeBusinessImpl" id="gradeBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeAtributoBusinessImpl" id="gradeAtributoBusiness"/>
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.GradeAtributoValorBusinessImpl" id="gradeAtributoValorBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.PedidoBusinessImpl" id="pedidoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.ProdutoBusinessImpl" id="produtoBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.operacional.SaldoMercadoriaBusinessImpl" id="saldoMercadoriaBusiness"/>
@@ -121,6 +122,7 @@
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.MunicipioBusinessImpl"  id="municipioBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncControlBusinessImpl"  id="syncControlBusiness"/>
 	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.SyncBusinessImpl" id="syncBusiness" />
+	<beans:bean class="br.com.canalvpsasul.vpsabusiness.business.geral.MailSenderConfigBusinessImpl" id="mailSenderConfigBusiness" />
 	
 	<!-- **************************************************************** -->
   	<!--  RESOURCE FOLDERS CONFIGURATION                                  -->

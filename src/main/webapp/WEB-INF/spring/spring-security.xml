@@ -44,7 +44,6 @@
 		<intercept-url pattern="/api/sync/categorias" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/api/sync/tabelaPreco" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/api/sync/planoPagamento" access="hasRole('ROLE_USER')"/>
-		<intercept-url pattern="/api/sync/grades" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/api/sync/pedidos/compras" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/api/sync/notas/mercadoria" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/api/sync/notas/consumo" access="hasRole('ROLE_USER')"/>

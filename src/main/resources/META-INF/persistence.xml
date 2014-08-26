@@ -46,7 +46,6 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Devolucao</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.DevolucaoItem</class>
-    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Grade</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributoValor</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Pedido</class>
@@ -67,6 +66,7 @@
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.Municipio</class>  
     	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.SyncControl</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.geral.MailSenderConfig</class>
     	
 		<properties>
 			
