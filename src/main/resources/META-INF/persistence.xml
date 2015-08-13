@@ -41,23 +41,33 @@
     	<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaDisponibilidade</class>
 		<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaPagar</class>
 		<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.ContaReceber</class>
-	
+		<class>br.com.canalvpsasul.vpsabusiness.entities.financeiro.NegociacaoCartao</class>
+
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.NivelCategoriaProduto</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CategoriaProduto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.CustoMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Devolucao</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.DevolucaoItem</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Entrada</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.EntradaItemDisponivel</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.EntradaItemIndisponivel</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.EntradaItemNaoEstocavel</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributo</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.GradeAtributoValor</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Operacao</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Pedido</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoParcela</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PedidoValeUtilizado</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.PlanoPagamento</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Produto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Saida</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.SaidaItem</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.SaldoMercadoria</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Servico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPreco</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPrecoProduto</class>
+    	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.TabelaPrecoProdutoHistorico</class>
     	<class>br.com.canalvpsasul.vpsabusiness.entities.operacional.Representante</class>
     	
     	<class>br.com.canalvpsasul.vpsabusiness.entities.compras.PedidoCompra</class>
