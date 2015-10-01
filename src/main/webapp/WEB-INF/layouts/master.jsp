@@ -15,6 +15,8 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">		
 		
+	<link rel="shortcut icon" href="http://static.scsul.com.br/img/favicon.ico" type="image/x-icon" />		
+		
 	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap-responsive.css">
 	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/project.css" />
@@ -126,7 +128,7 @@
 									
 									<li id="sync" data-placement="bottom" rel="popover" data-trigger="manual" data-content="" data-original-title="Status de Sincronização">
 										<a href="javascript: syncControlObj.syncManual();">
-											<i class="icon-refresh visible-desktop" title="Sincronizar com Varejonline"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
+											<i class="icon-refresh visible-desktop" title="Sincronizar com Varejonline"></i><span class="hidden-desktop">Sincronizar com Varejonline</span>
 										</a>								
 									</li>
 								</sec:authorize>

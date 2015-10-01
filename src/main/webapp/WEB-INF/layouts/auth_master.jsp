@@ -11,7 +11,9 @@
     	<decorator:title default="Canal Varejonline"/>
     </title>
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">		
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="shortcut icon" href="http://static.scsul.com.br/img/favicon.ico" type="image/x-icon" />			
 		
 	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="http://static.scsul.com.br/css/bootstrap-responsive.css">
