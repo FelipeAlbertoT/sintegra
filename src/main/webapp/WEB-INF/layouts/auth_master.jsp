@@ -8,7 +8,7 @@
 <head>
 
     <title>
-    	<decorator:title default="Canal VPSA"/>
+    	<decorator:title default="Canal Varejonline"/>
     </title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">		
@@ -40,7 +40,7 @@
 				         <div class="navbar-inner">   
 					         <ul class="nav">
 							  	<li class="active">
-							    	<div class="logotipo" style="padding-bottom: 10px;"></div>  
+							    	<div class="logotipo-novo" style="padding-bottom: 10px;"></div>  
 							  	</li>
 							</ul>
 				         </div>

@@ -36,11 +36,11 @@ public class Registro10BusinessImpl implements Registro10Business {
 		Terceiro empresaTerceiro = empresa.getTerceiro();
 		if (empresaTerceiro == null)
 			throw new Exception(
-					"O usuário logado não tem privilégios suficientes para obter todas as informações necessárias na VPSA.");
+					"O usuário logado não tem privilégios suficientes para obter todas as informações necessárias na Varejonline.");
 
 		if (empresaTerceiro.getEnderecos().size() == 0)
 			throw new Exception(
-					"Não existe endereço configurado no VPSA para a empresa informada. Verifique o cadastro de terceiros da VPSA e atualize o registro.");
+					"Não existe endereço configurado no Varejonline para a empresa informada. Verifique o cadastro de terceiros da Varejonline e atualize o registro.");
 		
 		Endereco empresaEndereco = empresaTerceiro.getEnderecos().get(0);
 		

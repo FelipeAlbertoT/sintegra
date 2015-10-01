@@ -311,7 +311,7 @@
 			<version>0.9.1.2</version>
 		</dependency>
         
-        <!-- Canal VPSA Sul Projects -->
+        <!-- Varejonline Projects -->
 		
 		<dependency>
             <groupId>coffeepot</groupId>
@@ -373,7 +373,7 @@
         </plugins>
     </build>
     <organization>
-    	<name>Canal VPSA Sul</name>
+    	<name>Varejonline</name>
     </organization>
     <dependencyManagement>
     	<dependencies>

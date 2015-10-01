@@ -3,7 +3,7 @@
 <ul class="nav nav-tabs nav-sub-menu">	
 	<sec:authorize url="/configuracoes/bases"> 
 		<li class="active">
-			<a href="<c:url value="/configuracoes/bases" />"><i class="cicon-group"></i> <span class="label-menu hidden-phone">Bases VPSA</span></a>
+			<a href="<c:url value="/configuracoes/bases" />"><i class="cicon-group"></i> <span class="label-menu hidden-phone">Bases Varejonline</span></a>
 		</li>
 	</sec:authorize>
 	<sec:authorize url="/configuracoes/informantes"> 

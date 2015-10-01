@@ -77,7 +77,7 @@
     
 	
 	<!-- **************************************************************** -->
-  	<!--  VPSA Business IOC			                                      -->
+  	<!--  Varejonline Business IOC			                                      -->
   	<!-- **************************************************************** -->
   	
   	<beans:bean class="br.com.canalvpsasul.vpsaweb.formatter.UserFormatter" id="userFormatter" />

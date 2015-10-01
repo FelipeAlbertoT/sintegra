@@ -8,7 +8,7 @@
 
 <html>  
 	<head>
-		<title>Configuração de Bases VPSA</title>
+		<title>Configuração de Bases Varejonline</title>
 	</head>
 	<body>
 		<div class="row">
@@ -24,7 +24,7 @@
 							<fieldset>
 	
 								<legend>
-									Configuração de Bases VPSA
+									Configuração de Bases Varejonline
 								</legend>
 								
 								<div class="control-group">

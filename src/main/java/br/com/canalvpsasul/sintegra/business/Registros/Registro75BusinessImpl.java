@@ -79,7 +79,7 @@ public class Registro75BusinessImpl implements Registro75Business {
 		}
 			
 		/*
-		 * TODO SINTEGRA (LIMITAÇÃO) - Colocar como risco (limitação) do mecanismo. Se surgir um cliente que tenha beneficio de redução, então deveremos customizar na API do VPSA para retornar essa info. 
+		 * TODO SINTEGRA (LIMITAÇÃO) - Colocar como risco (limitação) do mecanismo. Se surgir um cliente que tenha beneficio de redução, então deveremos customizar na API do Varejonline para retornar essa info. 
 		 * */
 		registro75.setPercentualReducaoBaseCalculoIcms(new Double(0));
 		

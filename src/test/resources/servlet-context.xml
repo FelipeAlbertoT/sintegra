@@ -30,7 +30,7 @@
 	</beans:bean> 
 	
 	<!-- **************************************************************** -->
-  	<!--  VPSA Business IOC			                                      -->
+  	<!--  Varejonline Business IOC			                                      -->
   	<!-- **************************************************************** -->
 	<beans:bean id="empresaBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EmpresaBusinessImpl"/>
 	<beans:bean id="entidadeBusiness" class="br.com.canalvpsasul.vpsabusiness.business.administrativo.EntidadeBusinessImpl"/>

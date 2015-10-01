@@ -65,7 +65,7 @@ public class UtilController {
 			return "shared/formulario_issue";
 		}
 		
-		model.addAttribute("messageSuccess", "<p>Sua solicitação foi enviada com sucesso.</p><p><strong>A equipe VPSA agradece sua colaboração.</strong></p>");
+		model.addAttribute("messageSuccess", "<p>Sua solicitação foi enviada com sucesso.</p><p><strong>A equipe Varejonline agradece sua colaboração.</strong></p>");
 		model.addAttribute("gitHubIssue", new GitHubIssue());
 		
 		return "shared/formulario_issue";

@@ -59,7 +59,7 @@
 		            	<span class="icon-bar"></span>
 		          	</button>
 		          	
-		          	<a href="<c:url value="/home/" />" ><i class="logotipo-mini"></i></a>
+		          	<a href="<c:url value="/home/" />" ><i class="logotipo-nome-novo"></i></a>
 		          	
 		          	<div class="nav-collapse collapse">
 		            	
@@ -126,7 +126,7 @@
 									
 									<li id="sync" data-placement="bottom" rel="popover" data-trigger="manual" data-content="" data-original-title="Status de Sincronização">
 										<a href="javascript: syncControlObj.syncManual();">
-											<i class="icon-refresh visible-desktop" title="Sincronizar com VPSA"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
+											<i class="icon-refresh visible-desktop" title="Sincronizar com Varejonline"></i><span class="hidden-desktop">Sincronizar com VPSA</span>
 										</a>								
 									</li>
 								</sec:authorize>
@@ -204,7 +204,7 @@
 			  		if(!$(syncControlObj.syncImg).hasClass("icon-refresh"))
 						$("#sync > a > i ").addClass("icon-refresh");
 			  		
-			  		$("#sync > a > i ").attr("title","Sincronizar com VPSA");
+			  		$("#sync > a > i ").attr("title","Sincronizar com Varejonline");
 			  	}	
 				
 				if(syncControlObj.popoverShow) {
